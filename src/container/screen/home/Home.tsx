@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import SideBar from "../../../components/sidebar";
+import DashboardScreen from "../dashboard/Dashboard";
 
 function HomeScreen() {
   const [selectedMenu, setSelectedMenu] = useState(0);
@@ -12,7 +13,7 @@ function HomeScreen() {
   const renderItem = () => {
     switch (selectedMenu) {
       case 0:
-        return <Typography>Dashbaord</Typography>;
+        return <DashboardScreen />;
       case 1:
         return <Typography>Profile</Typography>;
       case 2:
@@ -25,7 +26,7 @@ function HomeScreen() {
   return (
     <Box display={"flex"}>
       <SideBar barSelected={handleMenuSelect} />
-      <Box sx={{ flexGrow: 1, p: 4 }}>{renderItem()}</Box>
+      <Box sx={{ flexGrow: 1, p: 2 }}>{renderItem()}</Box>
     </Box>
   );
 }
