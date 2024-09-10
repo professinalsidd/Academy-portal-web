@@ -46,8 +46,10 @@ const DashboardScreen = () => {
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "center",
+          justifyContent: "space-between",
           alignItems: "center",
+          flexDirection: "row",
+          gap: 2,
         }}
       >
         {cardData.map((item) => (
@@ -56,7 +58,7 @@ const DashboardScreen = () => {
             sx={{
               background: "#fff",
               height: 200,
-              width: 300,
+              width: 350,
               borderRadius: 2,
               display: "flex",
               justifyContent: "center",
@@ -64,8 +66,6 @@ const DashboardScreen = () => {
               alignItems: "center",
               mt: 2,
               flex: 1,
-              flexWrap: "wrap",
-              mr: 2,
             }}
           >
             <Box
@@ -100,7 +100,7 @@ const DashboardScreen = () => {
           sx={{
             background: "#fff",
             borderRadius: 2,
-            maxWidth: 800,
+            maxWidth: 500,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",

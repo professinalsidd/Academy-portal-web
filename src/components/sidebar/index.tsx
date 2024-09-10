@@ -1,15 +1,20 @@
 import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
-import LogoImg from "../../assets/images/t-logo.png";
+import LogoImg from "../../assets/images/white-logo.png";
 import useResponsive from "../../themes/themes";
-import HomeIcon from "@mui/icons-material/Home";
-import PersonIcon from "@mui/icons-material/Person";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
 const listItem = [
-  { label: "Dashboard", icon: <HomeIcon /> },
-  { label: "My Profile", icon: <PersonIcon /> },
-  { label: "My Data", icon: <InsertDriveFileIcon /> },
+  { label: "Dashboard", icon: <i className="fa-solid fa-house"></i> },
+  { label: "My Profile", icon: <i className="fa-solid fa-user"></i> },
+  { label: "Projects", icon: <i className="fa-solid fa-file"></i> },
+  { label: "My Overview", icon: <i className="fa-solid fa-chart-simple"></i> },
+  { label: "Learning Language", icon: <i className="fa-solid fa-code"></i> },
+  {
+    label: "Results",
+    icon: <i className="fa-solid fa-square-poll-vertical"></i>,
+  },
+  { label: "Payment", icon: <i className="fa-solid fa-indian-rupee-sign"></i> },
+  { label: "Logout", icon: <i className="fa-solid fa-right-from-bracket"></i> },
 ];
 
 type SideBarProps = {
@@ -26,14 +31,18 @@ function SideBar({ barSelected }: SideBarProps) {
   };
 
   return (
-    <Box sx={{ width: "20%", height: "100vh", background: "#fff" }}>
-      <Box display={"flex"} alignItems={"center"} mt={2}>
+    <Box sx={{ width: "30%", height: "100vh", background: "#fff" }}>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        mt={2}
+      >
         <img
           src={LogoImg}
           alt="logo"
-          style={{ width: "15%", objectFit: "contain" }}
+          style={{ width: "100%", objectFit: "contain", borderRadius: 99 }}
         />
-        <Typography>NextGen Coders Program</Typography>
       </Box>
       <Box
         sx={{
@@ -49,7 +58,8 @@ function SideBar({ barSelected }: SideBarProps) {
             sx={{
               background: index === selected ? "#D2E0FB" : "#fff",
               p: 2,
-              m: 2,
+              mr: 2,
+              ml: 2,
               borderRadius: 2,
               cursor: "pointer",
             }}
