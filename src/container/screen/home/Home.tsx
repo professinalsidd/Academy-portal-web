@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import SideBar from "../../../components/sidebar";
 import DashboardScreen from "../dashboard/Dashboard";
 import useResponsive from "../../../themes/themes";
-import NavBarComp from "../../../components/navBar";
 
 function HomeScreen() {
   const { isDesktop, isMobile, isTablet } = useResponsive();
@@ -28,12 +27,8 @@ function HomeScreen() {
 
   return (
     <Box display={isDesktop ? "flex" : "block"}>
-      {isMobile || isTablet ? (
-        <NavBarComp />
-      ) : (
-        <SideBar barSelected={handleMenuSelect} />
-      )}
-      <Box sx={{ flexGrow: isDesktop ? 1 : 0, p: 2 }}>{renderItem()}</Box>
+      <SideBar barSelected={handleMenuSelect} />
+      {/* <Box sx={{ flexGrow: isDesktop ? 1 : 0, p: 2 }}>{renderItem()}</Box> */}
     </Box>
   );
 }
