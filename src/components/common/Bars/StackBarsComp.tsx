@@ -1,8 +1,10 @@
 import * as React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { addLabels, balanceSheet } from "./index";
+import useResponsive from "../../../themes/themes";
 
 function StackBarsComp() {
+  const { isMobile, isTablet, isDesktop } = useResponsive();
   return (
     <BarChart
       dataset={balanceSheet}
@@ -17,8 +19,8 @@ function StackBarsComp() {
       ])}
       xAxis={[{ scaleType: "band", dataKey: "year" }]}
       slotProps={{ legend: { hidden: true } }}
-      width={600}
-      height={350}
+      width={isMobile ? 250 : isTablet ? 400 : 500}
+      height={339}
     />
   );
 }

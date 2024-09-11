@@ -10,9 +10,9 @@ type Breakpoints = {
 const useResponsive = (): Breakpoints => {
   const theme = useTheme();
 
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isTablet = useMediaQuery(theme.breakpoints.between("md", "sm"));
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const isMobile = useMediaQuery("(max-width: 500px)");
+  const isTablet = useMediaQuery("(min-width: 501px) and (max-width: 1200px)");
+  const isDesktop = useMediaQuery("(min-width: 1201px)");
 
   return { isMobile, isTablet, isDesktop };
 };

@@ -18,7 +18,7 @@ function SideBar({ barSelected }: SideBarProps) {
   };
 
   return (
-    <Box sx={{ width: "30%", height: "100vh", background: "#fff" }}>
+    <Box sx={{ width: "20%", height: "100vh", background: "#fff" }}>
       <Box
         display={"flex"}
         flexDirection={"column"}

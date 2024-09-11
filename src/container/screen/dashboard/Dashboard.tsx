@@ -1,43 +1,13 @@
 import { Box, Typography } from "@mui/material";
 import WrapperComp from "../../../components/common/Wrapper";
 import StackBarsComp from "../../../components/common/Bars/StackBarsComp";
-import PieArcLabelComp from "../../../components/common/Pie/StackPieComp";
 import TableComp from "../../../components/common/Table/Table";
-
-const cardData = [
-  {
-    icon: <i className="fa-brands fa-html5"></i>,
-    label: "HTML Projects",
-    bg: "#E34F26",
-    color: "#fff",
-  },
-  {
-    icon: <i className="fa-brands fa-css3-alt"></i>,
-    label: "CSS Project",
-    bg: "#1572B6",
-    color: "#fff",
-  },
-  {
-    icon: <i className="fa-brands fa-js"></i>,
-    label: "JS Project",
-    bg: "#F7DF1E",
-    color: "#333",
-  },
-  {
-    icon: <i className="fa-brands fa-react"></i>,
-    label: "React",
-    bg: "#61DAFB",
-    color: "#333",
-  },
-  {
-    icon: <i className="fa-brands fa-react"></i>,
-    label: "React Native",
-    bg: "#61DAFB",
-    color: "#333",
-  },
-];
+import useResponsive from "../../../themes/themes";
+import { dashBoardCardData } from "../../../db";
+import CardComp from "../../../components/common/Card/Card";
 
 const DashboardScreen = () => {
+  const { isDesktop, isMobile, isTablet } = useResponsive();
   return (
     <WrapperComp title="Welcome Back NextGen Coder Program Academy">
       <Box
@@ -52,13 +22,13 @@ const DashboardScreen = () => {
           gap: 2,
         }}
       >
-        {cardData.map((item) => (
+        {dashBoardCardData.map((item) => (
           <Box
             key={item.label}
             sx={{
               background: "#fff",
               height: 200,
-              width: 350,
+              width: isMobile ? "30%" : isTablet ? "40%" : "60",
               borderRadius: 2,
               display: "flex",
               justifyContent: "center",
@@ -82,9 +52,16 @@ const DashboardScreen = () => {
                 color: item.color,
               }}
             >
-              {item.icon}
+              <Typography>
+                <i className={item.icon}></i>
+              </Typography>
             </Box>
-            <Typography mt={2} textTransform={"uppercase"}>
+            <Typography
+              mt={2}
+              textAlign={"center"}
+              fontSize={isMobile ? 14 : isTablet ? 16 : 18}
+              textTransform={"uppercase"}
+            >
               {item.label}
             </Typography>
           </Box>
@@ -94,38 +71,16 @@ const DashboardScreen = () => {
         display={"flex"}
         justifyContent={"space-between"}
         alignItems={"center"}
-        flex={1}
+        flexDirection={isDesktop ? "row" : "column"}
+        gap={2}
+        mt={2}
       >
-        <Box
-          sx={{
-            background: "#fff",
-            borderRadius: 2,
-            maxWidth: 500,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            mt: 2,
-            p: 2,
-            height: 400,
-          }}
-        >
+        <CardComp>
           <StackBarsComp />
-        </Box>
-        <Box
-          sx={{
-            background: "#fff",
-            borderRadius: 2,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            mt: 2,
-            p: 2,
-            height: 400,
-          }}
-        >
-          {/* <PieArcLabelComp /> */}
+        </CardComp>
+        <CardComp>
           <TableComp />
-        </Box>
+        </CardComp>
       </Box>
     </WrapperComp>
   );
