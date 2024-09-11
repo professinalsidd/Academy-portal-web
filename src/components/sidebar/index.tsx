@@ -2,20 +2,7 @@ import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import LogoImg from "../../assets/images/white-logo.png";
 import useResponsive from "../../themes/themes";
-
-const listItem = [
-  { label: "Dashboard", icon: <i className="fa-solid fa-house"></i> },
-  { label: "My Profile", icon: <i className="fa-solid fa-user"></i> },
-  { label: "Projects", icon: <i className="fa-solid fa-file"></i> },
-  { label: "My Overview", icon: <i className="fa-solid fa-chart-simple"></i> },
-  { label: "Learning Language", icon: <i className="fa-solid fa-code"></i> },
-  {
-    label: "Results",
-    icon: <i className="fa-solid fa-square-poll-vertical"></i>,
-  },
-  { label: "Payment", icon: <i className="fa-solid fa-indian-rupee-sign"></i> },
-  { label: "Logout", icon: <i className="fa-solid fa-right-from-bracket"></i> },
-];
+import { SideBarListItem } from "../../db";
 
 type SideBarProps = {
   barSelected: any;
@@ -49,11 +36,12 @@ function SideBar({ barSelected }: SideBarProps) {
           background: "#fff",
         }}
       >
-        {listItem.map((item, index) => (
+        {SideBarListItem.map((item, index) => (
           <Box
             key={index}
             display={"flex"}
             alignItems={"center"}
+            justifyContent={"space-between"}
             onClick={() => handleClick(index)}
             sx={{
               background: index === selected ? "#D2E0FB" : "#fff",
@@ -62,10 +50,15 @@ function SideBar({ barSelected }: SideBarProps) {
               ml: 2,
               borderRadius: 2,
               cursor: "pointer",
+              gap: 2,
             }}
           >
-            {item.icon}
-            <Typography sx={{ ml: 2 }}>{item.label}</Typography>
+            <Typography sx={{ width: "10%", textAlign: "center" }}>
+              <i className={item.icon}></i>
+            </Typography>
+            <Typography sx={{ display: "flex", flex: 1 }}>
+              {item.label}
+            </Typography>
           </Box>
         ))}
       </Box>
