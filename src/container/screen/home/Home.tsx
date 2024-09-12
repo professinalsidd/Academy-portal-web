@@ -5,8 +5,9 @@ import DashboardScreen from "../dashboard/Dashboard";
 import useResponsive from "../../../themes/themes";
 import ProfileScreen from "../profile/Profile";
 import ProjectScreen from "../projects/Project";
-import MyOverview from "../myOverview/MyOverView";
 import ResultScreen from "../results/Result";
+import Overview from "../Overview/OverView";
+import PaymentsScreen from "../payments/Payments";
 
 function HomeScreen() {
   const { isDesktop } = useResponsive();
@@ -25,11 +26,11 @@ function HomeScreen() {
       case 2:
         return <ProjectScreen />;
       case 3:
-        return <MyOverview />;
+        return <Overview />;
       case 4:
         return <ResultScreen />;
       case 5:
-        return <ProjectScreen />;
+        return <PaymentsScreen />;
       default:
         return <DashboardScreen />;
     }

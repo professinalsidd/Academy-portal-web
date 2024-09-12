@@ -70,9 +70,6 @@ const DashboardScreen = () => {
         gap={2}
         mt={2}
       >
-        {/* <CardComp>
-          <PieChartComp />
-        </CardComp> */}
         <CardComp>
           <StackBarsComp />
         </CardComp>

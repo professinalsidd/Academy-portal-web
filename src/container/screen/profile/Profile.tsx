@@ -13,7 +13,7 @@ const ProfileScreen = () => {
   const handleClose = () => setOpen(false);
 
   return (
-    <WrapperComp title="My Profile">
+    <WrapperComp title="Profile">
       <Box mt={2}>
         <Card
           sx={{

@@ -9,7 +9,7 @@ import useResponsive from "../../../themes/themes";
 const ResultScreen = () => {
   const { isDesktop, isMobile, isTablet } = useResponsive();
   return (
-    <WrapperComp title="My Results">
+    <WrapperComp title="Results">
       <Box
         display={"flex"}
         justifyContent={"space-between"}

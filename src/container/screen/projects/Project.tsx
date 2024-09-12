@@ -9,7 +9,7 @@ import TableComp from "../../../components/common/Table/Table";
 const ProjectScreen = () => {
   const { isDesktop, isMobile, isTablet } = useResponsive();
   return (
-    <WrapperComp title="My Projects">
+    <WrapperComp title="Projects">
       <Box
         display={"flex"}
         justifyContent={"space-between"}
