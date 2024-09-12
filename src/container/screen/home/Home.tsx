@@ -1,11 +1,12 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useState } from "react";
 import SideBar from "../../../components/sidebar";
 import DashboardScreen from "../dashboard/Dashboard";
 import useResponsive from "../../../themes/themes";
 import ProfileScreen from "../profile/Profile";
 import ProjectScreen from "../projects/Project";
-import MyOverview from "../MyOverview/MyOverView";
+import MyOverview from "../myOverview/MyOverView";
+import ResultScreen from "../results/Result";
 
 function HomeScreen() {
   const { isDesktop } = useResponsive();
@@ -23,8 +24,14 @@ function HomeScreen() {
         return <ProfileScreen />;
       case 2:
         return <ProjectScreen />;
-      default:
+      case 3:
         return <MyOverview />;
+      case 4:
+        return <ResultScreen />;
+      case 5:
+        return <ProjectScreen />;
+      default:
+        return <DashboardScreen />;
     }
   };
 
