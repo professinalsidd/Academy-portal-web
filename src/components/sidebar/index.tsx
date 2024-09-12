@@ -1,4 +1,4 @@
-import { Box, Typography, IconButton, Drawer } from "@mui/material";
+import { Box, Typography, IconButton, Drawer, Button } from "@mui/material";
 import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
@@ -30,12 +30,28 @@ function SideBar({ barSelected }: SideBarProps) {
   return (
     <>
       {isMobile || isTablet ? (
-        <IconButton
-          onClick={toggleMenu}
-          sx={{ position: "absolute", top: 10, left: 10 }}
+        <Box
+          sx={{
+            display: "flex",
+            position: "absolute",
+            top: 10,
+            right: 10,
+            left: 10,
+            backgroundColor: "#fff",
+            borderRadius: 2,
+            justifyContent: "space-between",
+            alignItems: "center",
+            flex: 1,
+          }}
         >
-          {menuOpen ? <CloseIcon /> : <MenuIcon />}
-        </IconButton>
+          <IconButton onClick={toggleMenu}>
+            {menuOpen ? <CloseIcon /> : <MenuIcon />}
+          </IconButton>
+          <Typography mr={2} ml={2}>
+            Dashboard
+          </Typography>
+          <Button>Join Class</Button>
+        </Box>
       ) : null}
 
       {(isDesktop || menuOpen) && (
@@ -44,9 +60,9 @@ function SideBar({ barSelected }: SideBarProps) {
           open={menuOpen}
           onClose={toggleMenu}
           sx={{
-            width: isDesktop ? "20%" : "50%",
+            width: isDesktop ? "20%" : "60%",
             "& .MuiDrawer-paper": {
-              width: isDesktop ? "20%" : "50%",
+              width: isDesktop ? "20%" : "60%",
               boxSizing: "border-box",
             },
           }}

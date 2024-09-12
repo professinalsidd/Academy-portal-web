@@ -5,7 +5,7 @@ import DashboardScreen from "../dashboard/Dashboard";
 import useResponsive from "../../../themes/themes";
 
 function HomeScreen() {
-  const { isDesktop, isMobile, isTablet } = useResponsive();
+  const { isDesktop } = useResponsive();
   const [selectedMenu, setSelectedMenu] = useState(0);
 
   const handleMenuSelect = (index: number) => {
@@ -28,7 +28,9 @@ function HomeScreen() {
   return (
     <Box display={isDesktop ? "flex" : "block"}>
       <SideBar barSelected={handleMenuSelect} />
-      {/* <Box sx={{ flexGrow: isDesktop ? 1 : 0, p: 2 }}>{renderItem()}</Box> */}
+      <Box sx={{ flexGrow: isDesktop ? 1 : 0, p: 2, mt: isDesktop ? 0 : 5 }}>
+        {renderItem()}
+      </Box>
     </Box>
   );
 }
