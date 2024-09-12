@@ -4,6 +4,7 @@ import SideBar from "../../../components/sidebar";
 import DashboardScreen from "../dashboard/Dashboard";
 import useResponsive from "../../../themes/themes";
 import ProfileScreen from "../profile/Profile";
+import ProjectScreen from "../projects/Project";
 
 function HomeScreen() {
   const { isDesktop } = useResponsive();
@@ -20,7 +21,7 @@ function HomeScreen() {
       case 1:
         return <ProfileScreen />;
       case 2:
-        return <Typography>data</Typography>;
+        return <ProjectScreen />;
       default:
         return <Typography>Dashbaord</Typography>;
     }
