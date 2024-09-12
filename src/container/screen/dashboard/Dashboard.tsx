@@ -5,14 +5,13 @@ import TableComp from "../../../components/common/Table/Table";
 import useResponsive from "../../../themes/themes";
 import { dashBoardCardData } from "../../../db";
 import CardComp from "../../../components/common/Card/Card";
+import PieChartComp from "../../../components/common/Pie";
 
 const DashboardScreen = () => {
   const { isDesktop, isMobile, isTablet } = useResponsive();
   return (
     <WrapperComp title="Welcome Back NextGen Coder Program Academy">
       <Box
-        display={"flex"}
-        justifyContent={"space-between"}
         sx={{
           display: "flex",
           flexWrap: "wrap",
@@ -20,22 +19,16 @@ const DashboardScreen = () => {
           alignItems: "center",
           flexDirection: "row",
           gap: 2,
+          flex: 1,
         }}
       >
         {dashBoardCardData.map((item) => (
-          <Box
+          <CardComp
             key={item.label}
             sx={{
-              background: "#fff",
-              height: 200,
-              width: isMobile ? "30%" : isTablet ? "40%" : "60",
-              borderRadius: 2,
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-              alignItems: "center",
               mt: 2,
               flex: 1,
+              display: "flex",
             }}
           >
             <Box
@@ -44,6 +37,7 @@ const DashboardScreen = () => {
                 width: 50,
                 height: 50,
                 borderRadius: 99,
+                flex: 1,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -56,15 +50,16 @@ const DashboardScreen = () => {
                 <i className={item.icon}></i>
               </Typography>
             </Box>
-            <Typography
-              mt={2}
-              textAlign={"center"}
-              fontSize={isMobile ? 14 : isTablet ? 16 : 18}
-              textTransform={"uppercase"}
-            >
-              {item.label}
-            </Typography>
-          </Box>
+            <Box>
+              <Typography
+                mt={2}
+                fontSize={isMobile ? 14 : isTablet ? 16 : 18}
+                textTransform={"uppercase"}
+              >
+                {item.label}
+              </Typography>
+            </Box>
+          </CardComp>
         ))}
       </Box>
       <Box
@@ -75,6 +70,9 @@ const DashboardScreen = () => {
         gap={2}
         mt={2}
       >
+        {/* <CardComp>
+          <PieChartComp />
+        </CardComp> */}
         <CardComp>
           <StackBarsComp />
         </CardComp>
