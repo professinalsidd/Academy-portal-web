@@ -1,14 +1,16 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeScreen from "../container/screen/home/Home";
-import ProfileScreen from "../container/screen/profile/Profile";
+import LoginScreen from "../container/screen/auth/Login";
+import RegisterScreen from "../container/screen/auth/Register";
 
 const AllRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/profile" element={<ProfileScreen />} />
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
       </Routes>
     </BrowserRouter>
   );

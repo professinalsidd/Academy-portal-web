@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import LogoImg from "../../assets/images/white-logo.png";
 import { SideBarListItem } from "../../db";
 import useResponsive from "../../themes/themes";
+import { useNavigate } from "react-router-dom";
 
 type SideBarProps = {
   barSelected: (index: number) => void;
@@ -12,10 +13,14 @@ type SideBarProps = {
 
 function SideBar({ barSelected }: SideBarProps) {
   const { isDesktop, isMobile, isTablet } = useResponsive();
+  const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleClick = (index: number) => {
+    if (index === 6) {
+      navigate("/login");
+    }
     setSelected(index);
     barSelected(index);
     if (isMobile || isTablet) {
