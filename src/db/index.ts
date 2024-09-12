@@ -43,3 +43,5 @@ export const dashBoardCardData = [
     color: "#333",
   },
 ];
+
+export const genderData = ["Male", "Female", "Others"];

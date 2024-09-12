@@ -3,15 +3,14 @@ import WrapperComp from "../../../components/common/Wrapper";
 import Box from "@mui/material/Box";
 import { Avatar, Button, Card, Typography } from "@mui/material";
 import LogoImg from "../../../assets/images/logo.png";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import InputComp from "../../../components/common/Input/Input";
+import EditProfileScreen from "../editProfile/EditProfile";
 
 const ProfileScreen = () => {
-  const [age, setAge] = React.useState("");
+  const [open, setOpen] = React.useState(false);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
-  };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
     <WrapperComp title="My Profile">
@@ -38,51 +37,65 @@ const ProfileScreen = () => {
               src={LogoImg}
               sx={{ width: "10%", height: "10%", objectFit: "contain" }}
             />
-            <Typography variant="caption" sx={{ color: "#4379F2" }}>
+            <Typography
+              onClick={handleOpen}
+              variant="caption"
+              sx={{ color: "#4379F2" }}
+            >
               <i className="fa-solid fa-pen-to-square"> Edit Profile</i>
             </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-            <InputComp label="FullName" tooltipContent="FullName" type="text" />
+            <InputComp
+              label="FullName"
+              disabled
+              tooltipContent="FullName"
+              type="text"
+            />
             <InputComp
               label="Email Address"
+              disabled
               tooltipContent="Email Address"
               type="email"
             />
             <InputComp
               label="Phone Number"
+              disabled
               tooltipContent="Phone Number"
               type="number"
             />
-            <InputComp label="" tooltipContent="Date of birth" type="date" />
-            <InputComp label="" tooltipContent="Class Time" type="time" />
-            <InputComp label="Gender" tooltipContent="Gender" type="text" />
+            <InputComp
+              label=""
+              disabled
+              tooltipContent="Date of birth"
+              type="date"
+            />
+            <InputComp
+              label=""
+              disabled
+              tooltipContent="Class Time"
+              type="time"
+            />
+            <InputComp
+              label="Gender"
+              disabled
+              tooltipContent="Gender"
+              type="text"
+            />
             <InputComp
               label="Address"
+              disabled
               tooltipContent="Address"
               type="text"
               multiline
             />
-            {/* <FormControl>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={age}
-                label="Age"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl> */}
           </Box>
           <Button sx={{}} variant="outlined">
             Submit
           </Button>
         </Card>
       </Box>
+      <EditProfileScreen handleClose={handleClose} open={open} />
     </WrapperComp>
   );
 };
