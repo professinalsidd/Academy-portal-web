@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import SideBar from "../../../components/sidebar";
 import DashboardScreen from "../dashboard/Dashboard";
 import useResponsive from "../../../themes/themes";
+import ProfileScreen from "../profile/Profile";
 
 function HomeScreen() {
   const { isDesktop } = useResponsive();
@@ -17,7 +18,7 @@ function HomeScreen() {
       case 0:
         return <DashboardScreen />;
       case 1:
-        return <Typography>Profile</Typography>;
+        return <ProfileScreen />;
       case 2:
         return <Typography>data</Typography>;
       default:
