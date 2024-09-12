@@ -139,7 +139,10 @@ function TableComp() {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 250 }} aria-label="custom pagination table">
+      <Table
+        sx={{ minWidth: 250, minHeight: 339 }}
+        aria-label="custom pagination table"
+      >
         <TableBody>
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
