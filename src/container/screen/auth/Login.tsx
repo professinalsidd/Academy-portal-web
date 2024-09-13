@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import LogoImg from "../../../assets/images/white-logo.png";
 import InputComp from "../../../components/common/Input/Input";
 import { Link, useNavigate } from "react-router-dom";
+import useResponsive from "../../../themes/themes";
 
 const LoginScreen = () => {
+  const { isDesktop } = useResponsive();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -28,15 +30,20 @@ const LoginScreen = () => {
           display={"flex"}
           justifyContent={"space-between"}
           alignItems={"center"}
+          flexDirection={isDesktop ? "row" : "column"}
         >
           <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
             <img
               src={LogoImg}
               alt="login"
-              style={{ objectFit: "contain", width: "100%" }}
+              style={{
+                objectFit: "contain",
+                width: "100%",
+                height: isDesktop ? undefined : 100,
+              }}
             />
           </Box>
-          <Box sx={{ width: "60%" }}>
+          <Box sx={{ width: isDesktop ? "60%" : "100%" }}>
             <Typography variant="h6" m={1}>
               Login
             </Typography>
