@@ -41,6 +41,24 @@ export const dashBoardCardData = [
     bg: "#61DAFB",
     color: "#333",
   },
+  {
+    icon: "fa-brands fa-node-js",
+    label: "Node.js Express",
+    bg: "#339933",
+    color: "#fff",
+  },
+  {
+    icon: "fa-brands fa-github",
+    label: "GitHub Repos",
+    bg: "#333",
+    color: "#fff",
+  },
+  {
+    icon: "fa-brands fa-linkedin",
+    label: "LinkedIn Profile",
+    bg: "#0A66C2",
+    color: "#fff",
+  },
 ];
 
 export const genderData = ["Male", "Female", "Others"];

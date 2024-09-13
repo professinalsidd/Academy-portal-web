@@ -5,7 +5,6 @@ import TableComp from "../../../components/common/Table/Table";
 import useResponsive from "../../../themes/themes";
 import { dashBoardCardData } from "../../../db";
 import CardComp from "../../../components/common/Card/Card";
-import PieChartComp from "../../../components/common/Pie";
 
 const DashboardScreen = () => {
   const { isDesktop, isMobile, isTablet } = useResponsive();
@@ -15,11 +14,8 @@ const DashboardScreen = () => {
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignItems: "center",
           flexDirection: "row",
-          gap: 2,
-          flex: 1,
+          gap: 1,
         }}
       >
         {dashBoardCardData.map((item) => (
@@ -28,7 +24,6 @@ const DashboardScreen = () => {
             sx={{
               mt: 2,
               flex: 1,
-              display: "flex",
             }}
           >
             <Box
@@ -37,7 +32,6 @@ const DashboardScreen = () => {
                 width: 50,
                 height: 50,
                 borderRadius: 99,
-                flex: 1,
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
