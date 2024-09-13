@@ -24,6 +24,11 @@ const DashboardScreen = () => {
             sx={{
               mt: 2,
               flex: 1,
+              transition: "background-color 0.3s ease",
+              "&:hover": {
+                backgroundColor: `${item.bg}33`,
+                cursor: "pointer",
+              },
             }}
           >
             <Box
@@ -35,7 +40,6 @@ const DashboardScreen = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                bg: "#fff",
                 fontSize: 20,
                 color: item.color,
               }}
@@ -51,6 +55,11 @@ const DashboardScreen = () => {
                 textTransform={"uppercase"}
               >
                 {item.label}
+              </Typography>
+            </Box>
+            <Box mt={1}>
+              <Typography fontSize={14} color="gray">
+                {`Completed: ${item.completion}%`}
               </Typography>
             </Box>
           </CardComp>
