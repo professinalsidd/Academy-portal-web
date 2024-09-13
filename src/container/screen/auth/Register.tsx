@@ -5,6 +5,7 @@ import InputComp from "../../../components/common/Input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import DropdownComp from "../../../components/common/Dropdown/Dropdown";
 import useResponsive from "../../../themes/themes";
+import { genderData, roleData } from "../../../db";
 
 const RegisterScreen = () => {
   const { isDesktop } = useResponsive();
@@ -95,7 +96,11 @@ const RegisterScreen = () => {
                   type="number"
                   sx={{ flex: 1 }}
                 />
-                <DropdownComp label="Gender" sx={{ flex: 1 }} />
+                <DropdownComp
+                  label="Gender"
+                  sx={{ flex: 1 }}
+                  data={genderData}
+                />
               </Box>
               <Box display={"flex"}>
                 <InputComp
@@ -140,6 +145,11 @@ const RegisterScreen = () => {
                 tooltipContent="Address"
                 type="text"
                 multiline
+              />
+              <DropdownComp
+                label="Select Role"
+                sx={{ flex: 1 }}
+                data={roleData}
               />
             </Box>
             <Box display={"flex"} m={1} flexDirection={"column"}>

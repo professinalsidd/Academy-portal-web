@@ -14,9 +14,10 @@ type DropdownType = {
   onClick?: () => void;
   label: string;
   sx?: SxProps<Theme>;
+  data?: any;
 };
 
-const DropdownComp = ({ value, onClick, label, sx }: DropdownType) => {
+const DropdownComp = ({ value, onClick, label, sx, data }: DropdownType) => {
   return (
     <FormControl sx={{ m: 1, ...sx }}>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
@@ -27,7 +28,7 @@ const DropdownComp = ({ value, onClick, label, sx }: DropdownType) => {
         label={label}
         onChange={onClick}
       >
-        {genderData.map((item, i) => (
+        {data?.map((item: any, i: any) => (
           <MenuItem key={i} value={item}>
             {item}
           </MenuItem>

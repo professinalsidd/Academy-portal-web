@@ -4,6 +4,7 @@ import { Avatar, Box, Button, Card, Typography } from "@mui/material";
 import InputComp from "../../../components/common/Input/Input";
 import LogoImg from "../../../assets/images/logo.png";
 import DropdownComp from "../../../components/common/Dropdown/Dropdown";
+import { genderData } from "../../../db";
 
 type EditProfileType = {
   handleClose: () => void;
@@ -59,7 +60,7 @@ const EditProfileScreen = ({ handleClose, open }: EditProfileType) => {
             />
             <InputComp label="" tooltipContent="Date of birth" type="date" />
             <InputComp label="" tooltipContent="Class Time" type="time" />
-            <DropdownComp label="Gender" />
+            <DropdownComp label="Gender" data={genderData} />
             <InputComp
               label="Address"
               tooltipContent="Address"

@@ -77,6 +77,12 @@ const ProfileScreen = () => {
               type="time"
             />
             <InputComp
+              label="Selected Role"
+              disabled
+              tooltipContent="Select Role"
+              type="text"
+            />
+            <InputComp
               label="Gender"
               disabled
               tooltipContent="Gender"
