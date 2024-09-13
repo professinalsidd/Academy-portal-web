@@ -1,16 +1,24 @@
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SxProps,
+} from "@mui/material";
 import React from "react";
 import { genderData } from "../../../db";
+import { Theme } from "@emotion/react";
 
 type DropdownType = {
   value?: string;
   onClick?: () => void;
   label: string;
+  sx?: SxProps<Theme>;
 };
 
-const DropdownComp = ({ value, onClick, label }: DropdownType) => {
+const DropdownComp = ({ value, onClick, label, sx }: DropdownType) => {
   return (
-    <FormControl sx={{ m: 1 }}>
+    <FormControl sx={{ m: 1, ...sx }}>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
       <Select
         labelId="demo-simple-select-label"
