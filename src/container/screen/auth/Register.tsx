@@ -4,8 +4,10 @@ import LogoImg from "../../../assets/images/white-logo.png";
 import InputComp from "../../../components/common/Input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import DropdownComp from "../../../components/common/Dropdown/Dropdown";
+import useResponsive from "../../../themes/themes";
 
 const RegisterScreen = () => {
+  const { isDesktop } = useResponsive();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
@@ -23,22 +25,40 @@ const RegisterScreen = () => {
         sx={{
           background: "#fff",
           borderRadius: 3,
-          p: 3,
+          p: isDesktop ? 3 : 0,
         }}
       >
         <Box
           display={"flex"}
-          justifyContent={"space-between"}
+          justifyContent={isDesktop ? "space-between" : "center"}
           alignItems={"center"}
+          flexDirection={isDesktop ? "row" : "column"}
+          mt={isDesktop ? undefined : 38}
         >
-          <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+          <Box
+            display={"flex"}
+            // flex={1}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
             <img
               src={LogoImg}
               alt="login"
-              style={{ objectFit: "contain", width: "100%" }}
+              style={{
+                objectFit: "contain",
+                width: isDesktop ? "100%" : "30%",
+              }}
             />
           </Box>
-          <Box sx={{}}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              flex: 1,
+              width: "100%",
+            }}
+          >
             <Typography variant="h6" m={1}>
               Register
             </Typography>
@@ -48,7 +68,10 @@ const RegisterScreen = () => {
                 flexDirection: "column",
               }}
             >
-              <Box display={"flex"}>
+              <Box
+                display={"flex"}
+                flexDirection={isDesktop ? "row" : "column"}
+              >
                 <InputComp
                   label="FullName"
                   tooltipContent="FullName"
@@ -62,7 +85,10 @@ const RegisterScreen = () => {
                   sx={{ flex: 1 }}
                 />
               </Box>
-              <Box display={"flex"}>
+              <Box
+                display={"flex"}
+                flexDirection={isDesktop ? "row" : "column"}
+              >
                 <InputComp
                   label="Phone Number"
                   tooltipContent="Phone Number"
