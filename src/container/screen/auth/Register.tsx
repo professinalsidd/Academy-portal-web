@@ -1,17 +1,35 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LogoImg from "../../../assets/images/white-logo.png";
 import InputComp from "../../../components/common/Input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import DropdownComp from "../../../components/common/Dropdown/Dropdown";
 import useResponsive from "../../../themes/themes";
-import { genderData, roleData } from "../../../db";
+import { genderAPI, roleAPI } from "../../../services/apis/dropdown";
 
 const RegisterScreen = () => {
   const { isDesktop } = useResponsive();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
+  const [genderData,setGenderData] = useState([])
+  const [roleData,setRoleData] = useState([])
+
+  const dropdownFetchData = async () => {
+    try {
+      const genderResponse:any = await genderAPI()
+      const roleResponse:any = await roleAPI()
+      setRoleData(roleResponse?.data)
+      setGenderData(genderResponse?.data)
+    } catch (error) {
+      console.log('error',error)
+    }
+  }
+
+  useEffect(() => {
+    dropdownFetchData()
+  },[])
+
   return (
     <Box
       sx={{
@@ -38,7 +56,6 @@ const RegisterScreen = () => {
         >
           <Box
             display={"flex"}
-            // flex={1}
             justifyContent={"center"}
             alignItems={"center"}
           >
@@ -74,8 +91,8 @@ const RegisterScreen = () => {
                 flexDirection={isDesktop ? "row" : "column"}
               >
                 <InputComp
-                  label="FullName"
-                  tooltipContent="FullName"
+                  label="Organization Name"
+                  tooltipContent="Organization Name"
                   type="text"
                   sx={{ flex: 1 }}
                 />
@@ -111,7 +128,6 @@ const RegisterScreen = () => {
                 />
                 <InputComp
                   label=""
-                  disabled
                   tooltipContent="Class Time"
                   type="time"
                   sx={{ flex: 1 }}
@@ -141,7 +157,6 @@ const RegisterScreen = () => {
               </Box>
               <InputComp
                 label="Address"
-                disabled
                 tooltipContent="Address"
                 type="text"
                 multiline

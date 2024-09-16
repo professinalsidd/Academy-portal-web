@@ -5,8 +5,6 @@ import {
   MenuItem,
   SxProps,
 } from "@mui/material";
-import React from "react";
-import { genderData } from "../../../db";
 import { Theme } from "@emotion/react";
 
 type DropdownType = {
@@ -18,6 +16,7 @@ type DropdownType = {
 };
 
 const DropdownComp = ({ value, onClick, label, sx, data }: DropdownType) => {
+  console.log("data",data)
   return (
     <FormControl sx={{ m: 1, ...sx }}>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>

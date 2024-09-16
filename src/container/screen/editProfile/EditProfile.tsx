@@ -47,7 +47,7 @@ const EditProfileScreen = ({ handleClose, open }: EditProfileType) => {
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <InputComp tooltipContent="update-image" type="file" />
-            <InputComp label="FullName" tooltipContent="FullName" type="text" />
+            <InputComp label="Organization Name" tooltipContent="Organization Name" type="text" />
             <InputComp
               label="Email Address"
               tooltipContent="Email Address"

@@ -47,9 +47,9 @@ const ProfileScreen = () => {
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <InputComp
-              label="FullName"
+              label="Organization Name"
               disabled
-              tooltipContent="FullName"
+              tooltipContent="Organization Name"
               type="text"
             />
             <InputComp
