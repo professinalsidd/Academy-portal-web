@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 import LogoImg from "../../../assets/images/white-logo.png";
 import InputComp from "../../../components/common/Input/Input";
 import { Link, useNavigate } from "react-router-dom";
