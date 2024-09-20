@@ -9,14 +9,13 @@ import { Theme } from "@emotion/react";
 
 type DropdownType = {
   value?: string;
-  onClick?: () => void;
+  onChange?: any;
   label: string;
   sx?: SxProps<Theme>;
   data?: any;
 };
 
-const DropdownComp = ({ value, onClick, label, sx, data }: DropdownType) => {
-  console.log("data",data)
+const DropdownComp = ({ value, onChange, label, sx, data }: DropdownType) => {
   return (
     <FormControl sx={{ m: 1, ...sx }}>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
@@ -25,7 +24,7 @@ const DropdownComp = ({ value, onClick, label, sx, data }: DropdownType) => {
         id="demo-simple-select"
         value={value}
         label={label}
-        onChange={onClick}
+        onChange={(e) => onChange(e.target.value)}
       >
         {data?.map((item: any, i: any) => (
           <MenuItem key={i} value={item}>

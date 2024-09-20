@@ -12,23 +12,44 @@ const RegisterScreen = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
-  const [genderData,setGenderData] = useState([])
-  const [roleData,setRoleData] = useState([])
+  const [genderData, setGenderData] = useState([]);
+  const [roleData, setRoleData] = useState([]);
+  const [selectedGender, setSelectedGender] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    date: "",
+    time: "",
+    password: "",
+    confirmPassword: "",
+    address: "",
+  });
+
+  const submitHandler = (inputName: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [inputName]: value,
+    }));
+  };
+
+  useEffect(() => {}, [formData]);
 
   const dropdownFetchData = async () => {
     try {
-      const genderResponse:any = await genderAPI()
-      const roleResponse:any = await roleAPI()
-      setRoleData(roleResponse?.data)
-      setGenderData(genderResponse?.data)
+      const genderResponse: any = await genderAPI();
+      const roleResponse: any = await roleAPI();
+      setRoleData(roleResponse?.data);
+      setGenderData(genderResponse?.data);
     } catch (error) {
-      console.log('error',error)
+      console.log("error", error);
     }
-  }
+  };
 
   useEffect(() => {
-    dropdownFetchData()
-  },[])
+    dropdownFetchData();
+  }, []);
 
   return (
     <Box
@@ -54,11 +75,7 @@ const RegisterScreen = () => {
           flexDirection={isDesktop ? "row" : "column"}
           mt={isDesktop ? undefined : 38}
         >
-          <Box
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
+          <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
             <img
               src={LogoImg}
               alt="login"
@@ -95,12 +112,16 @@ const RegisterScreen = () => {
                   tooltipContent="Organization Name"
                   type="text"
                   sx={{ flex: 1 }}
+                  value={formData.fullName}
+                  onChange={(e) => submitHandler("fullName", e.target.value)}
                 />
                 <InputComp
                   label="Email Address"
                   tooltipContent="Email Address"
                   type="email"
                   sx={{ flex: 1 }}
+                  value={formData.email}
+                  onChange={(e) => submitHandler("email", e.target.value)}
                 />
               </Box>
               <Box
@@ -112,11 +133,15 @@ const RegisterScreen = () => {
                   tooltipContent="Phone Number"
                   type="number"
                   sx={{ flex: 1 }}
+                  value={formData.phone}
+                  onChange={(e) => submitHandler("phone", e.target.value)}
                 />
                 <DropdownComp
                   label="Gender"
                   sx={{ flex: 1 }}
                   data={genderData}
+                  onChange={setSelectedGender}
+                  value={selectedGender}
                 />
               </Box>
               <Box display={"flex"}>
@@ -125,12 +150,16 @@ const RegisterScreen = () => {
                   tooltipContent="Date of birth"
                   type="date"
                   sx={{ flex: 1 }}
+                  value={formData.date}
+                  onChange={(e) => submitHandler("date", e.target.value)}
                 />
                 <InputComp
                   label=""
                   tooltipContent="Class Time"
                   type="time"
                   sx={{ flex: 1 }}
+                  value={formData.time}
+                  onChange={(e) => submitHandler("time", e.target.value)}
                 />
               </Box>
               <Box display={"flex"}>
@@ -142,6 +171,8 @@ const RegisterScreen = () => {
                   showPassword={showPassword}
                   handleClickShowPassword={() => setShowPassword(!showPassword)}
                   sx={{ flex: 1 }}
+                  value={formData.password}
+                  onChange={(e) => submitHandler("password", e.target.value)}
                 />
                 <InputComp
                   label="Confirm Password"
@@ -153,6 +184,10 @@ const RegisterScreen = () => {
                     setConfirmPasswordShow(!confirmPasswordShow)
                   }
                   sx={{ flex: 1 }}
+                  value={formData.confirmPassword}
+                  onChange={(e) =>
+                    submitHandler("confirmPassword", e.target.value)
+                  }
                 />
               </Box>
               <InputComp
@@ -160,11 +195,15 @@ const RegisterScreen = () => {
                 tooltipContent="Address"
                 type="text"
                 multiline
+                value={formData.address}
+                onChange={(e) => submitHandler("address", e.target.value)}
               />
               <DropdownComp
                 label="Select Role"
                 sx={{ flex: 1 }}
                 data={roleData}
+                onChange={setSelectedRole}
+                value={selectedRole}
               />
             </Box>
             <Box display={"flex"} m={1} flexDirection={"column"}>

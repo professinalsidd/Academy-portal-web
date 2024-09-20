@@ -13,6 +13,7 @@ type InputTypes = {
   handleClickShowPassword?: () => void;
   tooltipContent: string;
   type: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 } & THEME.TextFieldProps;
 
 const InputComp = ({
@@ -25,6 +26,7 @@ const InputComp = ({
   handleClickShowPassword,
   tooltipContent,
   type,
+  onChange,
   ...props
 }: InputTypes) => {
   return (
@@ -52,6 +54,7 @@ const InputComp = ({
             value={value}
             onClick={onClick}
             sx={{ ...sx }}
+            onChange={onChange}
           />
         </THEME.FormControl>
       ) : (
@@ -64,6 +67,7 @@ const InputComp = ({
             sx={{ m: 1, ...sx }}
             type={type}
             {...props}
+            onChange={onChange}
           />
         </THEME.Tooltip>
       )}
