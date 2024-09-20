@@ -1,8 +1,13 @@
-import React from "react";
 import AllRoutes from "./routes/allRoutes";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const App = () => {
-  return <AllRoutes />;
+  return (
+    <Provider store={store}>
+      <AllRoutes />
+    </Provider>
+  );
 };
 
 export default App;
