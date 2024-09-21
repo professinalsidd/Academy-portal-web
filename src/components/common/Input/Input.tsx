@@ -5,7 +5,7 @@ import { SxProps, Theme } from "@mui/material/styles";
 
 type InputTypes = {
   label?: string;
-  value?: string;
+  value?: string | number;
   onClick?: () => void;
   icon?: boolean;
   sx?: SxProps<Theme>;

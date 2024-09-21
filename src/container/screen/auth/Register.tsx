@@ -1,6 +1,6 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import LogoImg from "../../../assets/images/white-logo.png";
+import LogoImg from "../../../assets/images/logo-transparent.png";
 import InputComp from "../../../components/common/Input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import DropdownComp from "../../../components/common/Dropdown/Dropdown";
@@ -9,6 +9,7 @@ import { genderAPI, roleAPI } from "../../../services/apis/dropdown";
 import { signUpAPI } from "../../../services/apis/auth";
 import { useDispatch } from "react-redux";
 import { signUpReducer } from "../../../redux/slice/auth/authSlice";
+import { COLORS } from "../../../themes/colors";
 
 const RegisterScreen = () => {
   const { isDesktop } = useResponsive();
@@ -72,47 +73,60 @@ const RegisterScreen = () => {
       const response = await signUpAPI(payload);
       dispatch(signUpReducer(response));
       alert("signup success");
-      // navigate("/");
+      navigate("/login");
     } catch (error) {
       console.log("error", error);
       alert("signup error");
     }
   };
 
+  const formDate = { date: formData.date };
+  const age = new Date().getFullYear() - new Date(formDate.date).getFullYear();
+  const isBirthdayPassed =
+    new Date().setFullYear(0) >= new Date(formData.date).setFullYear(0);
+  const finalAge = isBirthdayPassed ? age : age - 1;
+
   return (
     <Box
+      display={"flex"}
+      justifyContent={"center"}
+      alignItems={"center"}
       sx={{
-        display: "flex",
-        height: "100vh",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
+        backgroundColor: COLORS.WHITE,
+        position: isDesktop ? "absolute" : "relative",
+        top: isDesktop ? 10 : 2,
+        bottom: isDesktop ? 10 : 2,
+        right: isDesktop ? 10 : 1,
+        left: isDesktop ? 10 : 1,
+        borderRadius: 2,
+        p: 2,
       }}
     >
-      <Box
-        sx={{
-          background: "#fff",
-          borderRadius: 3,
-          p: isDesktop ? 3 : 0,
-        }}
+      <Grid
+        spacing={2}
+        container
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        p={2}
       >
-        <Box
+        <Grid
+          xs={12}
+          md={6}
           display={"flex"}
-          justifyContent={isDesktop ? "space-between" : "center"}
+          justifyContent={"center"}
           alignItems={"center"}
-          flexDirection={isDesktop ? "row" : "column"}
-          mt={isDesktop ? undefined : 38}
         >
-          <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
-            <img
-              src={LogoImg}
-              alt="login"
-              style={{
-                objectFit: "contain",
-                width: isDesktop ? "100%" : "30%",
-              }}
-            />
-          </Box>
+          <img
+            src={LogoImg}
+            alt="login"
+            style={{
+              objectFit: "contain",
+              width: isDesktop ? "100%" : "30%",
+            }}
+          />
+        </Grid>
+        <Grid xs={12} md={6}>
           <Box
             sx={{
               display: "flex",
@@ -120,6 +134,9 @@ const RegisterScreen = () => {
               justifyContent: "center",
               flex: 1,
               width: "100%",
+              boxShadow: `1px 2px 5px 2px ${COLORS.LIGHT_BLUE}`,
+              borderRadius: 2,
+              p: 1,
             }}
           >
             <Typography variant="h6" m={1}>
@@ -190,7 +207,18 @@ const RegisterScreen = () => {
                   onChange={(e) => submitHandler("time", e.target.value)}
                 />
               </Box>
-              <Box display={"flex"}>
+              <Box
+                display={"flex"}
+                flexDirection={isDesktop ? "row" : "column"}
+              >
+                <InputComp
+                  label="Age"
+                  disabled
+                  tooltipContent="Date of birth"
+                  type="text"
+                  sx={{ flex: 1 }}
+                  value={finalAge ? finalAge : "Age"}
+                />
                 <InputComp
                   label="Password"
                   tooltipContent="Password"
@@ -246,8 +274,8 @@ const RegisterScreen = () => {
               </Typography>
             </Box>
           </Box>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };
