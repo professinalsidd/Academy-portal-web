@@ -6,9 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import DropdownComp from "../../../components/common/Dropdown/Dropdown";
 import useResponsive from "../../../themes/themes";
 import { genderAPI, roleAPI } from "../../../services/apis/dropdown";
+import { signUpAPI } from "../../../services/apis/auth";
+import { useDispatch } from "react-redux";
+import { signUpReducer } from "../../../redux/slice/auth/authSlice";
 
 const RegisterScreen = () => {
   const { isDesktop } = useResponsive();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPasswordShow, setConfirmPasswordShow] = useState(false);
@@ -50,6 +54,30 @@ const RegisterScreen = () => {
   useEffect(() => {
     dropdownFetchData();
   }, []);
+
+  const signUpHandler = async () => {
+    try {
+      const payload = {
+        organizationName: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        date: formData.date,
+        time: formData.time,
+        gender: selectedGender,
+        role: selectedRole,
+        address: formData.address,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+      };
+      const response = await signUpAPI(payload);
+      dispatch(signUpReducer(response));
+      alert("signup success");
+      // navigate("/");
+    } catch (error) {
+      console.log("error", error);
+      alert("signup error");
+    }
+  };
 
   return (
     <Box
@@ -207,7 +235,7 @@ const RegisterScreen = () => {
               />
             </Box>
             <Box display={"flex"} m={1} flexDirection={"column"}>
-              <Button onClick={() => navigate("/")} variant="outlined">
+              <Button onClick={signUpHandler} variant="outlined">
                 Register
               </Button>
               <Typography sx={{ mt: 2, textAlign: "center" }}>
