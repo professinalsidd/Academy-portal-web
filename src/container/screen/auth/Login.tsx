@@ -1,14 +1,47 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LogoImg from "../../../assets/images/white-logo.png";
 import InputComp from "../../../components/common/Input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import useResponsive from "../../../themes/themes";
+import { loginReducer } from "../../../redux/slice/auth/authSlice";
+import { loginAPI } from "../../../services/apis/auth";
+import { useDispatch } from "react-redux";
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
   const { isDesktop } = useResponsive();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const submitHandler = (inputName: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [inputName]: value,
+    }));
+  };
+
+  useEffect(() => {}, [formData]);
+
+  const loginHandler = async () => {
+    try {
+      const payload = {
+        email: formData.email,
+        password: formData.password,
+      };
+      const response = await loginAPI(payload);
+      dispatch(loginReducer(response));
+      alert("login success");
+      navigate("/");
+    } catch (error: any) {
+      alert(error.response.data.message);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -58,6 +91,8 @@ const LoginScreen = () => {
                 tooltipContent="Email Address"
                 type="email"
                 sx={{ flex: 1 }}
+                value={formData.email}
+                onChange={(e) => submitHandler("email", e.target.value)}
               />
               <InputComp
                 label="Password"
@@ -67,10 +102,12 @@ const LoginScreen = () => {
                 showPassword={showPassword}
                 handleClickShowPassword={() => setShowPassword(!showPassword)}
                 sx={{ flex: 1 }}
+                value={formData.password}
+                onChange={(e) => submitHandler("password", e.target.value)}
               />
             </Box>
             <Box display={"flex"} m={1} flexDirection={"column"}>
-              <Button onClick={() => navigate("/")} variant="outlined">
+              <Button onClick={loginHandler} variant="outlined">
                 Login
               </Button>
               <Typography sx={{ mt: 2, textAlign: "center" }}>

@@ -19,3 +19,15 @@ export const signUpAPI = async (payload: {
     throw error;
   }
 };
+
+export const loginAPI = async (payload: {
+  email: string;
+  password: string;
+}) => {
+  try {
+    const response = await Axios.post("/login", payload);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

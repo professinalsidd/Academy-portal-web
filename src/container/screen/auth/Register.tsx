@@ -74,9 +74,8 @@ const RegisterScreen = () => {
       dispatch(signUpReducer(response));
       alert("signup success");
       navigate("/login");
-    } catch (error) {
-      console.log("error", error);
-      alert("signup error");
+    } catch (error: any) {
+      alert(error.response.data.message);
     }
   };
 
