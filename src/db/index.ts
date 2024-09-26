@@ -82,6 +82,7 @@ export const dashBoardCardData = [
 
 export const genderData = ["Male", "Female", "Others"];
 export const roleData = ["Management", "Student", "Teacher"];
+export const paymentStatusData = ["due", "paid"];
 
 export const scatterChartData = [
   {

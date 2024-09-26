@@ -12,3 +12,16 @@ export const AllStudentPaymentAPI = async (token: string) => {
     throw error;
   }
 };
+
+export const addStudentPaymentAPI = async (token: string, payload: any) => {
+  try {
+    const response = await Axios.post("/payments/addPayment", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
