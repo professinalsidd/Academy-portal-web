@@ -62,9 +62,7 @@ const Overview: React.FC = ({}) => {
         </CardComp>
       </Box>
       <Box mt={2}>
-        <CardComp>
-          <TableComp />
-        </CardComp>
+        <CardComp>{/* <TableComp /> */}</CardComp>
       </Box>
     </WrapperComp>
   );

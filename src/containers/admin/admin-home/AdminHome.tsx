@@ -90,9 +90,7 @@ const AdminHomeScreen = () => {
         <CardComp fullCard>
           <StackBarsComp />
         </CardComp>
-        <CardComp fullCard>
-          <TableComp />
-        </CardComp>
+        <CardComp fullCard>{/* <TableComp /> */}</CardComp>
       </Box>
     </WrapperComp>
   );

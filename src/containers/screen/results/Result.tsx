@@ -75,9 +75,7 @@ const ResultScreen = () => {
         gap={2}
         mt={2}
       >
-        <CardComp sx={{ width: "100%" }}>
-          <TableComp />
-        </CardComp>
+        <CardComp sx={{ width: "100%" }}>{/* <TableComp /> */}</CardComp>
       </Box>
     </WrapperComp>
   );

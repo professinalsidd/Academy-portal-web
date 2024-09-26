@@ -76,9 +76,7 @@ const DashboardScreen = () => {
         <CardComp>
           <StackBarsComp />
         </CardComp>
-        <CardComp>
-          <TableComp />
-        </CardComp>
+        <CardComp>{/* <TableComp /> */}</CardComp>
       </Box>
     </WrapperComp>
   );

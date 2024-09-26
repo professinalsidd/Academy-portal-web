@@ -11,6 +11,16 @@ export const SideBarListItem = [
   { label: "Logout", icon: "fa-solid fa-right-from-bracket" },
 ];
 
+// Prepare columns and data
+export const paymentsTableColumns = [
+  "studentId",
+  "student",
+  "amount",
+  "dueDate",
+  "status",
+  "paymentDate",
+];
+
 export const dashBoardCardData = [
   {
     icon: "fa-brands fa-html5",
