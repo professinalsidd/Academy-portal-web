@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import {
   addStudentPaymentAPI,
   AllStudentPaymentAPI,
+  StudentPaymentAPI,
 } from "../../../services/apis/payments";
 import { paymentsTableColumns, paymentStatusData } from "../../../db";
 import InputComp from "../../../components/common/Input/Input";
@@ -25,6 +26,7 @@ const PaymentsScreen = () => {
   const [students, setStudents] = useState<any>([]);
   const [selectedStudentId, setSelectedStudentId] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
+  const [studentData, setStudentData] = useState<any>([]);
 
   const submitHandler = async () => {
     const payload = {
@@ -53,6 +55,18 @@ const PaymentsScreen = () => {
     }
   };
 
+  const studentFetchData = async () => {
+    try {
+      const studentData = await StudentPaymentAPI(
+        store?.token,
+        store?.user?.studentId
+      );
+      setStudentData(studentData?.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
   const formattedData = showAllStudentPayments.map((payment: any) => ({
     studentId: payment.studentId,
     student: payment.student.email,
@@ -70,67 +84,70 @@ const PaymentsScreen = () => {
 
   useEffect(() => {
     AllFetchData();
+    studentFetchData();
   }, []);
 
   return (
     <WrapperComp title="Payment">
       <Box mt={2}>
-        <Box
-          sx={{
-            background: "#fff",
-            p: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 1,
-          }}
-        >
-          <select
-            value={selectedStudentId}
-            onChange={handleStudentChange}
-            style={{
-              width: "30%",
-              padding: "8px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              marginRight: "8px",
-              height: "50px",
+        {store.user.role === "Admin" && (
+          <Box
+            sx={{
+              background: "#fff",
+              p: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 1,
             }}
           >
-            <option value="">Select Student</option>
-            {students.map((student: any) => (
-              <option key={student._id} value={student._id}>
-                {student.organizationName}
-              </option>
-            ))}
-          </select>
+            <select
+              value={selectedStudentId}
+              onChange={handleStudentChange}
+              style={{
+                width: "30%",
+                padding: "8px",
+                borderRadius: "4px",
+                border: "1px solid #ccc",
+                marginRight: "8px",
+                height: "50px",
+              }}
+            >
+              <option value="">Select Student</option>
+              {students.map((student: any) => (
+                <option key={student._id} value={student._id}>
+                  {student.organizationName}
+                </option>
+              ))}
+            </select>
 
-          <InputComp
-            label="Amount"
-            tooltipContent="Amount"
-            type="text"
-            sx={{ flex: 1 }}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-          <InputComp
-            tooltipContent="Payment Date"
-            type="date"
-            sx={{ flex: 1 }}
-            value={paidDate}
-            onChange={(e) => setPaid(e.target.value)}
-          />
-          <DropdownComp
-            label="Payment Status"
-            sx={{ width: "20%" }}
-            data={paymentStatusData}
-            onChange={setPaymentStatus}
-            value={paymentStatus}
-          />
-          <Button variant="outlined" onClick={submitHandler}>
-            Add Payment
-          </Button>
-        </Box>
+            <InputComp
+              label="Amount"
+              tooltipContent="Amount"
+              type="text"
+              sx={{ flex: 1 }}
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <InputComp
+              tooltipContent="Payment Date"
+              type="date"
+              sx={{ flex: 1 }}
+              value={paidDate}
+              onChange={(e) => setPaid(e.target.value)}
+            />
+            <DropdownComp
+              label="Payment Status"
+              sx={{ width: "20%" }}
+              data={paymentStatusData}
+              onChange={setPaymentStatus}
+              value={paymentStatus}
+            />
+            <Button variant="outlined" onClick={submitHandler}>
+              Add Payment
+            </Button>
+          </Box>
+        )}
         {selectedStudent && (
           <Box
             sx={{
@@ -150,7 +167,10 @@ const PaymentsScreen = () => {
           </Box>
         )}
         <CardComp fullCard sx={{ mt: 2 }}>
-          <TableComp data={formattedData} columns={paymentsTableColumns} />
+          <TableComp
+            data={store.user.role === "Admin" ? formattedData : studentData}
+            columns={paymentsTableColumns}
+          />
         </CardComp>
       </Box>
     </WrapperComp>
