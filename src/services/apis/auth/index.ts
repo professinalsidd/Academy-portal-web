@@ -13,7 +13,7 @@ export const signUpAPI = async (payload: {
   confirmPassword: string;
 }) => {
   try {
-    const response = await Axios.post("/signup", payload);
+    const response = await Axios.post("/users/signup", payload);
     return response;
   } catch (error) {
     throw error;
@@ -25,7 +25,7 @@ export const loginAPI = async (payload: {
   password: string;
 }) => {
   try {
-    const response = await Axios.post("/login", payload);
+    const response = await Axios.post("/users/login", payload);
     return response;
   } catch (error) {
     throw error;

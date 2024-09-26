@@ -8,8 +8,14 @@ import ProjectScreen from "../projects/Project";
 import ResultScreen from "../results/Result";
 import Overview from "../Overview/OverView";
 import PaymentsScreen from "../payments/Payments";
+import { useSelector } from "react-redux";
+import AdminHomeScreen from "../../admin/admin-home/AdminHome";
 
 function HomeScreen() {
+  const studentId = useSelector(
+    (state: any) => state.auth.login.data.user.studentId
+  );
+  console.log("store", studentId);
   const { isDesktop } = useResponsive();
   const [selectedMenu, setSelectedMenu] = useState(0);
 
@@ -20,7 +26,7 @@ function HomeScreen() {
   const renderItem = () => {
     switch (selectedMenu) {
       case 0:
-        return <DashboardScreen />;
+        return studentId ? <DashboardScreen /> : <AdminHomeScreen />;
       case 1:
         return <ProfileScreen />;
       case 2:
