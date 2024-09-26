@@ -24,7 +24,7 @@ function CardComp({ children, sx, fullCard, icon, count, title }: CardType) {
   ) : (
     <Box
       sx={{
-        minWidth: 275,
+        minWidth: 155,
         mt: 2,
         flex: 1,
         transition: "background-color 0.3s ease",
