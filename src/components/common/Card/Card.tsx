@@ -24,7 +24,8 @@ function CardComp({ children, sx, fullCard, icon, count, title }: CardType) {
   ) : (
     <Box
       sx={{
-        minWidth: 155,
+        minWidth: 250,
+        height: 100,
         mt: 2,
         flex: 1,
         transition: "background-color 0.3s ease",
@@ -63,10 +64,30 @@ function CardComp({ children, sx, fullCard, icon, count, title }: CardType) {
         <Typography
           fontSize={isMobile ? 14 : isTablet ? 16 : 18}
           textTransform={"uppercase"}
+          sx={{
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
         >
           {title}
         </Typography>
-        <Typography fontSize={16} color="gray">
+        <Typography
+          sx={{
+            backgroundColor: COLORS.LIGHT_BLUE,
+            color: COLORS.BLACK,
+            borderRadius: 99,
+            width: 40,
+            height: 40,
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          fontSize={16}
+          color="gray"
+        >
           {count}
         </Typography>
       </Box>

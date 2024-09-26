@@ -10,6 +10,7 @@ import { AllStudentResultsAPI } from "../../../services/apis/results";
 import { AllStudentPaymentAPI } from "../../../services/apis/payments";
 import StackBarsComp from "../../../components/common/Bars/StackBarsComp";
 import TableComp from "../../../components/common/Table/Table";
+import { AllStudentsAPI } from "../../../services/apis/allStudents";
 
 const AdminHomeScreen = () => {
   const store = useSelector((state: any) => state.auth.login.data);
@@ -25,19 +26,22 @@ const AdminHomeScreen = () => {
   const [showAllStudentPayments, setShowAllStudentsPayments] = useState<any>(
     []
   );
+  const [showAllStudents, setShowAllStudents] = useState<any>([]);
 
   const { isDesktop, isMobile, isTablet } = useResponsive();
 
   const AllFetchData = async () => {
     try {
-      const allStudents: any = await AllStudentClassesAPI(store?.token);
+      const allStudentsClass: any = await AllStudentClassesAPI(store?.token);
       const allProjects = await AllStudentProjectsAPI(store?.token);
       const allResults = await AllStudentResultsAPI(store?.token);
       const allPayments = await AllStudentPaymentAPI(store?.token);
-      setShowAllStudentsJoinedData(allStudents?.data?.students);
+      const allStudents = await AllStudentsAPI(store?.token);
+      setShowAllStudentsJoinedData(allStudentsClass?.data?.students);
       setShowAllStudentSProjects(allProjects?.data?.projects);
       setSetShowAllStudentsResult(allResults?.data?.results);
       setShowAllStudentsPayments(allPayments?.data);
+      setShowAllStudents(allStudents?.data?.students);
     } catch (error) {
       console.log("error", error);
     }
@@ -51,6 +55,7 @@ const AdminHomeScreen = () => {
   const projectsCount = showAllStudentsProjects.length || 0;
   const resultsCount = showAllStudentsResult.length || 0;
   const paymentsCount = showAllStudentPayments.length || 0;
+  const allStudent = showAllStudents.length || 0;
 
   return (
     <WrapperComp title="Welcome Back NextGen Coder Program Academy">
@@ -62,7 +67,11 @@ const AdminHomeScreen = () => {
           gap: 1,
         }}
       >
-        <CardComp icon="fa-users" title="Joined Classes" count={countStudent} />
+        <CardComp
+          icon="fa-layer-group"
+          title="Joined Classes"
+          count={countStudent}
+        />
         <CardComp
           icon="fa-diagram-project"
           title="Student Projects"
@@ -70,7 +79,7 @@ const AdminHomeScreen = () => {
         />
         <CardComp
           icon="fa-square-poll-vertical"
-          title="Results"
+          title="Students Results"
           count={resultsCount}
         />
         <CardComp
@@ -78,6 +87,7 @@ const AdminHomeScreen = () => {
           title="Payments"
           count={paymentsCount}
         />
+        <CardComp icon="fa-users" title="Joined Students" count={allStudent} />
       </Box>
       <Box
         display={"flex"}
