@@ -16,7 +16,6 @@ export const paymentsTableColumns = [
   "studentId",
   "student",
   "amount",
-  "dueDate",
   "status",
   "paymentDate",
 ];
