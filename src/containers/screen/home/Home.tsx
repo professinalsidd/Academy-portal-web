@@ -36,7 +36,7 @@ function HomeScreen() {
       case 4:
         return <PaymentsScreen />;
       default:
-        return <DashboardScreen />;
+        return studentId ? <DashboardScreen /> : <AdminHomeScreen />;
     }
   };
 

@@ -18,7 +18,7 @@ function SideBar({ barSelected }: SideBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleClick = (index: number) => {
-    if (index === 6) {
+    if (index === 5) {
       navigate("/login");
     }
     setSelected(index);
