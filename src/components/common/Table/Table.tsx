@@ -9,15 +9,17 @@ import {
   TableRow,
   Paper,
   TableHead,
+  Typography,
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 
 type TableCompProps = {
   data: any[]; // The array of data to display in the table.
   columns: string[]; // Array of column headers.
+  title?: string;
 };
 
-const TableComp: React.FC<TableCompProps> = ({ data, columns }) => {
+const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -38,6 +40,7 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns }) => {
 
   return (
     <TableContainer component={Paper}>
+      {title && <Typography m={2}>{title}</Typography>}
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
         {/* Dynamic Table Head */}
         <TableHead>

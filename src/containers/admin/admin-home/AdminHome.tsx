@@ -100,7 +100,13 @@ const AdminHomeScreen = () => {
         <CardComp fullCard>
           <StackBarsComp />
         </CardComp>
-        <CardComp fullCard>{/* <TableComp /> */}</CardComp>
+        <CardComp fullCard>
+          <TableComp
+            title="All Student Joined List"
+            columns={["organizationName", "email", "role", "phone"]}
+            data={showAllStudents}
+          />
+        </CardComp>
       </Box>
     </WrapperComp>
   );
