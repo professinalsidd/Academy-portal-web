@@ -28,3 +28,16 @@ export const uploadResultsAPI = async (
     throw error;
   }
 };
+
+export const studentResultsAPI = async (token: string, studentId: string) => {
+  try {
+    const response = await Axios.get(`/results/student-result/${studentId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

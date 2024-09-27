@@ -26,6 +26,23 @@ export const paymentsTableColumnsForStudents = [
   "paymentDate",
 ];
 
+export const resultTableColumnsForAdmin = [
+  "student.email",
+  "student.studentId",
+  "marks",
+  "subject",
+  "grade",
+  "createdAt",
+];
+
+export const resultTableColumnsForStudent = [
+  "student.email",
+  "marks",
+  "subject",
+  "grade",
+  "createdAt",
+];
+
 export const dashBoardCardData = [
   {
     icon: "fa-brands fa-html5",

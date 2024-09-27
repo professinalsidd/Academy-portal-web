@@ -3,13 +3,18 @@ import React, { useEffect, useState } from "react";
 import CardComp from "../../../components/common/Card/Card";
 import TableComp from "../../../components/common/Table/Table";
 import WrapperComp from "../../../components/common/Wrapper";
-import { dashBoardCardData } from "../../../db";
+import {
+  dashBoardCardData,
+  resultTableColumnsForAdmin,
+  resultTableColumnsForStudent,
+} from "../../../db";
 import useResponsive from "../../../themes/themes";
 import { useSelector } from "react-redux";
 import { AllStudentsAPI } from "../../../services/apis/allStudents";
 import InputComp from "../../../components/common/Input/Input";
 import {
   AllStudentResultsAPI,
+  studentResultsAPI,
   uploadResultsAPI,
 } from "../../../services/apis/results";
 import { resultStyle } from "./style";
@@ -24,11 +29,13 @@ const ResultScreen = () => {
   const [selectedStudentId, setSelectedStudentId] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
   const [allResultsData, setAllResultsData] = useState([]);
+  const [studentData, setStudentData] = useState([]);
 
   const AllFetchData = async () => {
     try {
       const allStudents = await AllStudentsAPI(store?.token);
       const allResults = await AllStudentResultsAPI(store.token);
+
       setStudents(allStudents.data.students);
       setAllResultsData(allResults.data.results);
     } catch (error) {
@@ -62,6 +69,22 @@ const ResultScreen = () => {
       console.log("error", error);
     }
   };
+
+  const studentFetchData = async () => {
+    try {
+      const studentData = await studentResultsAPI(
+        store.token,
+        store.user.studentId
+      );
+      setStudentData(studentData.data.results);
+    } catch (error) {
+      console.log("err", error);
+    }
+  };
+
+  useEffect(() => {
+    studentFetchData();
+  }, []);
 
   return (
     <WrapperComp title="Results">
@@ -165,16 +188,17 @@ const ResultScreen = () => {
       >
         <CardComp sx={{ width: "100%" }} fullCard>
           <TableComp
-            data={allResultsData}
-            title="All Students Result List"
-            columns={[
-              "student.email",
-              "student.studentId",
-              "marks",
-              "subject",
-              "grade",
-              "createdAt",
-            ]}
+            data={store.user.role === "Admin" ? allResultsData : studentData}
+            title={
+              store.user.role === "Admin"
+                ? "All Students Result List"
+                : "Result List"
+            }
+            columns={
+              store.user.role === "Admin"
+                ? resultTableColumnsForAdmin
+                : resultTableColumnsForStudent
+            }
           />
         </CardComp>
       </Box>

@@ -172,6 +172,11 @@ const PaymentsScreen = () => {
         )}
         <CardComp fullCard sx={{ mt: 2 }}>
           <TableComp
+            title={
+              store.user.role === "Admin"
+                ? "All Students Payment List"
+                : "Payment List"
+            }
             data={store.user.role === "Admin" ? formattedData : studentData}
             columns={
               store.user.role === "Admin"
