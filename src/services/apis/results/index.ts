@@ -12,3 +12,19 @@ export const AllStudentResultsAPI = async (token: string) => {
     throw error;
   }
 };
+
+export const uploadResultsAPI = async (
+  token: string,
+  payload: { marks: string; subject: string; grade: any; studentId: any }
+) => {
+  try {
+    const response = await Axios.post("/results/admin-create", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
