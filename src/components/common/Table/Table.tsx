@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
+import { format } from "date-fns";
 
 type TableCompProps = {
   data: any[]; // The array of data to display in the table.
@@ -19,13 +20,23 @@ type TableCompProps = {
   title?: string;
 };
 
+// Function to format the date using date-fns
+const formatDate = (dateString: string) => {
+  return format(new Date(dateString), "dd-MM-yyyy");
+};
+
 const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  // Function to handle nested object paths
+  // Function to handle nested object paths and format dates
   const getValueByPath = (obj: any, path: string) => {
-    return path.split(".").reduce((acc, part) => acc && acc[part], obj) || "-";
+    const value = path?.split(".").reduce((acc, part) => acc && acc[part], obj);
+    // Check if the value is a valid date string and format it
+    if (value && !isNaN(Date.parse(value))) {
+      return formatDate(value);
+    }
+    return value || "-";
   };
 
   // Handle pagination
@@ -60,7 +71,7 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
         {/* Table Body */}
         <TableBody>
           {(rowsPerPage > 0
-            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            ? data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : data
           ).map((row, index) => (
             <TableRow key={index}>

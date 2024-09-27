@@ -1,13 +1,40 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import WrapperComp from "../../../components/common/Wrapper";
-import StackBarsComp from "../../../components/common/Bars/StackBarsComp";
-import TableComp from "../../../components/common/Table/Table";
 import useResponsive from "../../../themes/themes";
-import { dashBoardCardData } from "../../../db";
 import CardComp from "../../../components/common/Card/Card";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { studentClassesAPI } from "../../../services/apis/classes";
+import TableComp from "../../../components/common/Table/Table";
+import { studentProjectsAPI } from "../../../services/apis/projects";
 
 const DashboardScreen = () => {
+  const store = useSelector((state: any) => state.auth.login.data);
   const { isDesktop, isMobile, isTablet } = useResponsive();
+  const [studentJoinedClass, setStudentJoinedClass] = useState<any>([]);
+  const [projectData, setProjectData] = useState<any>([]);
+
+  const AllFetchData = async () => {
+    try {
+      const response = await studentClassesAPI(
+        store.token,
+        store.user.studentId
+      );
+      const projectRes = await studentProjectsAPI(store.token);
+      setStudentJoinedClass(response.data.joinedClasses);
+      setProjectData(projectRes.data.projects);
+    } catch (error) {
+      console.log("err", error);
+    }
+  };
+
+  useEffect(() => {
+    AllFetchData();
+  }, []);
+
+  const joinedClassCount = studentJoinedClass.length || 0;
+  const projectCount = projectData.length || 0;
+
   return (
     <WrapperComp title="Welcome Back NextGen Coder Program Academy">
       <Box
@@ -18,52 +45,16 @@ const DashboardScreen = () => {
           gap: 1,
         }}
       >
-        {dashBoardCardData.map((item) => (
-          <CardComp
-            key={item.label}
-            sx={{
-              mt: 2,
-              flex: 1,
-              transition: "background-color 0.3s ease",
-              "&:hover": {
-                backgroundColor: `${item.bg}33`,
-                cursor: "pointer",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                background: item.bg,
-                width: 50,
-                height: 50,
-                borderRadius: 99,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: 20,
-                color: item.color,
-              }}
-            >
-              <Typography>
-                <i className={item.icon}></i>
-              </Typography>
-            </Box>
-            <Box>
-              <Typography
-                mt={2}
-                fontSize={isMobile ? 14 : isTablet ? 16 : 18}
-                textTransform={"uppercase"}
-              >
-                {item.label}
-              </Typography>
-            </Box>
-            <Box mt={1}>
-              <Typography fontSize={14} color="gray">
-                {`Completed: ${item.completion}%`}
-              </Typography>
-            </Box>
-          </CardComp>
-        ))}
+        <CardComp
+          icon="fa-layer-group"
+          title="Joined Classes"
+          count={joinedClassCount}
+        />
+        <CardComp
+          icon="fa-diagram-project"
+          title="Project Uploaded"
+          count={projectCount}
+        />
       </Box>
       <Box
         display={"flex"}
@@ -73,10 +64,12 @@ const DashboardScreen = () => {
         gap={2}
         mt={2}
       >
-        <CardComp>
-          <StackBarsComp />
+        <CardComp fullCard>
+          <TableComp
+            columns={["joinDate", "classLink"]}
+            data={studentJoinedClass}
+          />
         </CardComp>
-        <CardComp>{/* <TableComp /> */}</CardComp>
       </Box>
     </WrapperComp>
   );

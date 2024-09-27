@@ -13,7 +13,6 @@ import { AllStudentsAPI } from "../../../services/apis/allStudents";
 
 const AdminHomeScreen = () => {
   const store = useSelector((state: any) => state.auth.login.data);
-  console.log("store", store);
   const [showAllStudentsJoinedData, setShowAllStudentsJoinedData] =
     useState<any>([]);
   const [showAllStudentsProjects, setShowAllStudentSProjects] = useState<any>(
@@ -27,7 +26,6 @@ const AdminHomeScreen = () => {
   );
   const [showAllStudents, setShowAllStudents] = useState<any>([]);
   const [classJoined, setClassJoined] = useState([]);
-
   const { isDesktop, isMobile, isTablet } = useResponsive();
 
   const AllFetchData = async () => {

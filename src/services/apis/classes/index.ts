@@ -28,3 +28,16 @@ export const joinStudentClassesAPI = async (
     throw error;
   }
 };
+
+export const studentClassesAPI = async (token: string, studentId: string) => {
+  try {
+    const response = await Axios.get(`/classes/studentClasses/${studentId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
