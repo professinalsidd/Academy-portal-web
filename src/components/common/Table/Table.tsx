@@ -23,6 +23,11 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  // Function to handle nested object paths
+  const getValueByPath = (obj: any, path: string) => {
+    return path.split(".").reduce((acc, part) => acc && acc[part], obj) || "-";
+  };
+
   // Handle pagination
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -47,7 +52,7 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
           <TableRow>
             {columns.map((column) => (
               <TableCell sx={{ textTransform: "capitalize" }} key={column}>
-                {column}
+                {column.replace(".", " ")}
               </TableCell>
             ))}
           </TableRow>
@@ -60,7 +65,9 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
           ).map((row, index) => (
             <TableRow key={index}>
               {columns.map((column) => (
-                <TableCell key={column}>{row[column] || "-"}</TableCell>
+                <TableCell key={column}>
+                  {getValueByPath(row, column)}
+                </TableCell>
               ))}
             </TableRow>
           ))}

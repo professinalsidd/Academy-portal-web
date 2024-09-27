@@ -166,8 +166,15 @@ const ResultScreen = () => {
         <CardComp sx={{ width: "100%" }} fullCard>
           <TableComp
             data={allResultsData}
-            title="All Students Result list"
-            columns={["grade", "marks", "subject", "createdAt"]}
+            title="All Students Result List"
+            columns={[
+              "student.email",
+              "student.studentId",
+              "marks",
+              "subject",
+              "grade",
+              "createdAt",
+            ]}
           />
         </CardComp>
       </Box>
