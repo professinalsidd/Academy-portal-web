@@ -18,6 +18,7 @@ const HeaderComp = ({ title }: HeaderProps) => {
       };
       const response = await joinStudentClassesAPI(store.token, payload);
       console.log("response", response.data);
+      window.open(payload.classLink, "_blank");
     } catch (error) {
       console.log("error", error);
     }

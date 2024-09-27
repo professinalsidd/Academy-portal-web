@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 import { AllStudentProjectsAPI } from "../../../services/apis/projects";
 import { AllStudentResultsAPI } from "../../../services/apis/results";
 import { AllStudentPaymentAPI } from "../../../services/apis/payments";
-import StackBarsComp from "../../../components/common/Bars/StackBarsComp";
 import TableComp from "../../../components/common/Table/Table";
 import { AllStudentsAPI } from "../../../services/apis/allStudents";
 
@@ -27,6 +26,7 @@ const AdminHomeScreen = () => {
     []
   );
   const [showAllStudents, setShowAllStudents] = useState<any>([]);
+  const [classJoined, setClassJoined] = useState([]);
 
   const { isDesktop, isMobile, isTablet } = useResponsive();
 
@@ -37,6 +37,8 @@ const AdminHomeScreen = () => {
       const allResults = await AllStudentResultsAPI(store?.token);
       const allPayments = await AllStudentPaymentAPI(store?.token);
       const allStudents = await AllStudentsAPI(store?.token);
+      const allClassJoined = await AllStudentClassesAPI(store.token);
+      setClassJoined(allClassJoined.data.students);
       setShowAllStudentsJoinedData(allStudentsClass?.data?.students);
       setShowAllStudentSProjects(allProjects?.data?.projects);
       setSetShowAllStudentsResult(allResults?.data?.results);
@@ -94,11 +96,14 @@ const AdminHomeScreen = () => {
         justifyContent={"space-between"}
         alignItems={"center"}
         flexDirection={isDesktop ? "row" : "column"}
-        gap={2}
         mt={2}
       >
         <CardComp fullCard>
-          <StackBarsComp />
+          <TableComp
+            title="All Student Class Joined List"
+            columns={["organizationName", "email"]}
+            data={classJoined}
+          />
         </CardComp>
         <CardComp fullCard>
           <TableComp
