@@ -2,7 +2,7 @@ export const SideBarListItem = [
   { label: "Dashboard", icon: "fa-solid fa-house" },
   { label: "Profile", icon: "fa-solid fa-user" },
   { label: "Projects", icon: "fa-solid fa-file" },
-  { label: "Overview", icon: "fa-solid fa-chart-simple" },
+  // { label: "Overview", icon: "fa-solid fa-chart-simple" },
   {
     label: "Results",
     icon: "fa-solid fa-square-poll-vertical",

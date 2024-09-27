@@ -32,11 +32,14 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
   // Function to handle nested object paths and format dates
   const getValueByPath = (obj: any, path: string) => {
     const value = path?.split(".").reduce((acc, part) => acc && acc[part], obj);
-    // Check if the value is a valid date string and format it
-    if (value && !isNaN(Date.parse(value))) {
+
+    // Check if the value is a string and if it's a valid date
+    if (typeof value === "string" && !isNaN(Date.parse(value))) {
       return formatDate(value);
     }
-    return value || "-";
+
+    // Return the value as is for non-date values like numbers (e.g., amount)
+    return value !== undefined && value !== null ? value : "-";
   };
 
   // Handle pagination

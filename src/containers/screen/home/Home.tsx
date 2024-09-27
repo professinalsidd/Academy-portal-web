@@ -32,10 +32,8 @@ function HomeScreen() {
       case 2:
         return <ProjectScreen />;
       case 3:
-        return <Overview />;
-      case 4:
         return <ResultScreen />;
-      case 5:
+      case 4:
         return <PaymentsScreen />;
       default:
         return <DashboardScreen />;
