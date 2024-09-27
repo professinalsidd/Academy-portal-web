@@ -12,9 +12,15 @@ export const SideBarListItem = [
 ];
 
 // Prepare columns and data
-export const paymentsTableColumns = [
+export const paymentsTableColumnsForAdmin = [
   "studentId",
   "student",
+  "amount",
+  "status",
+  "paymentDate",
+];
+
+export const paymentsTableColumnsForStudents = [
   "amount",
   "status",
   "paymentDate",

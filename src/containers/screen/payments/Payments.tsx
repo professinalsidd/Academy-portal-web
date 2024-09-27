@@ -9,7 +9,11 @@ import {
   AllStudentPaymentAPI,
   StudentPaymentAPI,
 } from "../../../services/apis/payments";
-import { paymentsTableColumns, paymentStatusData } from "../../../db";
+import {
+  paymentsTableColumnsForAdmin,
+  paymentsTableColumnsForStudents,
+  paymentStatusData,
+} from "../../../db";
 import InputComp from "../../../components/common/Input/Input";
 import DropdownComp from "../../../components/common/Dropdown/Dropdown";
 import { AllStudentsAPI } from "../../../services/apis/allStudents";
@@ -169,7 +173,11 @@ const PaymentsScreen = () => {
         <CardComp fullCard sx={{ mt: 2 }}>
           <TableComp
             data={store.user.role === "Admin" ? formattedData : studentData}
-            columns={paymentsTableColumns}
+            columns={
+              store.user.role === "Admin"
+                ? paymentsTableColumnsForAdmin
+                : paymentsTableColumnsForStudents
+            }
           />
         </CardComp>
       </Box>
