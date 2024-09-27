@@ -43,6 +43,21 @@ export const resultTableColumnsForStudent = [
   "createdAt",
 ];
 
+export const projectsTableColumnsForAdmin = [
+  "uploadedBy.organizationName",
+  "uploadedBy.email",
+  "uploadedBy.phone",
+  "projectName",
+  "githubLink",
+  "uploadDate",
+];
+
+export const projectsTableColumnsForStudents = [
+  "projectName",
+  "githubLink",
+  "uploadDate",
+];
+
 export const dashBoardCardData = [
   {
     icon: "fa-brands fa-html5",
