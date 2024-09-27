@@ -10,6 +10,7 @@ import {
   Paper,
   TableHead,
   Typography,
+  Button,
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import { format } from "date-fns";
@@ -80,7 +81,16 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
             <TableRow key={index}>
               {columns.map((column) => (
                 <TableCell key={column}>
-                  {getValueByPath(row, column)}
+                  {column === "githubLink" ? (
+                    <Button
+                      variant="outlined"
+                      onClick={() => window.open(row[column], "_blank")}
+                    >
+                      View
+                    </Button>
+                  ) : (
+                    getValueByPath(row, column)
+                  )}
                 </TableCell>
               ))}
             </TableRow>
