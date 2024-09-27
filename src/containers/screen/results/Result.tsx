@@ -8,11 +8,11 @@ import useResponsive from "../../../themes/themes";
 import { useSelector } from "react-redux";
 import { AllStudentsAPI } from "../../../services/apis/allStudents";
 import InputComp from "../../../components/common/Input/Input";
-import { COLORS } from "../../../themes/colors";
 import {
   AllStudentResultsAPI,
   uploadResultsAPI,
 } from "../../../services/apis/results";
+import { resultStyle } from "./style";
 
 const ResultScreen = () => {
   const { isDesktop, isMobile, isTablet } = useResponsive();
@@ -68,44 +68,26 @@ const ResultScreen = () => {
       <Box
         display={"flex"}
         justifyContent={"space-between"}
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexDirection: "row",
-          gap: 2,
-        }}
+        sx={resultStyle.root}
       >
         {dashBoardCardData.map((item) => (
           <Box
             key={item.label}
-            sx={{
-              background: "#fff",
-              height: 200,
-              width: isMobile ? "30%" : isTablet ? "40%" : "60",
-              borderRadius: 2,
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-              alignItems: "center",
-              mt: 2,
-              flex: 1,
-            }}
+            sx={[
+              resultStyle.subRoot,
+              {
+                width: isMobile ? "30%" : isTablet ? "40%" : "60",
+              },
+            ]}
           >
             <Box
-              sx={{
-                background: item.bg,
-                width: 50,
-                height: 50,
-                borderRadius: 99,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                bg: "#fff",
-                fontSize: 20,
-                color: item.color,
-              }}
+              sx={[
+                resultStyle.iconBox,
+                {
+                  background: item.bg,
+                  color: item.color,
+                },
+              ]}
             >
               <Typography>
                 <i className={item.icon}></i>
@@ -123,28 +105,11 @@ const ResultScreen = () => {
         ))}
       </Box>
       {store.user.role === "Admin" && (
-        <Box
-          sx={{
-            background: "#fff",
-            p: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 1,
-            mt: 2,
-          }}
-        >
+        <Box sx={resultStyle.listBox}>
           <select
             value={selectedStudentId}
             onChange={handleStudentChange}
-            style={{
-              width: "30%",
-              padding: "8px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              marginRight: "8px",
-              height: "50px",
-            }}
+            style={resultStyle.select}
           >
             <option value="">Select Student</option>
             {students.map((student: any) => (
@@ -183,17 +148,7 @@ const ResultScreen = () => {
         </Box>
       )}
       {selectedStudent && (
-        <Box
-          sx={{
-            background: COLORS.WHITE,
-            display: "flex",
-            alignItems: "center",
-            mt: 2,
-            p: 2,
-            borderRadius: 1,
-            justifyContent: "space-between",
-          }}
-        >
+        <Box sx={resultStyle.listCtn}>
           <Typography> Name:- {selectedStudent.organizationName} </Typography>
           <Typography> Email:- {selectedStudent.email} </Typography>
           <Typography> Phone:- {selectedStudent.phone} </Typography>
