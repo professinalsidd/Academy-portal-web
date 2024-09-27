@@ -4,8 +4,8 @@ export const signUpAPI = async (payload: {
   organizationName: string;
   email: string;
   phone: string;
-  date: string;
-  time: string;
+  dateOfBirth: string;
+  classJoinTime: string;
   gender: string;
   role: string;
   address: string;
