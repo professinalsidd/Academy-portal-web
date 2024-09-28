@@ -12,6 +12,7 @@ import { signUpReducer } from "../../../redux/slice/auth/authSlice";
 import { COLORS } from "../../../themes/colors";
 import { LAYOUT } from "../../../themes/layout";
 import { styleAuth } from "./style";
+import { toast } from "react-toastify";
 
 const RegisterScreen = () => {
   const { isDesktop } = useResponsive();
@@ -59,6 +60,8 @@ const RegisterScreen = () => {
   }, []);
 
   const signUpHandler = async () => {
+    toast.success("success");
+    return;
     try {
       const payload = {
         organizationName: formData.fullName,
