@@ -20,12 +20,19 @@ export const signUpAPI = async (payload: {
   }
 };
 
-export const loginAPI = async (payload: {
-  email: string;
-  password: string;
-}) => {
+export const loginAPI = async (
+  token: string,
+  payload: {
+    email: string;
+    password: string;
+  }
+) => {
   try {
-    const response = await Axios.post("/users/login", payload);
+    const response = await Axios.post("/users/login", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response;
   } catch (error) {
     throw error;

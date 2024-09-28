@@ -6,9 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import useResponsive from "../../../themes/themes";
 import { loginReducer } from "../../../redux/slice/auth/authSlice";
 import { loginAPI } from "../../../services/apis/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const LoginScreen = () => {
+  const store = useSelector((state: any) => state.auth.login.data);
   const dispatch = useDispatch();
   const { isDesktop } = useResponsive();
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const LoginScreen = () => {
         email: formData.email,
         password: formData.password,
       };
-      const response = await loginAPI(payload);
+      const response = await loginAPI(store.token, payload);
       dispatch(loginReducer(response));
       alert("login success");
       navigate("/");
