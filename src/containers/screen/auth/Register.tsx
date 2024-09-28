@@ -10,6 +10,8 @@ import { signUpAPI } from "../../../services/apis/auth";
 import { useDispatch } from "react-redux";
 import { signUpReducer } from "../../../redux/slice/auth/authSlice";
 import { COLORS } from "../../../themes/colors";
+import { LAYOUT } from "../../../themes/layout";
+import { styleAuth } from "./style";
 
 const RegisterScreen = () => {
   const { isDesktop } = useResponsive();
@@ -87,35 +89,22 @@ const RegisterScreen = () => {
 
   return (
     <Box
-      display={"flex"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      sx={{
-        backgroundColor: COLORS.WHITE,
-        position: isDesktop ? "absolute" : "relative",
-        top: isDesktop ? 10 : 2,
-        bottom: isDesktop ? 10 : 2,
-        right: isDesktop ? 10 : 1,
-        left: isDesktop ? 10 : 1,
-        borderRadius: 2,
-        p: 2,
-      }}
+      sx={[
+        LAYOUT.flexCCenter,
+        {
+          backgroundColor: COLORS.WHITE,
+          position: isDesktop ? "absolute" : "relative",
+          top: isDesktop ? 10 : 2,
+          bottom: isDesktop ? 10 : 2,
+          right: isDesktop ? 10 : 1,
+          left: isDesktop ? 10 : 1,
+          borderRadius: 2,
+          p: 2,
+        },
+      ]}
     >
-      <Grid
-        spacing={2}
-        container
-        display={"flex"}
-        justifyContent={"center"}
-        alignItems={"center"}
-        p={2}
-      >
-        <Grid
-          xs={12}
-          md={6}
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-        >
+      <Grid spacing={2} container p={2} sx={[LAYOUT.flexCCenter]}>
+        <Grid xs={12} md={6} sx={[LAYOUT.flexCCenter]}>
           <img
             src={LogoImg}
             alt="login"
@@ -126,27 +115,11 @@ const RegisterScreen = () => {
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              flex: 1,
-              width: "100%",
-              boxShadow: `1px 2px 5px 2px ${COLORS.LIGHT_BLUE}`,
-              borderRadius: 2,
-              p: 1,
-            }}
-          >
+          <Box sx={[LAYOUT.columnCCenter, styleAuth.contentBox]}>
             <Typography variant="h6" m={1}>
               Register
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
+            <Box sx={[LAYOUT.flexColumnWithGap()]}>
               <Box
                 display={"flex"}
                 flexDirection={isDesktop ? "row" : "column"}
