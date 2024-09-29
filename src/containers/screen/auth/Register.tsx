@@ -42,8 +42,6 @@ const RegisterScreen = () => {
     reset,
     formState: { errors },
   } = useForm<IFormInput>();
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   // API fetch for dropdown data
   const dropdownFetchData = async () => {
@@ -190,6 +188,8 @@ const RegisterScreen = () => {
                       type="password"
                       placeHolder="Enter your password"
                     />
+                  </Box>
+                  <Box sx={[LAYOUT.flexRowWithGap()]}>
                     <InputFormComp
                       label="Confirm Password"
                       {...register("confirmPassword", { required: true })}
@@ -205,8 +205,6 @@ const RegisterScreen = () => {
                       placeHolder="Enter your address"
                     />
                   </Box>
-
-                  {/* Dropdowns for time, gender, and role */}
                   <DropdownComp
                     label="Class Joining Time"
                     sx={{ flex: 1, width: "100%" }}
