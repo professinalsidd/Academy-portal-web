@@ -48,8 +48,19 @@ export const LAYOUT = {
     flexDirection: "column",
     gap,
   }),
+  flexRowWithGap: (gap = "0.5rem") => ({
+    display: "flex",
+    flexDirection: "row",
+    gap,
+  }),
   flexWrap: {
     display: "flex",
     flexWrap: "wrap",
+  },
+  flexRowAJCenter: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
 };

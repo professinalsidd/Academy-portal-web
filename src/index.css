@@ -4,3 +4,15 @@ body {
   background-color: #d2e0fb;
   height: 100vh;
 }
+
+.input-field {
+  box-sizing: border-box;
+  height: 50;
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid #d2e0fb;
+  padding: 10px;
+  color: #333;
+  font-size: 16px;
+  margin-top: 5px;
+}

@@ -1,17 +1,6 @@
 import Axios from "../../base";
 
-export const signUpAPI = async (payload: {
-  organizationName: string;
-  email: string;
-  phone: string;
-  dateOfBirth: string;
-  classJoinTime: string;
-  gender: string;
-  role: string;
-  address: string;
-  password: string;
-  confirmPassword: string;
-}) => {
+export const signUpAPI = async (payload: any) => {
   try {
     const response = await Axios.post("/users/signup", payload);
     return response;
