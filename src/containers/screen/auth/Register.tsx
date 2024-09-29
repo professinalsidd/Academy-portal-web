@@ -22,12 +22,7 @@ const RegisterScreen = () => {
   const [selectedGender, setSelectedGender] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<IFormInput>();
+  const { register, handleSubmit, reset } = useForm<IFormInput>();
 
   // API fetch for dropdown data
   const dropdownFetchData = async () => {
@@ -36,8 +31,8 @@ const RegisterScreen = () => {
       const roleResponse: any = await roleAPI();
       setRoleData(roleResponse?.data);
       setGenderData(genderResponse?.data);
-    } catch (error) {
-      console.log("error", error);
+    } catch (error: any) {
+      toast.error("error", error);
     }
   };
 
@@ -45,16 +40,8 @@ const RegisterScreen = () => {
     dropdownFetchData();
   }, []);
 
-  useEffect(() => {
-    console.log("Errors:", errors);
-  }, [errors]);
-
   // Handle form submission
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    console.log("check");
-    console.log("Form Data:", data);
-
-    // Build the payload
     const payload = {
       ...data,
       gender: selectedGender,
@@ -62,41 +49,29 @@ const RegisterScreen = () => {
       classJoinTime: selectedTime,
     };
     try {
-      // Call the sign-up API
       const response = await signUpAPI(payload);
-      console.log("Sign Up Success:", response);
-
-      // Dispatch the action
       dispatch(signUpReducer(response));
-
-      // Show success message and navigate to login
       toast.success("Sign-up successful!");
       navigate("/login");
-
-      // Reset the form after successful sign-up
       reset();
     } catch (error: any) {
-      // Handle error
       toast.error(error.response.data.message || "Sign-up failed");
     }
   };
 
+  const styles = {
+    backgroundColor: COLORS.WHITE,
+    position: isDesktop ? "absolute" : "relative",
+    top: isDesktop ? 10 : 2,
+    bottom: isDesktop ? 10 : 2,
+    right: isDesktop ? 10 : 1,
+    left: isDesktop ? 10 : 1,
+    borderRadius: 2,
+    p: 2,
+  };
+
   return (
-    <Box
-      sx={[
-        LAYOUT.flexCCenter,
-        {
-          backgroundColor: COLORS.WHITE,
-          position: isDesktop ? "absolute" : "relative",
-          top: isDesktop ? 10 : 2,
-          bottom: isDesktop ? 10 : 2,
-          right: isDesktop ? 10 : 1,
-          left: isDesktop ? 10 : 1,
-          borderRadius: 2,
-          p: 2,
-        },
-      ]}
-    >
+    <Box sx={[LAYOUT.flexCCenter, styles]}>
       <Grid spacing={2} container p={2} sx={[LAYOUT.flexCCenter]}>
         <Grid xs={12} md={6} sx={[LAYOUT.flexCCenter]}>
           <img
@@ -104,7 +79,7 @@ const RegisterScreen = () => {
             alt="login"
             style={{
               objectFit: "contain",
-              width: isDesktop ? "100%" : "30%",
+              width: isDesktop ? undefined : "30%",
             }}
           />
         </Grid>
