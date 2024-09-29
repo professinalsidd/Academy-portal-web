@@ -2,10 +2,11 @@ import { Box, Typography, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import DropdownComp from "../../../components/common/Dropdown/Dropdown";
 import InputFormComp from "../../../components/common/InputForm/InputForm";
-import { timeData, genderData, roleData } from "../../../db";
+import { timeData } from "../../../db";
 import { LAYOUT } from "../../../themes/layout";
 import { styleAuth } from "../../screen/auth/style";
 import useResponsive from "../../../themes/themes";
+import { emailRegex, fullNameRegex, phoneRegex } from "../../../utils";
 
 type RegisterType = {
   handleSubmit: any;
@@ -50,7 +51,7 @@ const RegisterFragment = ({
                 label="Organization Name"
                 {...register("organizationName", {
                   required: true,
-                  pattern: /^[a-zA-Z0-9\s\-_,.()]+$/,
+                  pattern: fullNameRegex,
                 })}
                 maxLength={30}
                 placeHolder="Enter your Organization Name"
@@ -60,7 +61,7 @@ const RegisterFragment = ({
                 label="Email Address"
                 {...register("email", {
                   required: true,
-                  pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  pattern: emailRegex,
                 })}
                 placeHolder="Enter your Email Address"
                 type="email"
@@ -74,7 +75,7 @@ const RegisterFragment = ({
                 maxLength={10}
                 {...register("phone", {
                   required: true,
-                  pattern: /^[0-9]{10}$/,
+                  pattern: phoneRegex,
                 })}
                 placeHolder="Enter your Phone Number"
                 type="text"

@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeScreen from "../containers/screen/home/Home";
 import LoginScreen from "../containers/screen/auth/Login";
 import RegisterScreen from "../containers/screen/auth/Register";
-import { useSelector } from "react-redux";
 
 const AllRoutes = () => {
   return (

@@ -1,8 +1,3 @@
-export const getRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const fullNameRegex = /^[a-zA-Z0-9\s\-_,.()]+$/;
+export const phoneRegex = /^[0-9]{10}$/;
