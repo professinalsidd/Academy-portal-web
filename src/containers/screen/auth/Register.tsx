@@ -1,8 +1,7 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 import LogoImg from "../../../assets/images/logo-transparent.png";
-import { Link, useNavigate } from "react-router-dom";
-import DropdownComp from "../../../components/common/Dropdown/Dropdown";
+import { useNavigate } from "react-router-dom";
 import useResponsive from "../../../themes/themes";
 import { genderAPI, roleAPI } from "../../../services/apis/dropdown";
 import { signUpAPI } from "../../../services/apis/auth";
@@ -10,11 +9,9 @@ import { useDispatch } from "react-redux";
 import { signUpReducer } from "../../../redux/slice/auth/authSlice";
 import { COLORS } from "../../../themes/colors";
 import { LAYOUT } from "../../../themes/layout";
-import { styleAuth } from "./style";
 import { toast } from "react-toastify";
 import { useForm, SubmitHandler } from "react-hook-form";
-import InputFormComp from "../../../components/common/InputForm/InputForm";
-import { timeData } from "../../../db";
+import RegisterFragment from "../../fragments/auth/Register";
 
 const RegisterScreen = () => {
   const { isDesktop } = useResponsive();
@@ -84,11 +81,6 @@ const RegisterScreen = () => {
     }
   };
 
-  const maxDate = new Date();
-  maxDate.setFullYear(maxDate.getFullYear() - 15); // 15 years ago
-  const minDate = new Date();
-  minDate.setFullYear(minDate.getFullYear() - 60); // 60 years ago
-
   return (
     <Box
       sx={[
@@ -117,143 +109,19 @@ const RegisterScreen = () => {
           />
         </Grid>
         <Grid xs={12} md={6}>
-          <Box sx={[LAYOUT.columnCCenter, styleAuth.contentBox]}>
-            <Typography variant="h6" ml={1}>
-              Register
-            </Typography>
-            <Box sx={[LAYOUT.flexColumnWithGap()]}>
-              <Box
-                display={"flex"}
-                flexDirection={isDesktop ? "row" : "column"}
-              >
-                <form
-                  onSubmit={handleSubmit(onSubmit)}
-                  style={{ width: "100%" }}
-                >
-                  <Box
-                    sx={[
-                      isDesktop
-                        ? LAYOUT.flexRowWithGap()
-                        : LAYOUT.columnCCenter,
-                    ]}
-                  >
-                    <InputFormComp
-                      label="Organization Name"
-                      {...register("organizationName", {
-                        required: true,
-                        pattern: /^[a-zA-Z0-9\s\-_,.()]+$/,
-                      })}
-                      maxLength={30}
-                      placeHolder="Enter your Organization Name"
-                      type="text"
-                    />
-                    <InputFormComp
-                      label="Email Address"
-                      {...register("email", {
-                        required: true,
-                        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      })}
-                      placeHolder="Enter your Email Address"
-                      type="email"
-                    />
-                  </Box>
-                  <Box
-                    sx={[
-                      isDesktop
-                        ? LAYOUT.flexRowWithGap()
-                        : LAYOUT.columnCCenter,
-                    ]}
-                  >
-                    <InputFormComp
-                      label="Phone Number"
-                      maxLength={10}
-                      {...register("phone", {
-                        required: true,
-                        pattern: /^[0-9]{10}$/,
-                      })}
-                      placeHolder="Enter your Phone Number"
-                      type="text"
-                    />
-                    <InputFormComp
-                      label="Date of Birth"
-                      {...register("dateOfBirth", { required: true })}
-                      type="date"
-                      max={maxDate.toISOString().split("T")[0]}
-                      min={minDate.toISOString().split("T")[0]}
-                    />
-                  </Box>
-                  <Box sx={[LAYOUT.flexRowWithGap()]}>
-                    <InputFormComp
-                      label="Password"
-                      {...register("password", { required: true })}
-                      type="password"
-                      placeHolder="Enter your password"
-                    />
-                  </Box>
-                  <Box sx={[LAYOUT.flexRowWithGap()]}>
-                    <InputFormComp
-                      label="Confirm Password"
-                      {...register("confirmPassword", { required: true })}
-                      type="password"
-                      placeHolder="Enter your confirm password"
-                    />
-                  </Box>
-                  <Box sx={[LAYOUT.flexRowWithGap()]}>
-                    <InputFormComp
-                      label="Address"
-                      {...register("address", { required: true })}
-                      type="text"
-                      placeHolder="Enter your address"
-                    />
-                  </Box>
-                  <Box sx={[LAYOUT.flexRowWithGap()]}>
-                    <DropdownComp
-                      label="Class Joining Time"
-                      sx={{ flex: 1, width: "100%" }}
-                      data={timeData}
-                      onChange={setSelectedTime}
-                      value={selectedTime}
-                    />
-                  </Box>
-                  <Box sx={[LAYOUT.flexRowWithGap()]}>
-                    <DropdownComp
-                      label="Gender"
-                      sx={{ flex: 1, width: "100%" }}
-                      data={genderData}
-                      onChange={setSelectedGender}
-                      value={selectedGender}
-                    />
-                  </Box>
-                  <Box sx={[LAYOUT.flexRowWithGap()]}>
-                    <DropdownComp
-                      label="Select Role"
-                      sx={{ flex: 1, width: "100%" }}
-                      data={roleData}
-                      onChange={setSelectedRole}
-                      value={selectedRole}
-                    />
-                  </Box>
-                  <Box sx={[LAYOUT.flexCCenter, { width: "100%" }]}>
-                    <Button
-                      type="submit"
-                      sx={{ width: "50%" }}
-                      variant="outlined"
-                    >
-                      Submit
-                    </Button>
-                  </Box>
-                </form>
-              </Box>
-            </Box>
-            <Box display={"flex"} m={1} flexDirection={"column"}>
-              <Typography sx={{ textAlign: "center" }}>
-                Already have an account?{" "}
-                <Link to="/login" style={{ textDecoration: "none" }}>
-                  Login
-                </Link>
-              </Typography>
-            </Box>
-          </Box>
+          <RegisterFragment
+            handleSubmit={handleSubmit}
+            register={register}
+            onSubmit={onSubmit}
+            setSelectedTime={setSelectedTime}
+            selectedTime={selectedTime}
+            setSelectedGender={setSelectedGender}
+            selectedGender={selectedGender}
+            setSelectedRole={setSelectedRole}
+            selectedRole={selectedRole}
+            roleData={roleData}
+            genderData={genderData}
+          />
         </Grid>
       </Grid>
     </Box>
