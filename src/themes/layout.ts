@@ -37,18 +37,18 @@ export const LAYOUT = {
     display: "flex",
     flexDirection: "row",
   },
-  flexCCenterWithGap: (gap = "0.5rem") => ({
+  flexCCenterWithGap: (gap = "0.2rem") => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     gap,
   }),
-  flexColumnWithGap: (gap = "0.5rem") => ({
+  flexColumnWithGap: (gap = "0.2rem") => ({
     display: "flex",
     flexDirection: "column",
     gap,
   }),
-  flexRowWithGap: (gap = "0.5rem") => ({
+  flexRowWithGap: (gap = "0.2rem") => ({
     display: "flex",
     flexDirection: "row",
     gap,

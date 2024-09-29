@@ -16,17 +16,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import InputFormComp from "../../../components/common/InputForm/InputForm";
 import { timeData } from "../../../db";
 
-interface IFormInput {
-  firstName: string;
-  organizationName: string;
-  email: string;
-  phone: number;
-  dateOfBirth: Date;
-  password: string | number;
-  confirmPassword: string | number;
-  address: string;
-}
-
 const RegisterScreen = () => {
   const { isDesktop } = useResponsive();
   const dispatch = useDispatch();
@@ -129,7 +118,7 @@ const RegisterScreen = () => {
         </Grid>
         <Grid xs={12} md={6}>
           <Box sx={[LAYOUT.columnCCenter, styleAuth.contentBox]}>
-            <Typography variant="h6" m={1}>
+            <Typography variant="h6" ml={1}>
               Register
             </Typography>
             <Box sx={[LAYOUT.flexColumnWithGap()]}>
@@ -141,7 +130,13 @@ const RegisterScreen = () => {
                   onSubmit={handleSubmit(onSubmit)}
                   style={{ width: "100%" }}
                 >
-                  <Box sx={[LAYOUT.flexRowWithGap()]}>
+                  <Box
+                    sx={[
+                      isDesktop
+                        ? LAYOUT.flexRowWithGap()
+                        : LAYOUT.columnCCenter,
+                    ]}
+                  >
                     <InputFormComp
                       label="Organization Name"
                       {...register("organizationName", {
@@ -162,7 +157,13 @@ const RegisterScreen = () => {
                       type="email"
                     />
                   </Box>
-                  <Box sx={[LAYOUT.flexRowWithGap()]}>
+                  <Box
+                    sx={[
+                      isDesktop
+                        ? LAYOUT.flexRowWithGap()
+                        : LAYOUT.columnCCenter,
+                    ]}
+                  >
                     <InputFormComp
                       label="Phone Number"
                       maxLength={10}
@@ -205,35 +206,47 @@ const RegisterScreen = () => {
                       placeHolder="Enter your address"
                     />
                   </Box>
-                  <DropdownComp
-                    label="Class Joining Time"
-                    sx={{ flex: 1, width: "100%" }}
-                    data={timeData}
-                    onChange={setSelectedTime}
-                    value={selectedTime}
-                  />
-                  <DropdownComp
-                    label="Gender"
-                    sx={{ flex: 1, width: "100%" }}
-                    data={genderData}
-                    onChange={setSelectedGender}
-                    value={selectedGender}
-                  />
-                  <DropdownComp
-                    label="Select Role"
-                    sx={{ flex: 1, width: "100%" }}
-                    data={roleData}
-                    onChange={setSelectedRole}
-                    value={selectedRole}
-                  />
-                  <Box sx={[LAYOUT.flexRowAJCenter, { width: "100%" }]}>
-                    <Button type="submit">Submit</Button>
+                  <Box sx={[LAYOUT.flexRowWithGap()]}>
+                    <DropdownComp
+                      label="Class Joining Time"
+                      sx={{ flex: 1, width: "100%" }}
+                      data={timeData}
+                      onChange={setSelectedTime}
+                      value={selectedTime}
+                    />
+                  </Box>
+                  <Box sx={[LAYOUT.flexRowWithGap()]}>
+                    <DropdownComp
+                      label="Gender"
+                      sx={{ flex: 1, width: "100%" }}
+                      data={genderData}
+                      onChange={setSelectedGender}
+                      value={selectedGender}
+                    />
+                  </Box>
+                  <Box sx={[LAYOUT.flexRowWithGap()]}>
+                    <DropdownComp
+                      label="Select Role"
+                      sx={{ flex: 1, width: "100%" }}
+                      data={roleData}
+                      onChange={setSelectedRole}
+                      value={selectedRole}
+                    />
+                  </Box>
+                  <Box sx={[LAYOUT.flexCCenter, { width: "100%" }]}>
+                    <Button
+                      type="submit"
+                      sx={{ width: "50%" }}
+                      variant="outlined"
+                    >
+                      Submit
+                    </Button>
                   </Box>
                 </form>
               </Box>
             </Box>
             <Box display={"flex"} m={1} flexDirection={"column"}>
-              <Typography sx={{ mt: 2, textAlign: "center" }}>
+              <Typography sx={{ textAlign: "center" }}>
                 Already have an account?{" "}
                 <Link to="/login" style={{ textDecoration: "none" }}>
                   Login
