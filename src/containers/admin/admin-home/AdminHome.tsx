@@ -123,15 +123,11 @@ const AdminHomeScreen = () => {
         />
         <CardComp
           icon="fa-users"
-          title="Totals Joined Students"
+          title="Totals Students Joined"
           count={allStudent}
         />
       </Box>
-      <Box
-        sx={[LAYOUT.flexRowBetween]}
-        flexDirection={isDesktop ? "row" : "column"}
-        mt={2}
-      >
+      <Box sx={[]} flexDirection={isDesktop ? "row" : "column"} mt={2}>
         <CardComp fullCard>
           <TableComp
             title="All Student Class Joined List"
@@ -139,7 +135,7 @@ const AdminHomeScreen = () => {
             data={classJoined}
           />
         </CardComp>
-        <CardComp fullCard>
+        <CardComp fullCard sx={{ mt: 2 }}>
           <TableComp
             title="All Student Joined List"
             columns={["organizationName", "email", "role", "phone"]}

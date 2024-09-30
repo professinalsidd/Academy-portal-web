@@ -2,7 +2,7 @@ import { COLORS } from "../../../themes/colors";
 
 export const styleCard = {
   root: {
-    minWidth: 370,
+    // minWidth: 370,
     height: 100,
     mt: 2,
     flex: 1,

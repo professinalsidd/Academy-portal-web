@@ -61,7 +61,7 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
   return (
     <TableContainer component={Paper}>
       {title && <Typography m={2}>{title}</Typography>}
-      <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+      <Table sx={{}} aria-label="custom pagination table">
         {/* Dynamic Table Head */}
         <TableHead>
           <TableRow>

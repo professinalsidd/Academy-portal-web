@@ -20,7 +20,7 @@ type CardType = {
 function CardComp({ children, sx, fullCard, icon, count, title }: CardType) {
   const { isMobile, isTablet } = useResponsive();
   return fullCard ? (
-    <Card sx={{ minWidth: 275, ...sx }}>
+    <Card sx={{ ...sx }}>
       <CardContent>{children}</CardContent>
     </Card>
   ) : (
@@ -32,7 +32,7 @@ function CardComp({ children, sx, fullCard, icon, count, title }: CardType) {
       </Box>
       <Box sx={[LAYOUT.flexRowBetween]} flex={1} mt={1}>
         <Typography
-          fontSize={isMobile ? 14 : isTablet ? 16 : 18}
+          fontSize={isMobile ? 12 : isTablet ? 16 : 16}
           textTransform={"uppercase"}
           sx={[LAYOUT.flexCenter]}
         >
