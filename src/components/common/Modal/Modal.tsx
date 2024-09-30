@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import useResponsive from "../../../themes/themes";
+import { LAYOUT } from "../../../themes/layout";
 
 type ModalType = {
   open: boolean;
@@ -10,16 +10,18 @@ type ModalType = {
 };
 
 function ModalComp({ open, handleClose, children }: ModalType) {
-  const { isDesktop, isMobile, isTablet } = useResponsive();
   return (
     <Modal
       open={open}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
-      sx={{
-        overflow: "auto",
-      }}
+      sx={[
+        LAYOUT.flexCenter,
+        {
+          overflow: "auto",
+        },
+      ]}
     >
       <Box
         sx={{

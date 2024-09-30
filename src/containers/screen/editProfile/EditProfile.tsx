@@ -1,93 +1,87 @@
-import React, { useState } from "react";
 import ModalComp from "../../../components/common/Modal/Modal";
-import { Box, Button, Card, Typography } from "@mui/material";
-import InputComp from "../../../components/common/Input/Input";
+import { Box, Button, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { updateProfileAPI } from "../../../services/apis/profile";
+import InputFormComp from "../../../components/common/InputForm/InputForm";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { LAYOUT } from "../../../themes/layout";
+import CardComp from "../../../components/common/Card/Card";
+import { COLORS } from "../../../themes/colors";
 
 type EditProfileType = {
   handleClose: () => void;
   open: boolean;
+  data: any;
 };
 
-const EditProfileScreen = ({ handleClose, open }: EditProfileType) => {
+const EditProfileScreen = ({ handleClose, open, data }: EditProfileType) => {
   const store = useSelector((state: any) => state.auth.login.data);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const { register, reset, handleSubmit } = useForm<IFormInput>();
 
-  const submitHandler = async () => {
+  const onSubmit: SubmitHandler<IFormInput> = async (item) => {
     try {
       const payload = {
-        phone: phone,
-        address: address,
-        organizationName: name,
+        phone: data.phone || item.phone,
+        address: data.address || item.address,
+        organizationName: data.organizationName || item.organizationName,
       };
+      console.log("payload", payload);
+      return;
       const response = await updateProfileAPI(
         store.token,
         store.user.organizationId,
         payload
       );
       alert("Updated Profile");
-      setAddress("");
-      setName("");
-      setPhone("");
+      reset();
       handleClose();
-    } catch (error) {}
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (
     <ModalComp handleClose={handleClose} open={open}>
       <Box
-        mt={2}
-        display={"flex"}
-        justifyContent={"center"}
-        alignItems={"center"}
-        flex={1}
-      >
-        <Card
-          sx={{
+        sx={[
+          LAYOUT.columnCCenter,
+          {
+            background: COLORS.WHITE,
             p: 2,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
-            <Typography textAlign={"center"}>Edit Profile</Typography>
-            <InputComp
-              label="Organization Name"
-              tooltipContent="Organization Name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <InputComp
-              label="Phone Number"
-              tooltipContent="Phone Number"
-              type="number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-            <InputComp
-              label="Address"
-              tooltipContent="Address"
-              type="text"
-              multiline
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </Box>
+            borderRadius: 2,
+          },
+        ]}
+      >
+        <Typography textAlign={"center"}>Edit Profile</Typography>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <InputFormComp
+            label="Organization Name"
+            placeHolder="Enter your organization name"
+            {...register("organizationName")}
+            defaultValue={data.organizationName}
+          />
+          <InputFormComp
+            label="Phone Number"
+            placeHolder="Enter your phone number"
+            {...register("phone")}
+            maxLength={10}
+            defaultValue={data.phone}
+          />
+          <InputFormComp
+            label="Address"
+            placeHolder="Enter you address"
+            {...register("address")}
+            defaultValue={data.address}
+          />
           <Box display={"flex"} gap={2} mt={2} alignItems={"center"}>
-            <Button sx={{}} variant="outlined" onClick={submitHandler}>
+            <Button type="submit" variant="outlined">
               Submit
             </Button>
-            <Button sx={{}} onClick={handleClose} variant="outlined">
+            <Button onClick={handleClose} variant="outlined">
               Close
             </Button>
           </Box>
-        </Card>
+        </form>
       </Box>
     </ModalComp>
   );

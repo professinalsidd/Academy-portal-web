@@ -86,7 +86,11 @@ const ProfileScreen = () => {
           </Box>
         </Card>
       </Box>
-      <EditProfileScreen handleClose={handleClose} open={open} />
+      <EditProfileScreen
+        data={profileData}
+        handleClose={handleClose}
+        open={open}
+      />
     </WrapperComp>
   );
 };
