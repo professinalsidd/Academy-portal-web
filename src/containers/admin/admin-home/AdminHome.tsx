@@ -27,7 +27,7 @@ const AdminHomeScreen = () => {
   );
   const [showAllStudents, setShowAllStudents] = useState<any>([]);
   const [classJoined, setClassJoined] = useState<any>([]);
-  const { isDesktop, isMobile, isTablet } = useResponsive();
+  const { isDesktop } = useResponsive();
 
   const AllFetchData = async () => {
     try {
