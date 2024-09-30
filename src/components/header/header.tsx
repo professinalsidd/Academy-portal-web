@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, Button, Avatar } from "@mui/material";
-import LogoImg from "../../assets/images/logo.png";
+import { Box, Typography, Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { joinStudentClassesAPI } from "../../services/apis/classes";
+import { COLORS } from "../../themes/colors";
+import { LAYOUT } from "../../themes/layout";
 
 type HeaderProps = {
   title: string;
@@ -39,11 +40,8 @@ const HeaderComp = ({ title }: HeaderProps) => {
         studentId,
         classLink: "https://meet.google.com/dwu-iuqz-sbr",
       };
-      const response = await joinStudentClassesAPI(store.token, payload);
-      console.log("response", response.data);
+      await joinStudentClassesAPI(store.token, payload);
       window.open(payload.classLink, "_blank");
-
-      // Save the current timestamp to localStorage, with the studentId as part of the key
       localStorage.setItem(
         `lastJoinTime_${studentId}`,
         new Date().getTime().toString()
@@ -62,6 +60,7 @@ const HeaderComp = ({ title }: HeaderProps) => {
     return `${hours}h ${minutes}m`;
   };
 
+  const name = store?.user?.organizationName[0];
   return (
     <Box
       display={"flex"}
@@ -91,7 +90,43 @@ const HeaderComp = ({ title }: HeaderProps) => {
             )}
           </>
         )}
-        <Avatar alt="Remy Sharp" src={LogoImg} sx={{ mr: 2 }} />
+        <Box
+          sx={{
+            position: "relative",
+            ...LAYOUT.flexCenter,
+            background: COLORS.LIGHT_BLUE,
+            color: COLORS.BLACK,
+            p: 2,
+            width: 10,
+            height: 10,
+            borderRadius: 100,
+            mr: 2,
+            cursor: "pointer",
+            "&:hover .fullName": {
+              display: "block",
+            },
+          }}
+        >
+          <Typography>{name}</Typography>
+          <Typography
+            className="fullName"
+            sx={{
+              display: "none", // Hide it by default
+              position: "absolute",
+              top: "100%", // Position below the box
+              left: "50%",
+              transform: "translateX(-50%)",
+              mt: 1,
+              backgroundColor: "white",
+              color: COLORS.BLACK,
+              p: 0.5,
+              borderRadius: 2,
+              boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            {store.user.organizationName}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );
