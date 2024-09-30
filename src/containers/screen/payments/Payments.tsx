@@ -55,8 +55,8 @@ const PaymentsScreen = () => {
     try {
       const allPayments = await AllStudentPaymentAPI(store?.token);
       const allStudents = await AllStudentsAPI(store?.token);
-      setShowAllStudentsPayments(allPayments?.data);
-      setStudents(allStudents.data.students);
+      setShowAllStudentsPayments(allPayments?.data.reverse());
+      setStudents(allStudents.data.students.reverse());
     } catch (error) {
       console.log("error", error);
     }
@@ -68,7 +68,7 @@ const PaymentsScreen = () => {
         store?.token,
         store?.user?.studentId
       );
-      setStudentData(studentData?.data);
+      setStudentData(studentData?.data.reverse());
     } catch (error) {
       console.log("error", error);
     }

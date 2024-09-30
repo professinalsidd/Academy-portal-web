@@ -21,8 +21,9 @@ const DashboardScreen = () => {
         store.user.studentId
       );
       const projectRes = await studentProjectsAPI(store.token);
-      setStudentJoinedClass(response.data.joinedClasses);
-      setProjectData(projectRes.data.projects);
+      setStudentJoinedClass(response.data.joinedClasses.reverse());
+      setProjectData(projectRes.data.projects.reverse());
+      AllFetchData();
     } catch (error) {
       console.log("err", error);
     }
