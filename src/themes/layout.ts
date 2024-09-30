@@ -74,4 +74,15 @@ export const LAYOUT = {
     alignItems: "center",
     justifyContent: "center",
   },
+  flexColumJCenter: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  flexEndCenter: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
 };
