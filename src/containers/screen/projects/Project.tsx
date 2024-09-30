@@ -98,7 +98,7 @@ const ResultScreen = () => {
             <Typography
               mt={2}
               textAlign={"center"}
-              fontSize={isMobile ? 14 : isTablet ? 16 : 18}
+              fontSize={isMobile ? 12 : isTablet ? 16 : 18}
               textTransform={"uppercase"}
             >
               {item.label}
