@@ -10,6 +10,7 @@ import { AllStudentResultsAPI } from "../../../services/apis/results";
 import { AllStudentPaymentAPI } from "../../../services/apis/payments";
 import TableComp from "../../../components/common/Table/Table";
 import { AllStudentsAPI } from "../../../services/apis/allStudents";
+import { LAYOUT } from "../../../themes/layout";
 
 const AdminHomeScreen = () => {
   const store = useSelector((state: any) => state.auth.login.data);
@@ -25,48 +26,81 @@ const AdminHomeScreen = () => {
     []
   );
   const [showAllStudents, setShowAllStudents] = useState<any>([]);
-  const [classJoined, setClassJoined] = useState([]);
+  const [classJoined, setClassJoined] = useState<any>([]);
   const { isDesktop, isMobile, isTablet } = useResponsive();
 
   const AllFetchData = async () => {
     try {
-      const allStudentsClass: any = await AllStudentClassesAPI(store?.token);
-      const allProjects = await AllStudentProjectsAPI(store?.token);
       const allResults = await AllStudentResultsAPI(store?.token);
-      const allPayments = await AllStudentPaymentAPI(store?.token);
-      const allStudents = await AllStudentsAPI(store?.token);
-      const allClassJoined = await AllStudentClassesAPI(store.token);
-      setClassJoined(allClassJoined.data.students);
-      setShowAllStudentsJoinedData(allStudentsClass?.data?.students);
-      setShowAllStudentSProjects(allProjects?.data?.projects);
       setSetShowAllStudentsResult(allResults?.data?.results);
-      setShowAllStudentsPayments(allPayments?.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const AllClassJoinedData = async () => {
+    try {
+      const allClassJoined = await AllStudentClassesAPI(store.token);
+      setClassJoined(allClassJoined?.data?.students);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const AllStudentsFetchData = async () => {
+    try {
+      const allStudents = await AllStudentsAPI(store?.token);
       setShowAllStudents(allStudents?.data?.students);
     } catch (error) {
       console.log("error", error);
     }
   };
 
+  const AllPaymentFetchData = async () => {
+    try {
+      const allPayments = await AllStudentPaymentAPI(store?.token);
+      setShowAllStudentsPayments(allPayments?.data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const AllProjectFetchData = async () => {
+    try {
+      const allProjects = await AllStudentProjectsAPI(store?.token);
+      setShowAllStudentSProjects(allProjects?.data?.projects);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const AllStudentFetchData = async () => {
+    try {
+      const allStudentsClass: any = await AllStudentClassesAPI(store?.token);
+      setShowAllStudentsJoinedData(allStudentsClass?.data?.students);
+    } catch (error) {
+      console.log("error");
+    }
+  };
+
   useEffect(() => {
     AllFetchData();
+    AllStudentFetchData();
+    AllProjectFetchData();
+    AllPaymentFetchData();
+    AllStudentsFetchData();
+    AllClassJoinedData();
   }, []);
 
-  const countStudent = showAllStudentsJoinedData.length || 0;
-  const projectsCount = showAllStudentsProjects.length || 0;
-  const resultsCount = showAllStudentsResult.length || 0;
-  const paymentsCount = showAllStudentPayments.length || 0;
-  const allStudent = showAllStudents.length || 0;
+  const countStudent = showAllStudentsJoinedData?.length || 0;
+  const projectsCount = showAllStudentsProjects?.length || 0;
+  const resultsCount = showAllStudentsResult?.length || 0;
+  const paymentsCount = showAllStudentPayments?.length || 0;
+  const allStudent = showAllStudents?.length || 0;
 
   return (
     <WrapperComp title="Welcome Back NextGen Coder Program Academy">
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          flexDirection: "row",
-          gap: 1,
-        }}
-      >
+      <Box sx={[LAYOUT.flexWrapRowWithGap()]}>
         <CardComp
           icon="fa-layer-group"
           title="Joined Classes"
@@ -90,9 +124,7 @@ const AdminHomeScreen = () => {
         <CardComp icon="fa-users" title="Joined Students" count={allStudent} />
       </Box>
       <Box
-        display={"flex"}
-        justifyContent={"space-between"}
-        alignItems={"center"}
+        sx={[LAYOUT.flexRowBetween]}
         flexDirection={isDesktop ? "row" : "column"}
         mt={2}
       >

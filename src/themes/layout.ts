@@ -53,6 +53,12 @@ export const LAYOUT = {
     flexDirection: "row",
     gap,
   }),
+  flexWrapRowWithGap: (gap = "0.5rem") => ({
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    gap,
+  }),
   flexWrap: {
     display: "flex",
     flexWrap: "wrap",
