@@ -4,7 +4,6 @@ import CardComp from "../../../components/common/Card/Card";
 import TableComp from "../../../components/common/Table/Table";
 import WrapperComp from "../../../components/common/Wrapper";
 import {
-  dashBoardCardData,
   resultTableColumnsForAdmin,
   resultTableColumnsForStudent,
 } from "../../../db";
@@ -18,9 +17,10 @@ import {
   uploadResultsAPI,
 } from "../../../services/apis/results";
 import { resultStyle } from "./style";
+import { toast } from "react-toastify";
 
 const ResultScreen = () => {
-  const { isDesktop, isMobile, isTablet } = useResponsive();
+  const { isDesktop } = useResponsive();
   const store = useSelector((state: any) => state.auth.login.data);
   const [marks, setMarks] = useState("");
   const [subject, setSubject] = useState("");
@@ -33,11 +33,17 @@ const ResultScreen = () => {
 
   const AllFetchData = async () => {
     try {
-      const allStudents = await AllStudentsAPI(store?.token);
       const allResults = await AllStudentResultsAPI(store.token);
-
-      setStudents(allStudents.data.students);
       setAllResultsData(allResults.data.results);
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const AllStudentFetchData = async () => {
+    try {
+      const allStudents = await AllStudentsAPI(store?.token);
+      setStudents(allStudents.data.students);
     } catch (error) {
       console.log("error", error);
     }
@@ -52,6 +58,7 @@ const ResultScreen = () => {
 
   useEffect(() => {
     AllFetchData();
+    AllStudentFetchData();
   }, []);
 
   const submitHandler = async () => {
@@ -63,8 +70,9 @@ const ResultScreen = () => {
     };
     try {
       const response = await uploadResultsAPI(store?.token, payload);
-      alert(response.data.message);
+      toast.success(response.data.message);
       setSelectedStudent(null);
+      AllFetchData();
     } catch (error) {
       console.log("error", error);
     }
@@ -88,45 +96,6 @@ const ResultScreen = () => {
 
   return (
     <WrapperComp title="Results">
-      <Box
-        display={"flex"}
-        justifyContent={"space-between"}
-        sx={resultStyle.root}
-      >
-        {dashBoardCardData.map((item) => (
-          <Box
-            key={item.label}
-            sx={[
-              resultStyle.subRoot,
-              {
-                width: isMobile ? "30%" : isTablet ? "40%" : "60",
-              },
-            ]}
-          >
-            <Box
-              sx={[
-                resultStyle.iconBox,
-                {
-                  background: item.bg,
-                  color: item.color,
-                },
-              ]}
-            >
-              <Typography>
-                <i className={item.icon}></i>
-              </Typography>
-            </Box>
-            <Typography
-              mt={2}
-              textAlign={"center"}
-              fontSize={isMobile ? 14 : isTablet ? 16 : 18}
-              textTransform={"uppercase"}
-            >
-              {item.label}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
       {store.user.role === "Admin" && (
         <Box sx={resultStyle.listBox}>
           <select
