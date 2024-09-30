@@ -23,7 +23,6 @@ const DashboardScreen = () => {
       const projectRes = await studentProjectsAPI(store.token);
       setStudentJoinedClass(response.data.joinedClasses.reverse());
       setProjectData(projectRes.data.projects.reverse());
-      AllFetchData();
     } catch (error) {
       console.log("err", error);
     }
