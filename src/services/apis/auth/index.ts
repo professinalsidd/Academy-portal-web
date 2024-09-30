@@ -9,13 +9,7 @@ export const signUpAPI = async (payload: any) => {
   }
 };
 
-export const loginAPI = async (
-  token: string,
-  payload: {
-    email: string;
-    password: string;
-  }
-) => {
+export const loginAPI = async (token: string, payload: any) => {
   try {
     const response = await Axios.post("/users/login", payload, {
       headers: {

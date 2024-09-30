@@ -1,45 +1,31 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
 import LogoImg from "../../../assets/images/white-logo.png";
-import InputComp from "../../../components/common/Input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import useResponsive from "../../../themes/themes";
 import { loginReducer } from "../../../redux/slice/auth/authSlice";
 import { loginAPI } from "../../../services/apis/auth";
 import { useDispatch, useSelector } from "react-redux";
+import InputFormComp from "../../../components/common/InputForm/InputForm";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { LAYOUT } from "../../../themes/layout";
+import { toast } from "react-toastify";
 
 const LoginScreen = () => {
   const store = useSelector((state: any) => state.auth.login.data);
   const dispatch = useDispatch();
   const { isDesktop } = useResponsive();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const { register, reset, handleSubmit } = useForm<IFormInput>();
 
-  const submitHandler = (inputName: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [inputName]: value,
-    }));
-  };
-
-  useEffect(() => {}, [formData]);
-
-  const loginHandler = async () => {
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      const payload = {
-        email: formData.email,
-        password: formData.password,
-      };
-      const response = await loginAPI(store.token, payload);
+      const response = await loginAPI(store.token, data);
       dispatch(loginReducer(response));
-      alert("login success");
+      toast.success("login success");
       navigate("/");
+      reset();
     } catch (error: any) {
-      alert(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -81,40 +67,32 @@ const LoginScreen = () => {
             <Typography variant="h6" m={1}>
               Login
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <InputComp
-                label="Email Address"
-                tooltipContent="Email Address"
-                type="email"
-                sx={{ flex: 1 }}
-                value={formData.email}
-                onChange={(e) => submitHandler("email", e.target.value)}
-              />
-              <InputComp
-                label="Password"
-                tooltipContent="Password"
-                type="password"
-                icon
-                showPassword={showPassword}
-                handleClickShowPassword={() => setShowPassword(!showPassword)}
-                sx={{ flex: 1 }}
-                value={formData.password}
-                onChange={(e) => submitHandler("password", e.target.value)}
-              />
-            </Box>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box sx={[LAYOUT.flexColumn]}>
+                <InputFormComp
+                  label="Email Address"
+                  placeHolder="Enter your email"
+                  type="email"
+                  {...register("email", { required: true })}
+                />
+                <InputFormComp
+                  label="Password"
+                  placeHolder="Enter your password"
+                  type="password"
+                  {...register("password", { required: true })}
+                  action
+                />
+              </Box>
+              <Box sx={[LAYOUT.flexCCenter, { width: "100%" }]}>
+                <Button type="submit" sx={{ width: "50%" }} variant="outlined">
+                  Login
+                </Button>
+              </Box>
+            </form>
             <Box display={"flex"} m={1} flexDirection={"column"}>
-              <Button onClick={loginHandler} variant="outlined">
-                Login
-              </Button>
               <Typography sx={{ mt: 2, textAlign: "center" }}>
                 Don't you have an account?
                 <Link to="/register" style={{ textDecoration: "none" }}>
-                  {" "}
                   Register
                 </Link>
               </Typography>
