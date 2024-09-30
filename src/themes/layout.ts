@@ -69,4 +69,9 @@ export const LAYOUT = {
     alignItems: "center",
     justifyContent: "center",
   },
+  flexCenter: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 };
