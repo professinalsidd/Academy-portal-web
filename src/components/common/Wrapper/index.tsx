@@ -6,13 +6,14 @@ import useResponsive from "../../../themes/themes";
 type WrapperCompProps = {
   children: ReactNode;
   title: string;
+  AllFetchData?: any;
 };
 
-const WrapperComp = ({ children, title }: WrapperCompProps) => {
+const WrapperComp = ({ children, title, AllFetchData }: WrapperCompProps) => {
   const { isDesktop } = useResponsive();
   return (
     <Box>
-      {isDesktop && <HeaderComp title={title} />}
+      {isDesktop && <HeaderComp AllFetchData={AllFetchData} title={title} />}
       {children}
     </Box>
   );

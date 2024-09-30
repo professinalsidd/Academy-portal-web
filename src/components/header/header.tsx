@@ -7,9 +7,10 @@ import { LAYOUT } from "../../themes/layout";
 
 type HeaderProps = {
   title: string;
+  AllFetchData?: any;
 };
 
-const HeaderComp = ({ title }: HeaderProps) => {
+const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
   const store = useSelector((state: any) => state.auth.login.data);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -48,6 +49,7 @@ const HeaderComp = ({ title }: HeaderProps) => {
       );
       setIsDisabled(true);
       setTimeLeft(24); // Reset timeLeft to 24 hours
+      AllFetchData();
     } catch (error) {
       console.log("error", error);
     }

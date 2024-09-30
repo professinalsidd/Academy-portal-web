@@ -10,7 +10,7 @@ import { studentProjectsAPI } from "../../../services/apis/projects";
 
 const DashboardScreen = () => {
   const store = useSelector((state: any) => state.auth.login.data);
-  const { isDesktop, isMobile, isTablet } = useResponsive();
+  const { isDesktop } = useResponsive();
   const [studentJoinedClass, setStudentJoinedClass] = useState<any>([]);
   const [projectData, setProjectData] = useState<any>([]);
 
@@ -36,7 +36,10 @@ const DashboardScreen = () => {
   const projectCount = projectData.length || 0;
 
   return (
-    <WrapperComp title="Welcome Back NextGen Coder Program Academy">
+    <WrapperComp
+      AllFetchData={AllFetchData()}
+      title="Welcome Back NextGen Coder Program Academy"
+    >
       <Box
         sx={{
           display: "flex",
