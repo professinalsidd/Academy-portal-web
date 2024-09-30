@@ -8,4 +8,13 @@ export const styleAuth = {
     borderRadius: 2,
     p: 1,
   },
+  card: {
+    background: COLORS.WHITE,
+    borderRadius: 3,
+    p: 3,
+  },
+  loginRoot: {
+    height: "100vh",
+    width: "100%",
+  },
 };

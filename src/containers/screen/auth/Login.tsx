@@ -9,6 +9,7 @@ import InputFormComp from "../../../components/common/InputForm/InputForm";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LAYOUT } from "../../../themes/layout";
 import { toast } from "react-toastify";
+import { styleAuth } from "./style";
 
 const LoginScreen = () => {
   const store = useSelector((state: any) => state.auth.login.data);
@@ -30,29 +31,13 @@ const LoginScreen = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        height: "100vh",
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%",
-      }}
-    >
-      <Box
-        sx={{
-          background: "#fff",
-          borderRadius: 3,
-          p: 3,
-        }}
-      >
+    <Box sx={[LAYOUT.flexCCenter, styleAuth.loginRoot]}>
+      <Box sx={styleAuth.card}>
         <Box
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
+          sx={[LAYOUT.flexRowBetween]}
           flexDirection={isDesktop ? "row" : "column"}
         >
-          <Box display={"flex"} justifyContent={"center"} alignItems={"center"}>
+          <Box sx={[LAYOUT.flexRowBetween]}>
             <img
               src={LogoImg}
               alt="login"
@@ -84,7 +69,11 @@ const LoginScreen = () => {
                 />
               </Box>
               <Box sx={[LAYOUT.flexCCenter, { width: "100%" }]}>
-                <Button type="submit" sx={{ width: "50%" }} variant="outlined">
+                <Button
+                  type="submit"
+                  sx={{ width: "50%", mt: 2 }}
+                  variant="outlined"
+                >
                   Login
                 </Button>
               </Box>
@@ -93,6 +82,7 @@ const LoginScreen = () => {
               <Typography sx={{ mt: 2, textAlign: "center" }}>
                 Don't you have an account?
                 <Link to="/register" style={{ textDecoration: "none" }}>
+                  {" "}
                   Register
                 </Link>
               </Typography>
