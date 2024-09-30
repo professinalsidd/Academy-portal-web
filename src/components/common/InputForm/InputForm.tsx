@@ -7,12 +7,11 @@ interface FormTypes extends InputHTMLAttributes<HTMLInputElement> {
   placeHolder?: string;
   label?: string;
   type?: string;
-  action?: boolean;
 }
 
 // Use forwardRef to ensure the ref is passed correctly
 const InputFormComp = forwardRef<HTMLInputElement, FormTypes>(
-  ({ placeHolder, label, type, action, ...props }, ref) => {
+  ({ placeHolder, label, type, ...props }, ref) => {
     const { isDesktop } = useResponsive();
     const [showPassword, setShowPassword] = useState(false);
 
@@ -40,7 +39,7 @@ const InputFormComp = forwardRef<HTMLInputElement, FormTypes>(
             placeholder={placeHolder}
             {...props}
             ref={ref}
-            type="text"
+            type={type}
           />
         )}
         {type === "password" && (

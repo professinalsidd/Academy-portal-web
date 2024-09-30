@@ -12,7 +12,8 @@ import { toast } from "react-toastify";
 import { styleAuth } from "./style";
 
 const LoginScreen = () => {
-  const store = useSelector((state: any) => state.auth.login.data);
+  const store = useSelector((state: any) => state?.auth?.login.data);
+  console.log("store", store);
   const dispatch = useDispatch();
   const { isDesktop } = useResponsive();
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const LoginScreen = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
+      console.log("data", data);
       const response = await loginAPI(store.token, data);
       dispatch(loginReducer(response));
       toast.success("login success");
@@ -65,7 +67,6 @@ const LoginScreen = () => {
                   placeHolder="Enter your password"
                   type="password"
                   {...register("password", { required: true })}
-                  action
                 />
               </Box>
               <Box sx={[LAYOUT.flexCCenter, { width: "100%" }]}>
