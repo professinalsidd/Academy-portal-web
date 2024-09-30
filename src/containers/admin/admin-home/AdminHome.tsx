@@ -101,27 +101,31 @@ const AdminHomeScreen = () => {
   return (
     <WrapperComp title="Welcome Back NextGen Coder Program Academy">
       <Box sx={[LAYOUT.flexWrapRowWithGap()]}>
-        <CardComp
+        {/* <CardComp
           icon="fa-layer-group"
           title="Joined Classes"
           count={countStudent}
-        />
+        /> */}
         <CardComp
           icon="fa-diagram-project"
-          title="Student Projects"
+          title="Total Students Projects"
           count={projectsCount}
         />
         <CardComp
           icon="fa-square-poll-vertical"
-          title="Students Results"
+          title="Total Students Results"
           count={resultsCount}
         />
         <CardComp
           icon="fa-indian-rupee-sign"
-          title="Payments"
+          title="Total Students Payments"
           count={paymentsCount}
         />
-        <CardComp icon="fa-users" title="Joined Students" count={allStudent} />
+        <CardComp
+          icon="fa-users"
+          title="Totals Joined Students"
+          count={allStudent}
+        />
       </Box>
       <Box
         sx={[LAYOUT.flexRowBetween]}
@@ -131,7 +135,7 @@ const AdminHomeScreen = () => {
         <CardComp fullCard>
           <TableComp
             title="All Student Class Joined List"
-            columns={["organizationName", "email"]}
+            columns={["organizationName", "email", "classCount"]}
             data={classJoined}
           />
         </CardComp>
