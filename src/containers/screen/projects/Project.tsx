@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CardComp from "../../../components/common/Card/Card";
 import TableComp from "../../../components/common/Table/Table";
 import WrapperComp from "../../../components/common/Wrapper";
@@ -17,6 +17,7 @@ import {
   studentProjectsAPI,
   uploadProjectsAPI,
 } from "../../../services/apis/projects";
+import { toast } from "react-toastify";
 
 const ResultScreen = () => {
   const { isDesktop, isMobile, isTablet } = useResponsive();
@@ -37,18 +38,33 @@ const ResultScreen = () => {
 
   useEffect(() => {
     AllFetchData();
-  }, []);
+  });
 
   const submitHandler = async () => {
+    // Validation function to check if the githubLink is valid
+    const isValidGithubLink = (url: string) => {
+      const githubRegex =
+        /^(https:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
+      return githubRegex.test(url);
+    };
+
+    // Check if the githubLink is valid
+    if (!isValidGithubLink(githubLink)) {
+      toast.warn("Please enter a valid GitHub link.");
+      return;
+    }
+
     const payload = {
       projectName: projectName,
       githubLink: githubLink,
     };
+
     try {
       const response = await uploadProjectsAPI(store?.token, payload);
-      alert(response.data.message);
-    } catch (error) {
-      console.log("error", error);
+      toast.success(response.data.message);
+      studentFetchData();
+    } catch (error: any) {
+      toast.error("error", error);
     }
   };
 
@@ -63,7 +79,7 @@ const ResultScreen = () => {
 
   useEffect(() => {
     studentFetchData();
-  }, []);
+  });
 
   return (
     <WrapperComp title="Projects">
