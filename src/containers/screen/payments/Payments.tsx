@@ -18,6 +18,7 @@ import InputComp from "../../../components/common/Input/Input";
 import DropdownComp from "../../../components/common/Dropdown/Dropdown";
 import { AllStudentsAPI } from "../../../services/apis/allStudents";
 import { COLORS } from "../../../themes/colors";
+import { toast } from "react-toastify";
 
 const PaymentsScreen = () => {
   const store = useSelector((state: any) => state.auth.login.data);
@@ -41,10 +42,12 @@ const PaymentsScreen = () => {
     };
     try {
       const response = await addStudentPaymentAPI(store?.token, payload);
-      alert(response.data.message);
+      toast.success(response.data.message);
       setSelectedStudent(null);
-    } catch (error) {
+      AllFetchData();
+    } catch (error: any) {
       console.log("error", error);
+      toast.error("error", error.response.data.message);
     }
   };
 
