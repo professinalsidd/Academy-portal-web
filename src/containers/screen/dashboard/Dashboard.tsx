@@ -66,7 +66,7 @@ const DashboardScreen = () => {
       >
         <CardComp fullCard>
           <TableComp
-            columns={["joinDate", "classLink"]}
+            columns={["classLink", "classJoinTime", "classJoinDate"]}
             data={studentJoinedClass}
           />
         </CardComp>
