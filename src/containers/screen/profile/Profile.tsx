@@ -90,6 +90,7 @@ const ProfileScreen = () => {
         data={profileData}
         handleClose={handleClose}
         open={open}
+        onProfileUpdate={fetchData}
       />
     </WrapperComp>
   );

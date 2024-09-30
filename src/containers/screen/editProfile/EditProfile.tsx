@@ -5,38 +5,43 @@ import { updateProfileAPI } from "../../../services/apis/profile";
 import InputFormComp from "../../../components/common/InputForm/InputForm";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LAYOUT } from "../../../themes/layout";
-import CardComp from "../../../components/common/Card/Card";
 import { COLORS } from "../../../themes/colors";
+import { toast } from "react-toastify";
 
 type EditProfileType = {
   handleClose: () => void;
   open: boolean;
   data: any;
+  onProfileUpdate: () => void;
 };
 
-const EditProfileScreen = ({ handleClose, open, data }: EditProfileType) => {
+const EditProfileScreen = ({
+  handleClose,
+  open,
+  data,
+  onProfileUpdate,
+}: EditProfileType) => {
   const store = useSelector((state: any) => state.auth.login.data);
   const { register, reset, handleSubmit } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (item) => {
     try {
       const payload = {
-        phone: data.phone || item.phone,
-        address: data.address || item.address,
-        organizationName: data.organizationName || item.organizationName,
+        phone: item.phone || data.phone,
+        address: item.address || data.address,
+        organizationName: item.organizationName || data.organizationName,
       };
-      console.log("payload", payload);
-      return;
       const response = await updateProfileAPI(
         store.token,
         store.user.organizationId,
         payload
       );
-      alert("Updated Profile");
+      toast.success("Profile Updated Successfully");
       reset();
       handleClose();
-    } catch (error) {
-      console.log("error", error);
+      onProfileUpdate();
+    } catch (error: any) {
+      toast.error("Error updating profile:", error);
     }
   };
 
