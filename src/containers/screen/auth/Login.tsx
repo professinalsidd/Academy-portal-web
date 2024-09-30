@@ -1,5 +1,5 @@
-import { Box, Button, Typography } from "@mui/material";
-import LogoImg from "../../../assets/images/white-logo.png";
+import { Box, Button, Grid, Typography } from "@mui/material";
+import LogoImg from "../../../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import useResponsive from "../../../themes/themes";
 import { loginReducer } from "../../../redux/slice/auth/authSlice";
@@ -10,6 +10,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { LAYOUT } from "../../../themes/layout";
 import { toast } from "react-toastify";
 import { styleAuth } from "./style";
+import { COLORS } from "../../../themes/colors";
 
 const LoginScreen = () => {
   const store = useSelector((state: any) => state.auth?.login || {});
@@ -20,7 +21,6 @@ const LoginScreen = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      console.log("data", data);
       const response = await loginAPI(store.token, data);
       dispatch(loginReducer(response)); // Ensure correct structure in reducer
       toast.success("login success");
@@ -31,30 +31,42 @@ const LoginScreen = () => {
     }
   };
 
+  const styles = {
+    backgroundColor: COLORS.WHITE,
+    position: isDesktop ? "absolute" : "relative",
+    top: isDesktop ? 10 : 2,
+    bottom: isDesktop ? 10 : 2,
+    right: isDesktop ? 10 : 1,
+    left: isDesktop ? 10 : 1,
+    borderRadius: 2,
+    p: 2,
+  };
+
   return (
-    <Box sx={[LAYOUT.flexCCenter, styleAuth.loginRoot]}>
-      <Box sx={styleAuth.card}>
-        <Box
-          sx={[LAYOUT.flexRowBetween]}
-          flexDirection={isDesktop ? "row" : "column"}
-        >
-          <Box sx={[LAYOUT.flexRowBetween]}>
-            <img
-              src={LogoImg}
-              alt="login"
-              style={{
-                objectFit: "contain",
-                width: "100%",
-                height: isDesktop ? undefined : 100,
-              }}
-            />
-          </Box>
-          <Box sx={{ width: isDesktop ? "60%" : "100%" }}>
+    <Box sx={[LAYOUT.flexCCenter, styles]}>
+      <Grid spacing={2} container p={2} sx={[LAYOUT.flexCCenter]}>
+        <Grid xs={12} md={6} sx={[LAYOUT.flexCCenter]}>
+          <img
+            src={LogoImg}
+            alt="login"
+            style={{
+              objectFit: "contain",
+              width: isDesktop ? "100%" : "30%",
+            }}
+          />
+        </Grid>
+        <Grid xs={12} md={6} p={2}>
+          <Box
+            sx={[
+              { width: isDesktop ? "50%" : "100%", p: 2 },
+              styleAuth.contentBox,
+            ]}
+          >
             <Typography variant="h6" m={1}>
               Login
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Box sx={[LAYOUT.flexColumn]}>
+              <Box sx={[LAYOUT.flexColumn]} pr={2}>
                 <InputFormComp
                   label="Email Address"
                   placeHolder="Enter your email"
@@ -88,8 +100,8 @@ const LoginScreen = () => {
               </Typography>
             </Box>
           </Box>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

@@ -1,6 +1,6 @@
 import { Box, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
-import LogoImg from "../../../assets/images/logo-transparent.png";
+import LogoImg from "../../../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 import useResponsive from "../../../themes/themes";
 import { genderAPI, roleAPI } from "../../../services/apis/dropdown";
@@ -79,7 +79,7 @@ const RegisterScreen = () => {
             alt="login"
             style={{
               objectFit: "contain",
-              width: isDesktop ? undefined : "30%",
+              width: isDesktop ? "100%" : "30%",
             }}
           />
         </Grid>

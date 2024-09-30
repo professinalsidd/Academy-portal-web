@@ -2,7 +2,7 @@ import { Box, Typography, IconButton, Drawer, Button } from "@mui/material";
 import React, { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import LogoImg from "../../assets/images/white-logo.png";
+import LogoImg from "../../assets/images/logo.png";
 import { SideBarListItem } from "../../db";
 import useResponsive from "../../themes/themes";
 import { useNavigate } from "react-router-dom";
