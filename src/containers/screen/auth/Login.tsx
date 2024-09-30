@@ -12,8 +12,7 @@ import { toast } from "react-toastify";
 import { styleAuth } from "./style";
 
 const LoginScreen = () => {
-  const store = useSelector((state: any) => state?.auth?.login.data);
-  console.log("store", store);
+  const store = useSelector((state: any) => state.auth?.login || {});
   const dispatch = useDispatch();
   const { isDesktop } = useResponsive();
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const LoginScreen = () => {
     try {
       console.log("data", data);
       const response = await loginAPI(store.token, data);
-      dispatch(loginReducer(response));
+      dispatch(loginReducer(response)); // Ensure correct structure in reducer
       toast.success("login success");
       navigate("/");
       reset();
