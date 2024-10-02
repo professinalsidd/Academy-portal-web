@@ -20,39 +20,32 @@ const AllRoutes = () => {
   }, [store]);
 
   return (
-    <Routes>
-      {/* Redirect to login if not authenticated, else show Home */}
-      <Route
-        path="/"
-        element={
-          isAuthenticated ? <HomeScreen /> : <Navigate to="/login" replace />
-        }
-      />
-      {/* Login route */}
-      <Route
-        path="/login"
-        element={
-          isAuthenticated ? <Navigate to="/" replace /> : <LoginScreen />
-        }
-      />
-      {/* Register route */}
-      <Route
-        path="/register"
-        element={
-          isAuthenticated ? <Navigate to="/" replace /> : <RegisterScreen />
-        }
-      />
-    </Routes>
-  );
-};
-
-// Higher-level component to wrap AllRoutes with BrowserRouter
-const App = () => {
-  return (
     <BrowserRouter>
-      <AllRoutes />
+      <Routes>
+        {/* Redirect to login if not authenticated, else show Home */}
+        <Route
+          path="/"
+          element={
+            isAuthenticated ? <HomeScreen /> : <Navigate to="/login" replace />
+          }
+        />
+        {/* Login route */}
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? <Navigate to="/" replace /> : <LoginScreen />
+          }
+        />
+        {/* Register route */}
+        <Route
+          path="/register"
+          element={
+            isAuthenticated ? <Navigate to="/" replace /> : <RegisterScreen />
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 };
 
-export default App;
+export default AllRoutes;

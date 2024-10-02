@@ -27,7 +27,7 @@ const DropdownComp = ({ value, onChange, label, sx, data }: DropdownType) => {
         onChange={(e) => onChange(e.target.value)}
       >
         {data?.map((item: any, i: any) => (
-          <MenuItem key={i} value={item}>
+          <MenuItem key={i} value={item} disabled={item === "Admin"}>
             {item}
           </MenuItem>
         ))}

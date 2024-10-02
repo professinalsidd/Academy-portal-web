@@ -20,6 +20,7 @@ type RegisterType = {
   selectedRole: any;
   roleData: any;
   genderData: any;
+  loading: boolean;
 };
 
 const RegisterFragment = ({
@@ -34,6 +35,7 @@ const RegisterFragment = ({
   setSelectedTime,
   roleData,
   genderData,
+  loading,
 }: RegisterType) => {
   const { isDesktop } = useResponsive();
   return (
@@ -138,8 +140,13 @@ const RegisterFragment = ({
               />
             </Box>
             <Box sx={[LAYOUT.flexCCenter, { width: "100%" }]}>
-              <Button type="submit" sx={{ width: "50%" }} variant="outlined">
-                Submit
+              <Button
+                type="submit"
+                disabled={loading}
+                sx={{ width: "50%" }}
+                variant="outlined"
+              >
+                {loading ? "Loading..." : "Submit"}
               </Button>
             </Box>
           </form>

@@ -23,6 +23,7 @@ const RegisterScreen = () => {
   const [selectedRole, setSelectedRole] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const { register, handleSubmit, reset } = useForm<IFormInput>();
+  const [loading, setLoading] = useState(false);
 
   // API fetch for dropdown data
   const dropdownFetchData = async () => {
@@ -42,6 +43,7 @@ const RegisterScreen = () => {
 
   // Handle form submission
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    setLoading(true);
     const payload = {
       ...data,
       gender: selectedGender,
@@ -50,11 +52,13 @@ const RegisterScreen = () => {
     };
     try {
       const response = await signUpAPI(payload);
+      setLoading(false);
       dispatch(signUpReducer(response));
       toast.success("Sign-up successful!");
       navigate("/login");
       reset();
     } catch (error: any) {
+      setLoading(false);
       toast.error(error.response.data.message || "Sign-up failed");
     }
   };
@@ -96,6 +100,7 @@ const RegisterScreen = () => {
             selectedRole={selectedRole}
             roleData={roleData}
             genderData={genderData}
+            loading={loading}
           />
         </Grid>
       </Grid>

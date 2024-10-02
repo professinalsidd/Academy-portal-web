@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import LogoImg from "../../../assets/images/logo.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,16 +19,22 @@ const LoginScreen = () => {
   const { isDesktop } = useResponsive();
   const navigate = useNavigate();
   const { register, reset, handleSubmit } = useForm<IFormInput>();
+  const [loading, setLoading] = React.useState(false);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    setLoading(true);
     try {
       const response = await loginAPI(store.token, data);
-      dispatch(loginReducer(response)); // Ensure correct structure in reducer
-      toast.success("login success");
+      setLoading(false);
+      dispatch(loginReducer(response));
+      toast.success("Login success");
       navigate("/");
       reset();
     } catch (error: any) {
       toast.error(error.response.data.message);
+      setLoading(false);
+    } finally {
+      setLoading(false); // Hide loading spinner
     }
   };
 
@@ -43,66 +50,69 @@ const LoginScreen = () => {
   };
 
   return (
-    <Box sx={[LAYOUT.flexCCenter, styles]}>
-      <Grid spacing={2} container p={2} sx={[LAYOUT.flexCCenter]}>
-        <Grid xs={12} md={6} sx={[LAYOUT.flexCCenter]}>
-          <img
-            src={LogoImg}
-            alt="login"
-            style={{
-              objectFit: "contain",
-              width: isDesktop ? "100%" : "30%",
-            }}
-          />
-        </Grid>
-        <Grid xs={12} md={6} p={2}>
-          <Box
-            sx={[
-              { width: isDesktop ? "50%" : "100%", p: 2 },
-              styleAuth.contentBox,
-            ]}
-          >
-            <Typography variant="h6" m={1}>
-              Login
-            </Typography>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Box sx={[LAYOUT.flexColumn]} pr={2}>
-                <InputFormComp
-                  label="Email Address"
-                  placeHolder="Enter your email"
-                  type="email"
-                  {...register("email", { required: true })}
-                />
-                <InputFormComp
-                  label="Password"
-                  placeHolder="Enter your password"
-                  type="password"
-                  {...register("password", { required: true })}
-                />
-              </Box>
-              <Box sx={[LAYOUT.flexCCenter, { width: "100%" }]}>
-                <Button
-                  type="submit"
-                  sx={{ width: "50%", mt: 2 }}
-                  variant="outlined"
-                >
-                  Login
-                </Button>
-              </Box>
-            </form>
-            <Box display={"flex"} m={1} flexDirection={"column"}>
-              <Typography sx={{ mt: 2, textAlign: "center" }}>
-                Don't you have an account?
-                <Link to="/register" style={{ textDecoration: "none" }}>
-                  {" "}
-                  Register
-                </Link>
+    <>
+      <Box sx={[LAYOUT.flexCCenter, styles]}>
+        <Grid spacing={2} container p={2} sx={[LAYOUT.flexCCenter]}>
+          <Grid xs={12} md={6} sx={[LAYOUT.flexCCenter]}>
+            <img
+              src={LogoImg}
+              alt="login"
+              style={{
+                objectFit: "contain",
+                width: isDesktop ? "100%" : "30%",
+              }}
+            />
+          </Grid>
+          <Grid xs={12} md={6} p={2}>
+            <Box
+              sx={[
+                { width: isDesktop ? "50%" : "100%", p: 2 },
+                styleAuth.contentBox,
+              ]}
+            >
+              <Typography variant="h6" m={1}>
+                Login
               </Typography>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Box sx={[LAYOUT.flexColumn]} pr={2}>
+                  <InputFormComp
+                    label="Email Address"
+                    placeHolder="Enter your email"
+                    type="email"
+                    {...register("email", { required: true })}
+                  />
+                  <InputFormComp
+                    label="Password"
+                    placeHolder="Enter your password"
+                    type="password"
+                    {...register("password", { required: true })}
+                  />
+                </Box>
+                <Box sx={[LAYOUT.flexCCenter, { width: "100%" }]}>
+                  <Button
+                    type="submit"
+                    sx={{ width: "50%", mt: 2 }}
+                    variant="outlined"
+                    disabled={loading}
+                  >
+                    {loading ? "Loading.." : "Login"}
+                  </Button>
+                </Box>
+              </form>
+              <Box display={"flex"} m={1} flexDirection={"column"}>
+                <Typography sx={{ mt: 2, textAlign: "center" }}>
+                  Don't you have an account?
+                  <Link to="/register" style={{ textDecoration: "none" }}>
+                    {" "}
+                    Register
+                  </Link>
+                </Typography>
+              </Box>
             </Box>
-          </Box>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 };
 
