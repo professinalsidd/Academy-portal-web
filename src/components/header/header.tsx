@@ -11,12 +11,12 @@ type HeaderProps = {
 };
 
 const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
-  const store = useSelector((state: any) => state.auth.login.data);
+  const store = useSelector((state: any) => state?.auth?.login?.data);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
-    const studentId = store.user.studentId;
+    const studentId = store?.user?.studentId;
     const lastJoinTime = localStorage.getItem(`lastJoinTime_${studentId}`);
 
     if (lastJoinTime) {
@@ -32,7 +32,7 @@ const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
         setTimeLeft(null);
       }
     }
-  }, [store.user.studentId]); // Re-run the effect if the studentId changes
+  }, [store?.user?.studentId]); // Re-run the effect if the studentId changes
 
   const submitHandler = async () => {
     try {
@@ -62,7 +62,9 @@ const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
     return `${hours}h ${minutes}m`;
   };
 
-  const name = store?.user?.organizationName[0];
+  const name = store?.user?.organizationName[0]
+    ? store?.user?.organizationName[0]
+    : "A";
   return (
     <Box
       display={"flex"}
@@ -75,7 +77,7 @@ const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
         <Typography pl={2}>{title}</Typography>
       </Box>
       <Box display={"flex"} justifyContent={"flex-end"} alignItems={"center"}>
-        {store.user.role !== "Admin" && (
+        {store?.user?.role !== "Admin" && (
           <>
             <Button
               variant="outlined"
@@ -126,7 +128,7 @@ const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
               boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
             }}
           >
-            {store.user.organizationName}
+            {store?.user?.organizationName}
           </Typography>
         </Box>
       </Box>

@@ -13,7 +13,7 @@ import AdminHomeScreen from "../../admin/admin-home/AdminHome";
 
 function HomeScreen() {
   const studentId = useSelector(
-    (state: any) => state.auth.login.data.user.studentId
+    (state: any) => state?.auth?.login?.data?.user?.studentId
   );
   console.log("store", studentId);
   const { isDesktop } = useResponsive();
@@ -24,9 +24,12 @@ function HomeScreen() {
   };
 
   const renderItem = () => {
+    if (!studentId) {
+      return <AdminHomeScreen />;
+    }
     switch (selectedMenu) {
       case 0:
-        return studentId ? <DashboardScreen /> : <AdminHomeScreen />;
+        return <DashboardScreen />;
       case 1:
         return <ProfileScreen />;
       case 2:
@@ -36,7 +39,7 @@ function HomeScreen() {
       case 4:
         return <PaymentsScreen />;
       default:
-        return studentId ? <DashboardScreen /> : <AdminHomeScreen />;
+        return <DashboardScreen />;
     }
   };
 

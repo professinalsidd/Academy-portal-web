@@ -14,7 +14,7 @@ import { styleAuth } from "./style";
 import { COLORS } from "../../../themes/colors";
 
 const LoginScreen = () => {
-  const store = useSelector((state: any) => state.auth?.login || {});
+  const store = useSelector((state: any) => state?.auth?.login || {});
   const dispatch = useDispatch();
   const { isDesktop } = useResponsive();
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const LoginScreen = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     setLoading(true);
     try {
-      const response = await loginAPI(store.token, data);
+      const response = await loginAPI(store?.token, data);
       setLoading(false);
       dispatch(loginReducer(response));
       toast.success("Login success");
@@ -33,8 +33,6 @@ const LoginScreen = () => {
     } catch (error: any) {
       toast.error(error.response.data.message);
       setLoading(false);
-    } finally {
-      setLoading(false); // Hide loading spinner
     }
   };
 
