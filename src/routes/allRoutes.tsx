@@ -22,27 +22,9 @@ const AllRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Redirect to login if not authenticated, else show Home */}
-        <Route
-          path="/"
-          element={
-            isAuthenticated ? <HomeScreen /> : <Navigate to="/login" replace />
-          }
-        />
-        {/* Login route */}
-        <Route
-          path="/login"
-          element={
-            isAuthenticated ? <Navigate to="/" replace /> : <LoginScreen />
-          }
-        />
-        {/* Register route */}
-        <Route
-          path="/register"
-          element={
-            isAuthenticated ? <Navigate to="/" replace /> : <RegisterScreen />
-          }
-        />
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/login" element={<LoginScreen />} />
+        <Route path="/register" element={<RegisterScreen />} />
       </Routes>
     </BrowserRouter>
   );
