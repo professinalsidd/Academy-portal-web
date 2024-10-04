@@ -19,9 +19,11 @@ import DropdownComp from "../../../components/common/Dropdown/Dropdown";
 import { AllStudentsAPI } from "../../../services/apis/allStudents";
 import { COLORS } from "../../../themes/colors";
 import { toast } from "react-toastify";
+import LoadingComp from "../../../components/common/loading/Loading";
 
 const PaymentsScreen = () => {
   const store = useSelector((state: any) => state.auth.login.data);
+  const [loading, setLoading] = useState(false);
   const [showAllStudentPayments, setShowAllStudentsPayments] = useState<any>(
     []
   );
@@ -34,6 +36,7 @@ const PaymentsScreen = () => {
   const [studentData, setStudentData] = useState<any>([]);
 
   const submitHandler = async () => {
+    setLoading(true);
     const payload = {
       amount: amount,
       status: paymentStatus,
@@ -42,20 +45,24 @@ const PaymentsScreen = () => {
     };
     try {
       const response = await addStudentPaymentAPI(store?.token, payload);
+      setLoading(false);
       toast.success(response.data.message);
       setSelectedStudent(null);
       AllFetchData();
     } catch (error: any) {
+      setLoading(false);
       console.log("error", error);
       toast.error("error", error.response.data.message);
     }
   };
 
   const AllFetchData = async () => {
+    setLoading(true);
     try {
       if (store.user.role === "Admin") {
         const allPayments = await AllStudentPaymentAPI(store?.token);
         const allStudents = await AllStudentsAPI(store?.token);
+        setLoading(false);
         setShowAllStudentsPayments(allPayments?.data.reverse());
         setStudents(allStudents.data.students.reverse());
       } else {
@@ -63,9 +70,11 @@ const PaymentsScreen = () => {
           store?.token,
           store?.user?.studentId
         );
+        setLoading(false);
         setStudentData(studentData?.data.reverse());
       }
     } catch (error) {
+      setLoading(true);
       console.log("error", error);
     }
   };
@@ -91,99 +100,111 @@ const PaymentsScreen = () => {
 
   return (
     <WrapperComp title="Payment">
-      <Box mt={2}>
-        {store.user.role === "Admin" && (
-          <Box
-            sx={{
-              background: "#fff",
-              p: 1,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: 1,
-            }}
-          >
-            <select
-              value={selectedStudentId}
-              onChange={handleStudentChange}
-              style={{
-                width: "30%",
-                padding: "8px",
-                borderRadius: "4px",
-                border: "1px solid #ccc",
-                marginRight: "8px",
-                height: "50px",
-              }}
-            >
-              <option value="">Select Student</option>
-              {students.map((student: any) => (
-                <option key={student._id} value={student._id}>
-                  {student.organizationName}
-                </option>
-              ))}
-            </select>
+      {loading ? (
+        <LoadingComp loading={loading} setLoading={setLoading} />
+      ) : (
+        <>
+          <Box mt={2}>
+            {store.user.role === "Admin" && (
+              <Box
+                sx={{
+                  background: "#fff",
+                  p: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 1,
+                }}
+              >
+                <select
+                  value={selectedStudentId}
+                  onChange={handleStudentChange}
+                  style={{
+                    width: "30%",
+                    padding: "8px",
+                    borderRadius: "4px",
+                    border: "1px solid #ccc",
+                    marginRight: "8px",
+                    height: "50px",
+                  }}
+                >
+                  <option value="">Select Student</option>
+                  {students.map((student: any) => (
+                    <option key={student._id} value={student._id}>
+                      {student.organizationName}
+                    </option>
+                  ))}
+                </select>
 
-            <InputComp
-              label="Amount"
-              tooltipContent="Amount"
-              type="text"
-              sx={{ flex: 1 }}
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-            <InputComp
-              tooltipContent="Payment Date"
-              type="date"
-              sx={{ flex: 1 }}
-              value={paidDate}
-              onChange={(e) => setPaid(e.target.value)}
-            />
-            <DropdownComp
-              label="Payment Status"
-              sx={{ width: "20%" }}
-              data={paymentStatusData}
-              onChange={setPaymentStatus}
-              value={paymentStatus}
-            />
-            <Button variant="outlined" onClick={submitHandler}>
-              Add Payment
-            </Button>
+                <InputComp
+                  label="Amount"
+                  tooltipContent="Amount"
+                  type="text"
+                  sx={{ flex: 1 }}
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
+                <InputComp
+                  tooltipContent="Payment Date"
+                  type="date"
+                  sx={{ flex: 1 }}
+                  value={paidDate}
+                  onChange={(e) => setPaid(e.target.value)}
+                />
+                <DropdownComp
+                  label="Payment Status"
+                  sx={{ width: "20%" }}
+                  data={paymentStatusData}
+                  onChange={setPaymentStatus}
+                  value={paymentStatus}
+                />
+                <Button variant="outlined" onClick={submitHandler}>
+                  Add Payment
+                </Button>
+              </Box>
+            )}
+            {selectedStudent && (
+              <Box
+                sx={{
+                  background: COLORS.WHITE,
+                  display: "flex",
+                  alignItems: "center",
+                  mt: 1,
+                  p: 2,
+                  borderRadius: 1,
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography>
+                  {" "}
+                  Name:- {selectedStudent.organizationName}{" "}
+                </Typography>
+                <Typography> Email:- {selectedStudent.email} </Typography>
+                <Typography> Phone:- {selectedStudent.phone} </Typography>
+                <Typography>
+                  {" "}
+                  StudentId:- {selectedStudent.studentId}{" "}
+                </Typography>
+              </Box>
+            )}
+            <CardComp fullCard sx={{ mt: 2 }}>
+              <TableComp
+                title={
+                  store.user.role === "Admin"
+                    ? "All Students Payment List"
+                    : "Payment List"
+                }
+                data={store.user.role === "Admin" ? formattedData : studentData}
+                columns={
+                  store.user.role === "Admin"
+                    ? paymentsTableColumnsForAdmin
+                    : paymentsTableColumnsForStudents
+                }
+              />
+            </CardComp>
           </Box>
-        )}
-        {selectedStudent && (
-          <Box
-            sx={{
-              background: COLORS.WHITE,
-              display: "flex",
-              alignItems: "center",
-              mt: 1,
-              p: 2,
-              borderRadius: 1,
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography> Name:- {selectedStudent.organizationName} </Typography>
-            <Typography> Email:- {selectedStudent.email} </Typography>
-            <Typography> Phone:- {selectedStudent.phone} </Typography>
-            <Typography> StudentId:- {selectedStudent.studentId} </Typography>
-          </Box>
-        )}
-        <CardComp fullCard sx={{ mt: 2 }}>
-          <TableComp
-            title={
-              store.user.role === "Admin"
-                ? "All Students Payment List"
-                : "Payment List"
-            }
-            data={store.user.role === "Admin" ? formattedData : studentData}
-            columns={
-              store.user.role === "Admin"
-                ? paymentsTableColumnsForAdmin
-                : paymentsTableColumnsForStudents
-            }
-          />
-        </CardComp>
-      </Box>
+        </>
+      )}
     </WrapperComp>
   );
 };

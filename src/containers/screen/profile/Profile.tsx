@@ -9,9 +9,11 @@ import { format } from "date-fns";
 import InputFormComp from "../../../components/common/InputForm/InputForm";
 import { LAYOUT } from "../../../themes/layout";
 import { COLORS } from "../../../themes/colors";
+import LoadingComp from "../../../components/common/loading/Loading";
 
 const ProfileScreen = () => {
   const store = useSelector((state: any) => state?.auth?.login.data);
+  const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState<any>([]);
   const [open, setOpen] = React.useState(false);
 
@@ -19,10 +21,13 @@ const ProfileScreen = () => {
   const handleClose = () => setOpen(false);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await profileAPI(store.token);
+      setLoading(false);
       setProfileData(response?.data.user);
     } catch (error) {
+      setLoading(false);
       console.log("error", error);
     }
   };
@@ -37,55 +42,63 @@ const ProfileScreen = () => {
 
   return (
     <WrapperComp title="Profile">
-      <Box mt={2}>
-        <Card sx={[LAYOUT.flexColumJCenter, { p: 2 }]}>
-          <Box sx={[LAYOUT.flexEndCenter, { width: "100%" }]}>
-            <Typography
-              onClick={handleOpen}
-              variant="caption"
-              sx={{ color: COLORS.BLACK, cursor: "pointer" }}
-            >
-              <i className="fa-solid fa-pen-to-square"> Edit Profile</i>
-            </Typography>
-          </Box>
-          <Box sx={[LAYOUT.flexColumn, { width: "100%" }]}>
-            <InputFormComp
-              label="Organization Name"
-              readOnly
-              value={profileData.organizationName}
-            />
-            <InputFormComp
-              label="Email Address"
-              readOnly
-              value={profileData.email}
-            />
-            <InputFormComp
-              label="Phone Number"
-              readOnly
-              value={profileData.phone}
-            />
-            <InputFormComp
-              label="Date of Birth"
-              readOnly
-              value={formatDate(profileData?.dateOfBirth || null)}
-            />
-            {store.user.role !== "Admin" && (
+      {loading ? (
+        <LoadingComp loading={loading} setLoading={setLoading} />
+      ) : (
+        <Box mt={2}>
+          <Card sx={[LAYOUT.flexColumJCenter, { p: 2 }]}>
+            <Box sx={[LAYOUT.flexEndCenter, { width: "100%" }]}>
+              <Typography
+                onClick={handleOpen}
+                variant="caption"
+                sx={{ color: COLORS.BLACK, cursor: "pointer" }}
+              >
+                <i className="fa-solid fa-pen-to-square"> Edit Profile</i>
+              </Typography>
+            </Box>
+            <Box sx={[LAYOUT.flexColumn, { width: "100%" }]}>
               <InputFormComp
-                label="Class Joined Time"
+                label="Organization Name"
                 readOnly
-                value={profileData.classJoinTime}
+                value={profileData.organizationName}
               />
-            )}
-            <InputFormComp label="Role" readOnly value={profileData.role} />
-            <InputFormComp label="Gender" readOnly value={profileData.gender} />
-            <InputFormComp
-              label="Address"
-              readOnly
-              value={profileData.address}
-            />
-          </Box>
-        </Card>
-      </Box>
+              <InputFormComp
+                label="Email Address"
+                readOnly
+                value={profileData.email}
+              />
+              <InputFormComp
+                label="Phone Number"
+                readOnly
+                value={profileData.phone}
+              />
+              <InputFormComp
+                label="Date of Birth"
+                readOnly
+                value={formatDate(profileData?.dateOfBirth || null)}
+              />
+              {store.user.role !== "Admin" && (
+                <InputFormComp
+                  label="Class Joined Time"
+                  readOnly
+                  value={profileData.classJoinTime}
+                />
+              )}
+              <InputFormComp label="Role" readOnly value={profileData.role} />
+              <InputFormComp
+                label="Gender"
+                readOnly
+                value={profileData.gender}
+              />
+              <InputFormComp
+                label="Address"
+                readOnly
+                value={profileData.address}
+              />
+            </Box>
+          </Card>
+        </Box>
+      )}
       <EditProfileScreen
         data={profileData}
         handleClose={handleClose}
