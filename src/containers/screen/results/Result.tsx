@@ -21,6 +21,8 @@ import {
 import { resultStyle } from "./style";
 import { toast } from "react-toastify";
 import LoadingComp from "../../../components/common/loading/Loading";
+import DropdownComp from "../../../components/common/Dropdown/Dropdown";
+import { LAYOUT } from "../../../themes/layout";
 
 const ResultScreen = () => {
   const { isDesktop } = useResponsive();
@@ -82,18 +84,13 @@ const ResultScreen = () => {
       setLoading(false);
       toast.success(response.data.message);
       setSelectedStudent(null);
+      setSelectGrade(null);
+      setSelectedSubject(null);
+      setMarks("");
       AllFetchData();
     } catch (error) {
       console.log("error", error);
     }
-  };
-
-  const subjectHandler = async (e: any) => {
-    setSelectedSubject(e.target.value);
-  };
-
-  const gradeHandler = async (e: any) => {
-    setSelectGrade(e.target.value);
   };
 
   return (
@@ -116,30 +113,20 @@ const ResultScreen = () => {
                   </option>
                 ))}
               </select>
-              <select
-                value={selectedStudent}
-                onChange={subjectHandler}
-                style={resultStyle.select}
-              >
-                <option value="">Select Subject</option>
-                {subjectData.map((subject: any) => (
-                  <option key={subject} value={subject}>
-                    {subject}
-                  </option>
-                ))}
-              </select>
-              <select
+              <DropdownComp
+                label="Select Subject"
+                data={subjectData}
+                value={selectedSubject}
+                onChange={setSelectedSubject}
+                sx={{ flex: 1 }}
+              />
+              <DropdownComp
+                label="Select Grade"
+                data={gradeData}
                 value={selectGrade}
-                onChange={gradeHandler}
-                style={resultStyle.select}
-              >
-                <option value="">Select Grade</option>
-                {gradeData.map((grade: any) => (
-                  <option key={grade} value={grade}>
-                    {grade}
-                  </option>
-                ))}
-              </select>
+                onChange={setSelectGrade}
+                sx={{ flex: 1 }}
+              />
               <InputComp
                 label="Marks"
                 tooltipContent="Marks"
@@ -155,19 +142,14 @@ const ResultScreen = () => {
           )}
           {selectedStudent && (
             <Box sx={resultStyle.listCtn}>
-              <Typography>
-                {" "}
-                Name:- {selectedStudent.organizationName}{" "}
-              </Typography>
+              <Typography>Name:- {selectedStudent.organizationName}</Typography>
               <Typography> Email:- {selectedStudent.email} </Typography>
               <Typography> Phone:- {selectedStudent.phone} </Typography>
               <Typography> StudentId:- {selectedStudent.studentId} </Typography>
             </Box>
           )}
           <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
+            sx={[LAYOUT.flexRowBetween]}
             flexDirection={isDesktop ? "row" : "column"}
             gap={2}
             mt={2}
