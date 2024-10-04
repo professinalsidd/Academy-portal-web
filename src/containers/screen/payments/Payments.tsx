@@ -74,7 +74,7 @@ const PaymentsScreen = () => {
         setStudentData(studentData?.data.reverse());
       }
     } catch (error) {
-      setLoading(true);
+      setLoading(false);
       console.log("error", error);
     }
   };
