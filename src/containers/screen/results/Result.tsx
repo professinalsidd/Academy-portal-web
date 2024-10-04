@@ -1,11 +1,13 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CardComp from "../../../components/common/Card/Card";
 import TableComp from "../../../components/common/Table/Table";
 import WrapperComp from "../../../components/common/Wrapper";
 import {
+  gradeData,
   resultTableColumnsForAdmin,
   resultTableColumnsForStudent,
+  subjectData,
 } from "../../../db";
 import useResponsive from "../../../themes/themes";
 import { useSelector } from "react-redux";
@@ -25,8 +27,8 @@ const ResultScreen = () => {
   const store = useSelector((state: any) => state?.auth?.login?.data);
   const [loading, setLoading] = useState(false);
   const [marks, setMarks] = useState("");
-  const [subject, setSubject] = useState("");
-  const [grade, setGrade] = useState<any>([]);
+  const [selectedSubject, setSelectedSubject] = useState<any>(null);
+  const [selectGrade, setSelectGrade] = useState<any>(null);
   const [students, setStudents] = useState<any>([]);
   const [selectedStudentId, setSelectedStudentId] = useState("");
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
@@ -71,8 +73,8 @@ const ResultScreen = () => {
   const submitHandler = async () => {
     const payload = {
       marks: marks,
-      subject: subject,
-      grade: grade,
+      subject: selectedSubject,
+      grade: selectGrade,
       studentId: selectedStudent?.studentId,
     };
     try {
@@ -84,6 +86,14 @@ const ResultScreen = () => {
     } catch (error) {
       console.log("error", error);
     }
+  };
+
+  const subjectHandler = async (e: any) => {
+    setSelectedSubject(e.target.value);
+  };
+
+  const gradeHandler = async (e: any) => {
+    setSelectGrade(e.target.value);
   };
 
   return (
@@ -106,6 +116,30 @@ const ResultScreen = () => {
                   </option>
                 ))}
               </select>
+              <select
+                value={selectedStudent}
+                onChange={subjectHandler}
+                style={resultStyle.select}
+              >
+                <option value="">Select Subject</option>
+                {subjectData.map((subject: any) => (
+                  <option key={subject} value={subject}>
+                    {subject}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={selectGrade}
+                onChange={gradeHandler}
+                style={resultStyle.select}
+              >
+                <option value="">Select Grade</option>
+                {gradeData.map((grade: any) => (
+                  <option key={grade} value={grade}>
+                    {grade}
+                  </option>
+                ))}
+              </select>
               <InputComp
                 label="Marks"
                 tooltipContent="Marks"
@@ -113,22 +147,6 @@ const ResultScreen = () => {
                 sx={{ flex: 1 }}
                 value={marks}
                 onChange={(e) => setMarks(e.target.value)}
-              />
-              <InputComp
-                label="Subject"
-                tooltipContent="Subject"
-                type="text"
-                sx={{ flex: 1 }}
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-              />
-              <InputComp
-                label="Grade"
-                tooltipContent="Grade"
-                type="text"
-                sx={{ flex: 1 }}
-                value={grade}
-                onChange={(e) => setGrade(e.target.value)}
               />
               <Button variant="outlined" onClick={submitHandler}>
                 Submit

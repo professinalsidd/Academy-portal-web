@@ -40,7 +40,7 @@ export const resultStyle = {
     mt: 2,
   },
   select: {
-    width: "30%",
+    width: "20%",
     padding: "8px",
     borderRadius: "4px",
     border: "1px solid #ccc",

@@ -15,9 +15,18 @@ type CardType = {
   icon?: string;
   count?: string | number;
   title?: string;
+  iconColor?: string;
 };
 
-function CardComp({ children, sx, fullCard, icon, count, title }: CardType) {
+function CardComp({
+  children,
+  sx,
+  fullCard,
+  icon,
+  count,
+  title,
+  iconColor,
+}: CardType) {
   const { isMobile, isTablet } = useResponsive();
   return fullCard ? (
     <Card sx={{ ...sx }}>
@@ -27,7 +36,7 @@ function CardComp({ children, sx, fullCard, icon, count, title }: CardType) {
     <Box sx={styleCard.root}>
       <Box sx={[styleCard.subRoot, LAYOUT.flexCenter]}>
         <Typography color={COLORS.BLACK}>
-          <i className={`fa-solid ${icon}`}></i>
+          <i style={{ color: iconColor }} className={`fa-solid ${icon}`}></i>
         </Typography>
       </Box>
       <Box sx={[LAYOUT.flexRowBetween]} flex={1} mt={1}>
@@ -38,13 +47,15 @@ function CardComp({ children, sx, fullCard, icon, count, title }: CardType) {
         >
           {title}
         </Typography>
-        <Typography
-          sx={[styleCard.count, LAYOUT.flexCenter]}
-          fontSize={16}
-          color="gray"
-        >
-          {count}
-        </Typography>
+        {count && (
+          <Typography
+            sx={[styleCard.count, LAYOUT.flexCenter]}
+            fontSize={16}
+            color="gray"
+          >
+            {count}
+          </Typography>
+        )}
       </Box>
     </Box>
   );

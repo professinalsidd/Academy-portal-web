@@ -19,6 +19,7 @@ import {
 } from "../../../services/apis/projects";
 import { toast } from "react-toastify";
 import LoadingComp from "../../../components/common/loading/Loading";
+import { LAYOUT } from "../../../themes/layout";
 
 const ResultScreen = () => {
   const { isDesktop, isMobile, isTablet } = useResponsive();
@@ -86,45 +87,6 @@ const ResultScreen = () => {
         <LoadingComp loading={loading} setLoading={setLoading} />
       ) : (
         <>
-          <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            sx={resultStyle.root}
-          >
-            {dashBoardCardData.map((item) => (
-              <Box
-                key={item.label}
-                sx={[
-                  resultStyle.subRoot,
-                  {
-                    width: isMobile ? "30%" : isTablet ? "40%" : "60",
-                  },
-                ]}
-              >
-                <Box
-                  sx={[
-                    resultStyle.iconBox,
-                    {
-                      background: item.bg,
-                      color: item.color,
-                    },
-                  ]}
-                >
-                  <Typography>
-                    <i className={item.icon}></i>
-                  </Typography>
-                </Box>
-                <Typography
-                  mt={2}
-                  textAlign={"center"}
-                  fontSize={isMobile ? 12 : isTablet ? 16 : 18}
-                  textTransform={"uppercase"}
-                >
-                  {item.label}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
           {store.user.role !== "Admin" && (
             <Box sx={resultStyle.listBox}>
               <InputComp

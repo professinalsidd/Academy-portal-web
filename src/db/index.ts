@@ -26,6 +26,16 @@ export const timeData = [
   "8:00 PM to 9:00 PM",
 ];
 
+export const subjectData = [
+  "HTML && CSS",
+  "JAVASCRIPT",
+  "REACT JS",
+  "REACT NATIVE",
+  "NODE JS EXPRESS",
+];
+
+export const gradeData = ["A++", "A", "B", "C", "D", "E"];
+
 // Prepare columns and data
 export const paymentsTableColumnsForAdmin = [
   "studentId",
