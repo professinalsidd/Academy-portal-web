@@ -13,7 +13,6 @@ import AdminHomeScreen from "../../admin/admin-home/AdminHome";
 
 function HomeScreen() {
   const store = useSelector((state: any) => state?.auth?.login?.data?.user);
-  console.log("store", store);
   const { isDesktop } = useResponsive();
   const [selectedMenu, setSelectedMenu] = useState(0);
 

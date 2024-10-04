@@ -6,12 +6,15 @@ import LogoImg from "../../assets/images/logo.png";
 import { SideBarListItem } from "../../db";
 import useResponsive from "../../themes/themes";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutReducer } from "../../redux/slice/auth/authSlice";
 
 type SideBarProps = {
   barSelected: (index: number) => void;
 };
 
 function SideBar({ barSelected }: SideBarProps) {
+  const dispatch = useDispatch();
   const { isDesktop, isMobile, isTablet } = useResponsive();
   const navigate = useNavigate();
   const [selected, setSelected] = useState(0);
@@ -19,6 +22,7 @@ function SideBar({ barSelected }: SideBarProps) {
 
   const handleClick = (index: number) => {
     if (index === 5) {
+      dispatch(logoutReducer());
       navigate("/login");
     }
     setSelected(index);

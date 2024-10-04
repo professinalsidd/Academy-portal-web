@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import LogoImg from "../../../assets/images/logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import useResponsive from "../../../themes/themes";
 import { loginReducer } from "../../../redux/slice/auth/authSlice";
 import { loginAPI } from "../../../services/apis/auth";
@@ -35,6 +35,10 @@ const LoginScreen = () => {
       setLoading(false);
     }
   };
+
+  if (store?.token) {
+    return <Navigate to="/" />;
+  }
 
   const styles = {
     backgroundColor: COLORS.WHITE,
