@@ -20,6 +20,7 @@ import { AllStudentsAPI } from "../../../services/apis/allStudents";
 import { COLORS } from "../../../themes/colors";
 import { toast } from "react-toastify";
 import LoadingComp from "../../../components/common/loading/Loading";
+import { LAYOUT } from "../../../themes/layout";
 
 const PaymentsScreen = () => {
   const store = useSelector((state: any) => state.auth.login.data);
@@ -48,6 +49,9 @@ const PaymentsScreen = () => {
       setLoading(false);
       toast.success(response.data.message);
       setSelectedStudent(null);
+      setAmount("");
+      setPaid("");
+      setPaymentStatus("");
       AllFetchData();
     } catch (error: any) {
       setLoading(false);
@@ -107,14 +111,14 @@ const PaymentsScreen = () => {
           <Box mt={2}>
             {store.user.role === "Admin" && (
               <Box
-                sx={{
-                  background: "#fff",
-                  p: 1,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: 1,
-                }}
+                sx={[
+                  LAYOUT.flexCCenter,
+                  {
+                    background: COLORS.WHITE,
+                    p: 1,
+                    borderRadius: 1,
+                  },
+                ]}
               >
                 <select
                   value={selectedStudentId}
@@ -135,7 +139,6 @@ const PaymentsScreen = () => {
                     </option>
                   ))}
                 </select>
-
                 <InputComp
                   label="Amount"
                   tooltipContent="Amount"
@@ -153,7 +156,7 @@ const PaymentsScreen = () => {
                 />
                 <DropdownComp
                   label="Payment Status"
-                  sx={{ width: "20%" }}
+                  sx={{ flex: 1 }}
                   data={paymentStatusData}
                   onChange={setPaymentStatus}
                   value={paymentStatus}
@@ -165,15 +168,15 @@ const PaymentsScreen = () => {
             )}
             {selectedStudent && (
               <Box
-                sx={{
-                  background: COLORS.WHITE,
-                  display: "flex",
-                  alignItems: "center",
-                  mt: 1,
-                  p: 2,
-                  borderRadius: 1,
-                  justifyContent: "space-between",
-                }}
+                sx={[
+                  LAYOUT.flexRowBetween,
+                  {
+                    background: COLORS.WHITE,
+                    mt: 1,
+                    p: 2,
+                    borderRadius: 1,
+                  },
+                ]}
               >
                 <Typography>
                   {" "}
