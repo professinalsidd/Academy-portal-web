@@ -11,7 +11,7 @@ import { LAYOUT } from "../../../themes/layout";
 import { COLORS } from "../../../themes/colors";
 
 const ProfileScreen = () => {
-  const store = useSelector((state: any) => state.auth.login.data);
+  const store = useSelector((state: any) => state?.auth?.login.data);
   const [profileData, setProfileData] = useState<any>([]);
   const [open, setOpen] = React.useState(false);
 
@@ -21,7 +21,7 @@ const ProfileScreen = () => {
   const fetchData = async () => {
     try {
       const response = await profileAPI(store.token);
-      setProfileData(response.data.user);
+      setProfileData(response?.data.user);
     } catch (error) {
       console.log("error", error);
     }

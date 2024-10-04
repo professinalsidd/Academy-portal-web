@@ -49,7 +49,7 @@ const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
       );
       setIsDisabled(true);
       setTimeLeft(24); // Reset timeLeft to 24 hours
-      AllFetchData();
+      // AllFetchData();
     } catch (error) {
       console.log("error", error);
     }

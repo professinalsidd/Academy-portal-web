@@ -31,65 +31,28 @@ const AdminHomeScreen = () => {
 
   const AllFetchData = async () => {
     try {
-      const allResults = await AllStudentResultsAPI(store?.token);
-      setSetShowAllStudentsResult(allResults?.data?.results);
+      if (store.user.role === "Admin") {
+        const allResults = await AllStudentResultsAPI(store?.token);
+        const allClassJoined = await AllStudentClassesAPI(store.token);
+        const allStudents = await AllStudentsAPI(store?.token);
+        const allPayments = await AllStudentPaymentAPI(store?.token);
+        const allProjects = await AllStudentProjectsAPI(store?.token);
+        const allStudentsClass: any = await AllStudentClassesAPI(store?.token);
+        setShowAllStudentsJoinedData(allStudentsClass?.data?.students);
+        setShowAllStudentSProjects(allProjects?.data?.projects);
+        setShowAllStudentsPayments(allPayments?.data);
+        setShowAllStudents(allStudents?.data?.students);
+        setClassJoined(allClassJoined?.data?.students);
+        setSetShowAllStudentsResult(allResults?.data?.results);
+      } else {
+      }
     } catch (error) {
       console.log("error", error);
-    }
-  };
-
-  const AllClassJoinedData = async () => {
-    try {
-      const allClassJoined = await AllStudentClassesAPI(store.token);
-      setClassJoined(allClassJoined?.data?.students);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const AllStudentsFetchData = async () => {
-    try {
-      const allStudents = await AllStudentsAPI(store?.token);
-      setShowAllStudents(allStudents?.data?.students);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const AllPaymentFetchData = async () => {
-    try {
-      const allPayments = await AllStudentPaymentAPI(store?.token);
-      setShowAllStudentsPayments(allPayments?.data);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const AllProjectFetchData = async () => {
-    try {
-      const allProjects = await AllStudentProjectsAPI(store?.token);
-      setShowAllStudentSProjects(allProjects?.data?.projects);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const AllStudentFetchData = async () => {
-    try {
-      const allStudentsClass: any = await AllStudentClassesAPI(store?.token);
-      setShowAllStudentsJoinedData(allStudentsClass?.data?.students);
-    } catch (error) {
-      console.log("error");
     }
   };
 
   useEffect(() => {
     AllFetchData();
-    AllStudentFetchData();
-    AllProjectFetchData();
-    AllPaymentFetchData();
-    AllStudentsFetchData();
-    AllClassJoinedData();
   }, []);
 
   const countStudent = showAllStudentsJoinedData?.length || 0;

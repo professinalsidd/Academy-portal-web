@@ -56,7 +56,7 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
   };
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    rowsPerPage - Math?.min(rowsPerPage, data?.length - page * rowsPerPage);
 
   return (
     <TableContainer component={Paper}>
@@ -65,9 +65,9 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
         {/* Dynamic Table Head */}
         <TableHead>
           <TableRow>
-            {columns.map((column) => (
+            {columns?.map((column) => (
               <TableCell sx={{ textTransform: "capitalize" }} key={column}>
-                {column.replace(".", " ")}
+                {column?.replace(".", " ")}
               </TableCell>
             ))}
           </TableRow>
@@ -77,9 +77,9 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
           {(rowsPerPage > 0
             ? data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : data
-          ).map((row, index) => (
+          )?.map((row, index) => (
             <TableRow key={index}>
-              {columns.map((column) => (
+              {columns?.map((column) => (
                 <TableCell key={column}>
                   {column === "githubLink" ? (
                     <Button
@@ -97,7 +97,7 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
           ))}
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={columns.length} />
+              <TableCell colSpan={columns?.length} />
             </TableRow>
           )}
         </TableBody>
@@ -106,8 +106,8 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
-              colSpan={columns.length}
-              count={data.length}
+              colSpan={columns?.length}
+              count={data?.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

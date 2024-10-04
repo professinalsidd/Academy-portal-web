@@ -12,10 +12,8 @@ import { useSelector } from "react-redux";
 import AdminHomeScreen from "../../admin/admin-home/AdminHome";
 
 function HomeScreen() {
-  const studentId = useSelector(
-    (state: any) => state?.auth?.login?.data?.user?.studentId
-  );
-  console.log("store", studentId);
+  const store = useSelector((state: any) => state?.auth?.login?.data?.user);
+  console.log("store", store);
   const { isDesktop } = useResponsive();
   const [selectedMenu, setSelectedMenu] = useState(0);
 
@@ -24,12 +22,13 @@ function HomeScreen() {
   };
 
   const renderItem = () => {
-    if (!studentId) {
-      return <AdminHomeScreen />;
-    }
     switch (selectedMenu) {
       case 0:
-        return <DashboardScreen />;
+        return store.role === "Admin" ? (
+          <AdminHomeScreen />
+        ) : (
+          <DashboardScreen />
+        );
       case 1:
         return <ProfileScreen />;
       case 2:

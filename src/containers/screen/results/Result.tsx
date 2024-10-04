@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 
 const ResultScreen = () => {
   const { isDesktop } = useResponsive();
-  const store = useSelector((state: any) => state.auth.login.data);
+  const store = useSelector((state: any) => state?.auth?.login?.data);
   const [marks, setMarks] = useState("");
   const [subject, setSubject] = useState("");
   const [grade, setGrade] = useState<any>([]);
@@ -33,17 +33,20 @@ const ResultScreen = () => {
 
   const AllFetchData = async () => {
     try {
-      const allResults = await AllStudentResultsAPI(store.token);
-      setAllResultsData(allResults.data.results);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const AllStudentFetchData = async () => {
-    try {
-      const allStudents = await AllStudentsAPI(store?.token);
-      setStudents(allStudents.data.students);
+      if (store.user.role === "Admin") {
+        const allResults = await AllStudentResultsAPI(store?.token);
+        console.log("all results", allResults);
+        const allStudents = await AllStudentsAPI(store?.token);
+        console.log("all students", allStudents);
+        setStudents(allStudents?.data?.students);
+        setAllResultsData(allResults?.data?.results);
+      } else {
+        const studentData = await studentResultsAPI(
+          store.token,
+          store?.user?.studentId
+        );
+        setStudentData(studentData?.data?.results);
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -58,7 +61,6 @@ const ResultScreen = () => {
 
   useEffect(() => {
     AllFetchData();
-    AllStudentFetchData();
   }, []);
 
   const submitHandler = async () => {
@@ -78,25 +80,9 @@ const ResultScreen = () => {
     }
   };
 
-  const studentFetchData = async () => {
-    try {
-      const studentData = await studentResultsAPI(
-        store.token,
-        store.user.studentId
-      );
-      setStudentData(studentData.data.results);
-    } catch (error) {
-      console.log("err", error);
-    }
-  };
-
-  useEffect(() => {
-    studentFetchData();
-  }, []);
-
   return (
     <WrapperComp title="Results">
-      {store.user.role === "Admin" && (
+      {store?.user?.role === "Admin" && (
         <Box sx={resultStyle.listBox}>
           <select
             value={selectedStudentId}
@@ -157,14 +143,14 @@ const ResultScreen = () => {
       >
         <CardComp sx={{ width: "100%" }} fullCard>
           <TableComp
-            data={store.user.role === "Admin" ? allResultsData : studentData}
+            data={store?.user?.role === "Admin" ? allResultsData : studentData}
             title={
-              store.user.role === "Admin"
+              store?.user?.role === "Admin"
                 ? "All Students Result List"
                 : "Result List"
             }
             columns={
-              store.user.role === "Admin"
+              store?.user?.role === "Admin"
                 ? resultTableColumnsForAdmin
                 : resultTableColumnsForStudent
             }

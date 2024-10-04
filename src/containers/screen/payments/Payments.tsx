@@ -53,22 +53,18 @@ const PaymentsScreen = () => {
 
   const AllFetchData = async () => {
     try {
-      const allPayments = await AllStudentPaymentAPI(store?.token);
-      const allStudents = await AllStudentsAPI(store?.token);
-      setShowAllStudentsPayments(allPayments?.data.reverse());
-      setStudents(allStudents.data.students.reverse());
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const studentFetchData = async () => {
-    try {
-      const studentData = await StudentPaymentAPI(
-        store?.token,
-        store?.user?.studentId
-      );
-      setStudentData(studentData?.data.reverse());
+      if (store.user.role === "Admin") {
+        const allPayments = await AllStudentPaymentAPI(store?.token);
+        const allStudents = await AllStudentsAPI(store?.token);
+        setShowAllStudentsPayments(allPayments?.data.reverse());
+        setStudents(allStudents.data.students.reverse());
+      } else {
+        const studentData = await StudentPaymentAPI(
+          store?.token,
+          store?.user?.studentId
+        );
+        setStudentData(studentData?.data.reverse());
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -91,7 +87,6 @@ const PaymentsScreen = () => {
 
   useEffect(() => {
     AllFetchData();
-    studentFetchData();
   }, []);
 
   return (

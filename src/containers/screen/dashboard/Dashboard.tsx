@@ -16,13 +16,15 @@ const DashboardScreen = () => {
 
   const AllFetchData = async () => {
     try {
-      const response = await studentClassesAPI(
-        store.token,
-        store.user.studentId
-      );
-      const projectRes = await studentProjectsAPI(store.token);
-      setStudentJoinedClass(response.data.joinedClasses.reverse());
-      setProjectData(projectRes.data.projects.reverse());
+      if (store.user.role === "Student") {
+        const response = await studentClassesAPI(
+          store.token,
+          store.user.studentId
+        );
+        const projectRes = await studentProjectsAPI(store?.token);
+        setStudentJoinedClass(response.data.joinedClasses.reverse());
+        setProjectData(projectRes.data.projects.reverse());
+      }
     } catch (error) {
       console.log("err", error);
     }

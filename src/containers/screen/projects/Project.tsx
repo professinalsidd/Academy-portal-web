@@ -29,8 +29,13 @@ const ResultScreen = () => {
 
   const AllFetchData = async () => {
     try {
-      const allProjects = await AllStudentProjectsAPI(store.token);
-      setAllProjectsData(allProjects.data.projects);
+      if (store.user.role === "Admin") {
+        const allProjects = await AllStudentProjectsAPI(store.token);
+        setAllProjectsData(allProjects.data.projects);
+      } else {
+        const studentData = await studentProjectsAPI(store.token);
+        setStudentData(studentData?.data.projects);
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -38,7 +43,7 @@ const ResultScreen = () => {
 
   useEffect(() => {
     AllFetchData();
-  });
+  }, []);
 
   const submitHandler = async () => {
     // Validation function to check if the githubLink is valid
@@ -62,24 +67,10 @@ const ResultScreen = () => {
     try {
       const response = await uploadProjectsAPI(store?.token, payload);
       toast.success(response.data.message);
-      studentFetchData();
     } catch (error: any) {
       toast.error("error", error);
     }
   };
-
-  const studentFetchData = async () => {
-    try {
-      const studentData = await studentProjectsAPI(store.token);
-      setStudentData(studentData.data.projects);
-    } catch (error) {
-      console.log("err", error);
-    }
-  };
-
-  useEffect(() => {
-    studentFetchData();
-  });
 
   return (
     <WrapperComp title="Projects">
