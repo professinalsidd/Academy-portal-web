@@ -77,7 +77,7 @@ const AdminHomeScreen = () => {
               count={adminStatic?.totalStudentSignUps}
             />
           </Box>
-          <Box sx={[]} flexDirection={isDesktop ? "row" : "column"} mt={2}>
+          <Box flexDirection={isDesktop ? "row" : "column"} mt={2}>
             <CardComp fullCard>
               <TableComp
                 title="All Student Class Joined List"

@@ -4,13 +4,14 @@ import { useSelector } from "react-redux";
 import { joinStudentClassesAPI } from "../../services/apis/classes";
 import { COLORS } from "../../themes/colors";
 import { LAYOUT } from "../../themes/layout";
+import { stylesHeader } from ".";
 
 type HeaderProps = {
   title: string;
   AllFetchData?: any;
 };
 
-const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
+const HeaderComp = ({ title }: HeaderProps) => {
   const store = useSelector((state: any) => state?.auth?.login?.data);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -48,8 +49,7 @@ const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
         new Date().getTime().toString()
       );
       setIsDisabled(true);
-      setTimeLeft(24); // Reset timeLeft to 24 hours
-      // AllFetchData();
+      setTimeLeft(24);
     } catch (error) {
       console.log("error", error);
     }
@@ -67,16 +67,16 @@ const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
     : "A";
   return (
     <Box
-      display={"flex"}
-      alignItems={"center"}
-      justifyContent={"space-between"}
       width={"100%"}
-      sx={{ background: "#fff", pt: 2, pb: 2, borderRadius: 2 }}
+      sx={[
+        LAYOUT.flexRowBetween,
+        { background: COLORS.WHITE, pt: 2, pb: 2, borderRadius: 2 },
+      ]}
     >
       <Box display={"flex"} justifyContent={"flex-start"}>
         <Typography pl={2}>{title}</Typography>
       </Box>
-      <Box display={"flex"} justifyContent={"flex-end"} alignItems={"center"}>
+      <Box sx={[LAYOUT.flexEndCenter]}>
         {store?.user?.role !== "Admin" && (
           <>
             <Button
@@ -94,40 +94,9 @@ const HeaderComp = ({ title, AllFetchData }: HeaderProps) => {
             )}
           </>
         )}
-        <Box
-          sx={{
-            position: "relative",
-            ...LAYOUT.flexCenter,
-            background: COLORS.LIGHT_BLUE,
-            color: COLORS.BLACK,
-            p: 2,
-            width: 10,
-            height: 10,
-            borderRadius: 100,
-            mr: 2,
-            cursor: "pointer",
-            "&:hover .fullName": {
-              display: "block",
-            },
-          }}
-        >
+        <Box sx={[stylesHeader.circleCtn, LAYOUT.flexCenter]}>
           <Typography>{name}</Typography>
-          <Typography
-            className="fullName"
-            sx={{
-              display: "none", // Hide it by default
-              position: "absolute",
-              top: "100%", // Position below the box
-              left: "50%",
-              transform: "translateX(-50%)",
-              mt: 1,
-              backgroundColor: "white",
-              color: COLORS.BLACK,
-              p: 0.5,
-              borderRadius: 2,
-              boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-            }}
-          >
+          <Typography className="fullName" sx={stylesHeader.circleBox}>
             {store?.user?.organizationName}
           </Typography>
         </Box>
