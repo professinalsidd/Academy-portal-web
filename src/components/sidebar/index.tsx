@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { logoutReducer } from "../../redux/slice/auth/authSlice";
 
 type SideBarProps = {
-  barSelected: (index: number) => void;
+  barSelected: (index: number, label: string) => void;
 };
 
 function SideBar({ barSelected }: SideBarProps) {
@@ -26,7 +26,7 @@ function SideBar({ barSelected }: SideBarProps) {
       navigate("/login");
     }
     setSelected(index);
-    barSelected(index);
+    barSelected(index, SideBarListItem[index].label);
     if (isMobile || isTablet) {
       setMenuOpen(false);
     }
@@ -57,7 +57,7 @@ function SideBar({ barSelected }: SideBarProps) {
             {menuOpen ? <CloseIcon /> : <MenuIcon />}
           </IconButton>
           <Typography mr={2} ml={2}>
-            Dashboard
+            {SideBarListItem[selected]?.label || "Dashboard"}
           </Typography>
           <Button>Join Class</Button>
         </Box>
