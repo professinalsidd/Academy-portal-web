@@ -1,8 +1,9 @@
 body {
   margin: 0;
-  padding: 0;
+  padding: 10px;
   background-color: #d2e0fb;
   height: 100vh;
+  box-sizing: border-box;
 }
 
 .input-field {

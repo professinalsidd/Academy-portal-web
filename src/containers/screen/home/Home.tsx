@@ -42,9 +42,19 @@ function HomeScreen() {
   };
 
   return (
-    <Box display={isDesktop ? "flex" : "block"}>
+    <Box
+      display={isDesktop ? "flex" : "block"}
+      sx={{ boxSizing: "border-box" }}
+    >
       <SideBar barSelected={handleMenuSelect} />
-      <Box sx={{ flexGrow: isDesktop ? 1 : 0, p: 2, mt: isDesktop ? 0 : 5 }}>
+      <Box
+        sx={{
+          flexGrow: isDesktop ? 1 : 1,
+          p: isDesktop ? 2 : 0,
+          mt: isDesktop ? 0 : 5,
+          boxSizing: "border-box",
+        }}
+      >
         {renderItem()}
       </Box>
     </Box>
