@@ -2,6 +2,7 @@ import React from "react";
 import * as MUI from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import { format } from "date-fns";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 type TableCompProps = {
   data: any[];
@@ -30,8 +31,11 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
       const { formattedDate, formattedTime } = formatDateTime(value);
       return (
         <div>
-          <div>Date {formattedDate}</div>
-          <div>Time {formattedTime}</div>
+          <MUI.Typography>{formattedDate}</MUI.Typography>
+          <MUI.Box display={"flex"} alignItems={"center"}>
+            <AccessTimeIcon sx={{ fontSize: 16 }} />
+            <MUI.Typography> {formattedTime}</MUI.Typography>
+          </MUI.Box>
         </div>
       );
     }

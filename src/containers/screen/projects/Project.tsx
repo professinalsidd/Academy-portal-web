@@ -1,10 +1,9 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import CardComp from "../../../components/common/Card/Card";
 import TableComp from "../../../components/common/Table/Table";
 import WrapperComp from "../../../components/common/Wrapper";
 import {
-  dashBoardCardData,
   projectsTableColumnsForAdmin,
   projectsTableColumnsForStudents,
 } from "../../../db";
@@ -19,7 +18,7 @@ import {
 } from "../../../services/apis/projects";
 import { toast } from "react-toastify";
 import LoadingComp from "../../../components/common/loading/Loading";
-import { LAYOUT } from "../../../themes/layout";
+import { githubRegex } from "../../../utils";
 
 const ResultScreen = () => {
   const { isDesktop, isMobile, isTablet } = useResponsive();
@@ -53,11 +52,11 @@ const ResultScreen = () => {
   }, []);
 
   const submitHandler = async () => {
+    setLoading(true);
     // Validation function to check if the githubLink is valid
     const isValidGithubLink = (url: string) => {
-      const githubRegex =
-        /^(https:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
-      return githubRegex.test(url);
+      const github = githubRegex;
+      return github.test(url);
     };
 
     // Check if the githubLink is valid
@@ -73,8 +72,11 @@ const ResultScreen = () => {
 
     try {
       const response = await uploadProjectsAPI(store?.token, payload);
-      toast.success(response.data.message);
       setLoading(false);
+      toast.success(response.data.message);
+      setProjectName("");
+      setGithubLink("");
+      AllFetchData();
     } catch (error: any) {
       setLoading(false);
       toast.error("error", error);
