@@ -43,10 +43,7 @@ const DashboardScreen = () => {
   const projectCount = projectData.length || 0;
 
   return (
-    <WrapperComp
-      // AllFetchData={AllFetchData()}
-      title="Welcome Back NextGen Coder Program Academy"
-    >
+    <WrapperComp title="Welcome Back NextGen Coder Program Academy">
       {loading ? (
         <LoadingComp loading={loading} setLoading={setLoading} />
       ) : (
@@ -80,7 +77,7 @@ const DashboardScreen = () => {
           >
             <CardComp fullCard>
               <TableComp
-                columns={["classLink", "classJoinTime", "classJoinDate"]}
+                columns={["classLink", "classJoinDate"]}
                 data={studentJoinedClass}
               />
             </CardComp>

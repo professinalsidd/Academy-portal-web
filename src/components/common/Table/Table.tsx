@@ -1,29 +1,20 @@
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableFooter,
-  TablePagination,
-  TableRow,
-  Paper,
-  TableHead,
-  Typography,
-  Button,
-} from "@mui/material";
+import * as MUI from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import { format } from "date-fns";
 
 type TableCompProps = {
-  data: any[]; // The array of data to display in the table.
-  columns: string[]; // Array of column headers.
+  data: any[];
+  columns: string[];
   title?: string;
 };
 
-// Function to format the date using date-fns
-const formatDate = (dateString: string) => {
-  return format(new Date(dateString), "dd-MM-yyyy");
+// Function to format the date and time separately
+const formatDateTime = (dateString: string) => {
+  const date = new Date(dateString);
+  const formattedDate = format(date, "dd-MM-yyyy");
+  const formattedTime = format(date, "hh:mm a");
+  return { formattedDate, formattedTime };
 };
 
 const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
@@ -36,7 +27,13 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
 
     // Check if the value is a string and if it's a valid date
     if (typeof value === "string" && !isNaN(Date.parse(value))) {
-      return formatDate(value);
+      const { formattedDate, formattedTime } = formatDateTime(value);
+      return (
+        <div>
+          <div>Date {formattedDate}</div>
+          <div>Time {formattedTime}</div>
+        </div>
+      );
     }
 
     // Return the value as is for non-date values like numbers (e.g., amount)
@@ -59,52 +56,52 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
     rowsPerPage - Math?.min(rowsPerPage, data?.length - page * rowsPerPage);
 
   return (
-    <TableContainer component={Paper}>
-      {title && <Typography m={2}>{title}</Typography>}
-      <Table sx={{}} aria-label="custom pagination table">
+    <MUI.TableContainer component={MUI.Paper}>
+      {title && <MUI.Typography m={2}>{title}</MUI.Typography>}
+      <MUI.Table sx={{}} aria-label="custom pagination table">
         {/* Dynamic Table Head */}
-        <TableHead>
-          <TableRow>
+        <MUI.TableHead>
+          <MUI.TableRow>
             {columns?.map((column) => (
-              <TableCell sx={{ textTransform: "capitalize" }} key={column}>
+              <MUI.TableCell sx={{ textTransform: "capitalize" }} key={column}>
                 {column?.replace(".", " ")}
-              </TableCell>
+              </MUI.TableCell>
             ))}
-          </TableRow>
-        </TableHead>
+          </MUI.TableRow>
+        </MUI.TableHead>
         {/* Table Body */}
-        <TableBody>
+        <MUI.TableBody>
           {(rowsPerPage > 0
             ? data?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : data
           )?.map((row, index) => (
-            <TableRow key={index}>
+            <MUI.TableRow key={index}>
               {columns?.map((column) => (
-                <TableCell key={column}>
+                <MUI.TableCell key={column}>
                   {column === "githubLink" ? (
-                    <Button
+                    <MUI.Button
                       variant="outlined"
                       onClick={() => window.open(row[column], "_blank")}
                     >
                       View
-                    </Button>
+                    </MUI.Button>
                   ) : (
                     getValueByPath(row, column)
                   )}
-                </TableCell>
+                </MUI.TableCell>
               ))}
-            </TableRow>
+            </MUI.TableRow>
           ))}
           {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={columns?.length} />
-            </TableRow>
+            <MUI.TableRow style={{ height: 53 * emptyRows }}>
+              <MUI.TableCell colSpan={columns?.length} />
+            </MUI.TableRow>
           )}
-        </TableBody>
+        </MUI.TableBody>
         {/* Pagination */}
-        <TableFooter>
-          <TableRow>
-            <TablePagination
+        <MUI.TableFooter>
+          <MUI.TableRow>
+            <MUI.TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               colSpan={columns?.length}
               count={data?.length}
@@ -114,10 +111,10 @@ const TableComp: React.FC<TableCompProps> = ({ data, columns, title }) => {
               onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
             />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+          </MUI.TableRow>
+        </MUI.TableFooter>
+      </MUI.Table>
+    </MUI.TableContainer>
   );
 };
 
