@@ -10,8 +10,10 @@ import InputFormComp from "../../../components/common/InputForm/InputForm";
 import { LAYOUT } from "../../../themes/layout";
 import { COLORS } from "../../../themes/colors";
 import LoadingComp from "../../../components/common/loading/Loading";
+import useResponsive from "../../../themes/themes";
 
 const ProfileScreen = () => {
+  const { isDesktop } = useResponsive();
   const store = useSelector((state: any) => state?.auth?.login.data);
   const [loading, setLoading] = useState(false);
   const [profileData, setProfileData] = useState<any>([]);
@@ -45,7 +47,7 @@ const ProfileScreen = () => {
       {loading ? (
         <LoadingComp loading={loading} setLoading={setLoading} />
       ) : (
-        <Box mt={2}>
+        <Box mt={isDesktop ? 2 : 8}>
           <Card sx={[LAYOUT.flexColumJCenter, { p: 2 }]}>
             <Box sx={[LAYOUT.flexEndCenter, { width: "100%" }]}>
               <Typography

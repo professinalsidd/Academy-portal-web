@@ -21,7 +21,7 @@ import LoadingComp from "../../../components/common/loading/Loading";
 import { githubRegex } from "../../../utils";
 
 const ResultScreen = () => {
-  const { isDesktop, isMobile, isTablet } = useResponsive();
+  const { isDesktop } = useResponsive();
   const store = useSelector((state: any) => state.auth.login.data);
   const [loading, setLoading] = useState(false);
   const [projectName, setProjectName] = useState("");
@@ -90,7 +90,14 @@ const ResultScreen = () => {
       ) : (
         <>
           {store.user.role !== "Admin" && (
-            <Box sx={resultStyle.listBox}>
+            <Box
+              sx={[
+                resultStyle.listBox,
+                {
+                  mt: isDesktop ? 2 : 8,
+                },
+              ]}
+            >
               <InputComp
                 label="ProjectName"
                 tooltipContent="ProjectName"

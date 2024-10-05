@@ -21,8 +21,10 @@ import { COLORS } from "../../../themes/colors";
 import { toast } from "react-toastify";
 import LoadingComp from "../../../components/common/loading/Loading";
 import { LAYOUT } from "../../../themes/layout";
+import useResponsive from "../../../themes/themes";
 
 const PaymentsScreen = () => {
+  const { isDesktop } = useResponsive();
   const store = useSelector((state: any) => state.auth.login.data);
   const [loading, setLoading] = useState(false);
   const [showAllStudentPayments, setShowAllStudentsPayments] = useState<any>(
@@ -108,7 +110,7 @@ const PaymentsScreen = () => {
         <LoadingComp loading={loading} setLoading={setLoading} />
       ) : (
         <>
-          <Box mt={2}>
+          <Box mt={isDesktop ? 2 : 8}>
             {store.user.role === "Admin" && (
               <Box
                 sx={[

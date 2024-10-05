@@ -45,8 +45,8 @@ const ResultScreen = () => {
         setLoading(false);
         const allStudents = await AllStudentsAPI(store?.token);
         setLoading(false);
-        setStudents(allStudents?.data?.students);
-        setAllResultsData(allResults?.data?.results);
+        setStudents(allStudents?.data?.students.reverse());
+        setAllResultsData(allResults?.data?.results.reverse());
       } else {
         const studentData = await studentResultsAPI(
           store.token,
@@ -100,7 +100,7 @@ const ResultScreen = () => {
       ) : (
         <>
           {store?.user?.role === "Admin" && (
-            <Box sx={resultStyle.listBox}>
+            <Box sx={[resultStyle.listBox]}>
               <select
                 value={selectedStudentId}
                 onChange={handleStudentChange}
@@ -141,7 +141,7 @@ const ResultScreen = () => {
             </Box>
           )}
           {selectedStudent && (
-            <Box sx={resultStyle.listCtn}>
+            <Box sx={[resultStyle.listCtn]}>
               <Typography>Name:- {selectedStudent.organizationName}</Typography>
               <Typography> Email:- {selectedStudent.email} </Typography>
               <Typography> Phone:- {selectedStudent.phone} </Typography>
@@ -152,7 +152,7 @@ const ResultScreen = () => {
             sx={[LAYOUT.flexRowBetween]}
             flexDirection={isDesktop ? "row" : "column"}
             gap={2}
-            mt={2}
+            mt={isDesktop ? 2 : 8}
           >
             <CardComp sx={{ width: "100%" }} fullCard>
               <TableComp
