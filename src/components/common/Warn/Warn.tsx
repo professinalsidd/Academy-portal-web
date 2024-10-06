@@ -12,7 +12,7 @@ const WarnComp = () => {
     >
       <SearchOffIcon sx={{ fontSize: 60 }} color="disabled" />
       <Typography variant="h6" color="textSecondary">
-        No Results Found
+        No Data Found
       </Typography>
     </Box>
   );

@@ -5,6 +5,7 @@ import { joinStudentClassesAPI } from "../../services/apis/classes";
 import { COLORS } from "../../themes/colors";
 import { LAYOUT } from "../../themes/layout";
 import { stylesHeader } from ".";
+import { toast } from "react-toastify";
 
 type HeaderProps = {
   title: string;
@@ -15,6 +16,14 @@ const HeaderComp = ({ title }: HeaderProps) => {
   const store = useSelector((state: any) => state?.auth?.login?.data);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [alreadyJoined, setAlreadyJoined] = useState(false);
+
+  const parseTime = (timeString: string) => {
+    const [time, modifier] = timeString.split(" ");
+    let [hours, minutes] = time.split(":").map(Number);
+    if (modifier === "PM" && hours < 12) hours += 12;
+    return { hours, minutes };
+  };
 
   useEffect(() => {
     const studentId = store?.user?.studentId;
@@ -25,31 +34,60 @@ const HeaderComp = ({ title }: HeaderProps) => {
       const timeDifference = currentTime - parseInt(lastJoinTime);
       const hoursPassed = timeDifference / (1000 * 60 * 60);
 
+      // Check if less than 24 hours have passed since the last join
       if (hoursPassed < 24) {
         setIsDisabled(true);
         setTimeLeft(24 - hoursPassed); // Set the remaining time in hours
-      } else {
-        setIsDisabled(false);
-        setTimeLeft(null);
+        setAlreadyJoined(true); // Flag that user has already joined
       }
     }
-  }, [store?.user?.studentId]); // Re-run the effect if the studentId changes
+  }, [store?.user?.studentId]);
 
   const submitHandler = async () => {
     try {
       const studentId = store.user.studentId;
-      const payload = {
-        studentId,
-        classLink: "https://meet.google.com/dwu-iuqz-sbr",
-      };
-      await joinStudentClassesAPI(store.token, payload);
-      window.open(payload.classLink, "_blank");
-      localStorage.setItem(
-        `lastJoinTime_${studentId}`,
-        new Date().getTime().toString()
+      const { hours: startHours, minutes: startMinutes } = parseTime(
+        store.user.classJoinTime.split(" to ")[0]
       );
-      setIsDisabled(true);
-      setTimeLeft(24);
+      const { hours: endHours, minutes: endMinutes } = parseTime(
+        store.user.classJoinTime.split(" to ")[1]
+      );
+
+      const now = new Date();
+      const currentHours = now.getHours();
+      const currentMinutes = now.getMinutes();
+
+      const isInClassTime =
+        currentHours >= startHours &&
+        currentMinutes >= startMinutes &&
+        (currentHours < endHours ||
+          (currentHours === endHours && currentMinutes <= endMinutes));
+
+      if (!isInClassTime) {
+        toast.warn("You can only join during the scheduled class time.");
+        return;
+      }
+
+      if (!alreadyJoined) {
+        const payload = {
+          studentId,
+          classLink: "https://meet.google.com/dwu-iuqz-sbr",
+        };
+        await joinStudentClassesAPI(store.token, payload);
+        window.open(payload.classLink, "_blank");
+
+        // Store the current time as the last join time
+        localStorage.setItem(
+          `lastJoinTime_${studentId}`,
+          new Date().getTime().toString()
+        );
+
+        setIsDisabled(true);
+        setTimeLeft(24);
+        setAlreadyJoined(true);
+      } else {
+        window.open("https://meet.google.com/dwu-iuqz-sbr", "_blank");
+      }
     } catch (error) {
       console.log("error", error);
     }
@@ -65,6 +103,7 @@ const HeaderComp = ({ title }: HeaderProps) => {
   const name = store?.user?.organizationName[0]
     ? store?.user?.organizationName[0]
     : "A";
+
   return (
     <Box
       width={"100%"}
@@ -95,7 +134,7 @@ const HeaderComp = ({ title }: HeaderProps) => {
           </>
         )}
         <Box sx={[stylesHeader.circleCtn, LAYOUT.flexCenter]}>
-          <Typography>{name}</Typography>
+          <Typography textTransform={"uppercase"}>{name}</Typography>
           <Typography className="fullName" sx={stylesHeader.circleBox}>
             {store?.user?.organizationName}
           </Typography>
