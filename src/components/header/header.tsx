@@ -83,7 +83,7 @@ const HeaderComp = ({ title }: HeaderProps) => {
         );
 
         setIsDisabled(true);
-        setTimeLeft(24);
+        setTimeLeft(16);
         setAlreadyJoined(true);
       } else {
         window.open("https://meet.google.com/dwu-iuqz-sbr", "_blank");
