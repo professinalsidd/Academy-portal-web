@@ -86,10 +86,10 @@ const PaymentsScreen = () => {
   };
 
   const formattedData = showAllStudentPayments.map((payment: any) => ({
-    studentId: payment.studentId,
-    student: payment.student.email,
-    amount: payment.amount,
-    status: payment.status,
+    studentId: payment?.studentId,
+    student: payment?.student?.email,
+    amount: payment?.amount,
+    status: payment?.status,
     paymentDate: new Date(payment.paymentDate).toLocaleDateString(),
   }));
 
